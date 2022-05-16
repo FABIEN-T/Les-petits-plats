@@ -1,0 +1,19 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "algorithme de recherche en JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FABIEN-T/Les-petits-plats.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FABIEN-T/Les-petits-plats/issues"
+  },
+  "homepage": "https://github.com/FABIEN-T/Les-petits-plats#readme"
+}
