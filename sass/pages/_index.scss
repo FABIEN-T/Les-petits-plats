@@ -1,8 +1,7 @@
 header {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
-    margin: 42px 0 12px;
+    margin: 42px auto 17px;
 }
 
 .logo {
@@ -11,9 +10,190 @@ header {
 }
 
 h1 {
+    font-family: "DM Sans",Arial, Helvetica, sans-serif; 
     font-size: 2.25em;    
     font-weight: 700;
     color: $primary;
     margin: 0px auto;
     // color: green;
 }
+
+
+main {
+    max-width: 90vw;
+    margin: 0px auto;
+}
+
+
+// BARRE DE RECHERCHE
+.searchBar {
+    display: flex;
+    justify-content: center;
+    height: 69px;
+    width: 100%;
+    margin: 0px auto 20px;
+    position: relative;
+}
+
+.field {
+    width: 100%;
+    height: 100%;
+    padding-left: 24px;
+    border-radius: 5px;
+    background-color: $greyBar;
+    border: transparent;
+    font-size: 1.125em;
+}
+
+.iconGlass {
+    position: absolute;
+    right: 16.43px;
+    top: 17.5px;
+}
+
+// TAGS
+.tags {
+    display: flex;
+    flex-direction: row;
+}
+
+.tagsDropdown {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    width: 170px;
+    height: 69px;
+    border-radius: 5px;
+    margin-right: 20px;
+    font-size: 1.125em;
+    font-weight: 700;
+    color: white;
+}
+
+.ingredients {
+    background-color: $ingredients;
+}
+
+.devices {
+    background-color: $devices;
+}
+
+.utensils {
+    background-color: $utensils;
+}
+
+
+.tagsDropdownContainer {
+    position: relative;
+}
+
+.arrowIngredients, 
+.arrowDevices,
+.arrowUtensils {
+    color: white;
+    position: absolute;
+    top: 29.45px;
+    right: 38px;
+}
+
+// CARDS RECETTE
+section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    overflow: hidden;
+}
+
+article {
+    width: 380px;
+    height: 364px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.photoRecipe {
+    width: 100%;
+    min-height: 178px;    
+    background-color: $belowPicture;
+}
+
+.photoRecipe img {
+    max-width: 380px;
+    object-fit: cover;
+}
+
+.descriptionRecipe {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    min-height: 186px;
+    // max-height: 186px;
+    padding: 20px 20px 10px;
+    background-color: $belowText;
+}
+
+.headerRecipe {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    // height: 27.6px;
+    margin-bottom: 20px;
+    padding: 0;
+    // border: solid 1px red;
+}
+
+.headerRecipe h2 {    
+    // background-color: aqua;
+    font-size: 1.125em;
+    font-weight: 400;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.timeCook {
+    display: flex; 
+    align-items: flex-start;
+    height: 20px;  
+    // background-color: bisque;
+    margin-top: 2px;
+
+}
+.iconTimeCook {    
+    margin-right: 7px;
+}
+
+.paragraph {
+    display: flex;
+    width: 100%;
+    font-size: 0.75em;   
+}
+
+.ingredientsList {    
+    min-width: 48%;
+    max-width: 4%;
+    margin: 0;
+    padding: 0 5px 0 0;
+}
+
+.ingredientsList li {
+    list-style: none;  
+}
+
+.ingredientsList span {
+    font-weight: 700;    
+}
+
+.recipeText {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+
+

@@ -4,7 +4,8 @@
   "description": "algorithme de recherche en JavaScript",
   "main": "index.js",
   "scripts": {
-    "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/FABIEN-T/Les-petits-plats/issues"
   },
-  "homepage": "https://github.com/FABIEN-T/Les-petits-plats#readme"
+  "homepage": "https://github.com/FABIEN-T/Les-petits-plats#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0"
+  }
 }

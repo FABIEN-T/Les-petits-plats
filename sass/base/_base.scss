@@ -1,7 +1,13 @@
+// Lien des icônes font-awesome 
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 // Lien des polices google
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'); 
+// @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'); 
+// @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Lato:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
 body {
-    font-family: "DM Sans", sans-serif;
+    font-family: Lato, Arial, Helvetica, sans-serif;
     margin: 0;
+    box-sizing: border-box;
 }
