@@ -35,7 +35,7 @@ function recipeCardsFactorie(data) {
     article.appendChild(photoRecipe);
     photoRecipe.innerHTML = `
       <img
-        src="./assets/images/limonade_coco.webp"
+        src="./assets/images/illustation-recette.jpg"
         alt="illustration"
         role="Image"
       />`  
