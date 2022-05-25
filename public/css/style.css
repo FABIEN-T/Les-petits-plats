@@ -385,6 +385,7 @@ main {
   border-radius: 5px;
   background-color: #E7E7E7;
   border: transparent;
+  outline: none;
   font-size: 1.125em;
 }
 
@@ -472,7 +473,7 @@ main {
 
 #recipeList {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 25px;
   overflow: hidden;

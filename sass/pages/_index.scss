@@ -39,7 +39,8 @@ main {
   padding-left: 24px;
   border-radius: 5px;
   background-color: $greyBar;
-  border: transparent;
+  border: transparent;  
+  outline: none;
   font-size: 1.125em;
 }
 
@@ -132,7 +133,7 @@ main {
 // CARDS RECETTE
 #recipeList {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 25px;
   overflow: hidden;
