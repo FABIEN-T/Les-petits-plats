@@ -1,19 +1,3 @@
-// async function init() {
-//   // Récupère les datas pour chaque recette
-//   const { recipes } = await getRecipes();
-//   conversionArray(recipes);
-//   searchWords();
-//   recipes.forEach((data) => {
-//     recipeCardsFactorie(data);
-//     });
-//   // console.log(recipes);
-// }
-
-// async function getRecipes() {
-//   let response = await fetch("./data/recipes.json");
-//   return await response.json();
-// }
-
 import {recipeCardsFactorie} from './cardsRecipesFactory.js'
 import {conversionArray} from './searchBar.js'
 import {searchWords} from './searchBar.js'
@@ -32,10 +16,27 @@ async function init() {
     .catch(() => {
       console.log("Erreur");
     });
-    
 }
 
 init();
+
+// async function init() {
+//   // Récupère les datas pour chaque recette
+//   const { recipes } = await getRecipes();
+//   conversionArray(recipes);
+//   searchWords();
+//   recipes.forEach((data) => {
+//     recipeCardsFactorie(data);
+//     });
+//   // console.log(recipes);
+// }
+
+// async function getRecipes() {
+//   let response = await fetch("./data/recipes.json");
+//   return await response.json();
+// }
+
+
 
 // export const fetchDatas = async () => {
 //   await fetch('data/photographers.json')
