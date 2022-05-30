@@ -1,87 +1,96 @@
+import { recipeCardsFactorie } from "./cardsRecipesFactory.js";
+
 const allRecipesArray = [];
 let recipeArray = [];
 let recoveryData = [];
-let nombreL = 0;
-let tabSelect = [];
-let tabNumber = [];
-let a = 0;
+let arraySelected = [];
+let word = "coco";
 
-export function conversionArray(data) {  
+export function conversionArray(data) {
   recoveryData = Array.from(data);
-  recoveryData.forEach((element) => {    
-    recipeArray.push(element.id.toString(), element.name, element.description);
-    // console.log(element.id.toString());
-    element.ingredients.forEach(el => {
-      recipeArray.push(el.ingredient);
-    })    
+  recoveryData.forEach((element) => {
+    recipeArray.push(
+      element.id.toString(),
+      element.name.toLowerCase(),
+      element.description.toLowerCase()
+    );
+    // console.log("ingredients", element.ingredients);
+    element.ingredients.forEach((el) => {
+      recipeArray.push(el.ingredient.toLowerCase());
+    });
     // console.log("++++++++++++++++++++++++++++++++++++");
     allRecipesArray.push(recipeArray);
     recipeArray = [];
   });
-  // console.log(allRecipesArray);
-  console.log(allRecipesArray[0]);
 }
 
-export function searchWords() {
-  allRecipesArray.forEach(el=>{
-    // console.log("el", el);
-    el.forEach((row) => {
-      // console.log(row);
-      if (row.includes("glaçon")) {
-        tabSelect.push(el[0]);        
-      } 
-    })     
-  })
-  let b = "0";
-  tabSelect.forEach((stg) => {
-    b = parseInt(stg, 10);
-    console.log("b", b);
-    tabNumber.push(b);
+function capture() {  
+  // DÉTECTION DE LA SAISIE L'INPUT DE LA BARRE DE RECHERCHE
+  const inputSearch = document.querySelector('input[type="text"]');
+  inputSearch.addEventListener("input", (e) => {
+    console.log(e.target.value);
+    // return e.target.value;
+    word = e.target.value;
+    // e.target.value = e.target.value.replace(/^[\s]/, ""); // supprime les espaces en début de chaîne
+    // e.target.value = e.target.value.replace(/[\s]+/g, " "); // remplace les espaces successifs au milieu de la chaîne par un seul espace
+    // e.target.value = e.target.value.replace(/[-]+/g, "-"); // remplace de multiples tirets successifs par un seul tiret
+    // e.target.value = e.target.value.replace(/[']+/g, "'"); // remplace de multiples apostrophes successifs par un seul apostrophe
+    // firstNameValue = e.target.value;
+    console.log("word-in", word);
+    // return word;    
+  });  
+}
+
+
+export function searchWords(data) {
+  capture();
+  console.log("word-out", word);
+  allRecipesArray.forEach((el) => {
+    el.forEach((row) => {      
+      if (row.includes(word)) {
+        arraySelected.push(el[0]);
+        if (arraySelected.length > 0) {
+          if (
+            arraySelected[arraySelected.length - 1] ===
+            arraySelected[arraySelected.length - 2]
+          ) {
+            arraySelected.pop();
+          }
+        }
+      }
+    });
+    console.log("arraySelected", arraySelected);
   });
-  console.log("tabparse", tabNumber);
+  //  console.log("e.target.value", e.target.value);
+  // console.log("Search", word, arraySelected);
+  let index = 0;
+  // Si aucune expression dans la barre : Effacement de la liste de recettes avant son nouvel affichage prenant en compte les cards sélectionnées
+  // console.log("word", word);
+  // if (!word == "") {
+  //   console.log("worry");
+  // }
+  if (!word == "") {
+    console.log("word END", word);
+    let htmlCards = Array.from(document.querySelector("#recipeList").children);
+    htmlCards.forEach((cardRecipe) => {
+      cardRecipe.remove();
+    });
+    console.log("end_Search", arraySelected);
+    arraySelected.forEach((stg) => {
+      index = parseInt(stg, 10);
+      recipeCardsFactorie(data[index - 1]);
+    });
+  }
 }
 
 
 
 
-// for (let i=0; i<tabSelect.length; i++) {
-//   console.log("i", i);
-//   // tabSelect[i] = parseInt(tabSelect[i], 10);
-//   // console.log("2", tabSelect[i]);
-// }
-
-// function returnInt(element) {
-//   return parseInt(element, 10);
-// }
-// console.log(['1', '2', '3']);
-// const truc = ['1', '2', '3'];
-// console.log("truc", truc.map(returnInt));
-
-// const strgToNumberTab = tabSelect;
-// console.log("strgToNumberTab", strgToNumberTab);
-// console.log(strgToNumberTab.map(returnInt));
-// console.log("string", tabSelect);
-
-// console.log("number", tabSelect.map(returnInt));
-// let tabNumber = [];
-// let b = "0";
-// tabSelect.forEach(stg => {  
-//   b = parseInt(stg, 10);
-//   console.log(b);
-//   tabNumber.push(b);
-// })
 
 
 
-// console.log("tabNumber", tabNumber);
-// console.log(parseInt(b, 10));
 
-// let truc = tabSelect[0]
-// console.log("2", tabSelect[0]);
 
-// allRecipesArray.forEach(el=>{
-//   console.log("el", el);
-// })
 
 
 // function filterText(arr, requete) {
@@ -89,6 +98,3 @@ export function searchWords() {
 //     return el.toLowerCase().indexOf(requete.toLowerCase()) !== -1;
 //   })
 // }
-
-// console.log(filterText(allRecipesArray, 'coco'));
-// console.log(allRecipesArray.includes("coco"));

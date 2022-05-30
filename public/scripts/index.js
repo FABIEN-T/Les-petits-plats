@@ -1,7 +1,14 @@
-import {recipeCardsFactorie} from './cardsRecipesFactory.js'
-import {conversionArray} from './searchBar.js'
-import {searchWords} from './searchBar.js'
+import { recipeCardsFactorie } from './cardsRecipesFactory.js'
+import { conversionArray } from './searchBar.js'
+// import { capture } from './searchBar.js'
+import { searchWords } from './searchBar.js'
 
+// let word = ""; 
+
+// LANCEMENT DU PROGRAMME D'INITIALISATION
+init();
+
+// DECLARATION DU PROGRAMME D'INITIALISATION
 async function init() {
   await fetch("./data/recipes.json")
     .then(response => response.json())
@@ -10,15 +17,15 @@ async function init() {
         recipeCardsFactorie(data);
       });
       conversionArray(response.recipes);
-      searchWords();
-      console.log(response.recipes.id);
+      // capture(response.recipes);
+      searchWords(response.recipes);
     })
     .catch(() => {
-      console.log("Erreur");
+      console.log("Erreur Fetch");
     });
 }
 
-init();
+
 
 // async function init() {
 //   // Récupère les datas pour chaque recette
