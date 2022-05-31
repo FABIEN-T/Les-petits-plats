@@ -3,8 +3,6 @@ import { conversionArray } from './searchBar.js'
 // import { capture } from './searchBar.js'
 import { searchWords } from './searchBar.js'
 
-// let word = ""; 
-
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 init();
 
@@ -17,13 +15,27 @@ async function init() {
         recipeCardsFactorie(data);
       });
       conversionArray(response.recipes);
-      // capture(response.recipes);
       searchWords(response.recipes);
     })
     .catch(() => {
       console.log("Erreur Fetch");
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
