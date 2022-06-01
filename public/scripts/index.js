@@ -1,7 +1,7 @@
-import { recipeCardsFactorie } from './cardsRecipesFactory.js'
+import { recipeCardsFactorie } from './recipeCardsFactorie.js'
 import { conversionArray } from './searchBar.js'
-// import { capture } from './searchBar.js'
-import { searchWords } from './searchBar.js'
+import { displayRecipesSelected } from './searchBar.js'
+// import { searchWords } from './searchBar.js'
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 init();
@@ -14,13 +14,16 @@ async function init() {
       response.recipes.forEach((data) => {
         recipeCardsFactorie(data);
       });
+      // console.log("1", Array.from(document.querySelector("#recipeList").children));
+      // console.log("2", document.querySelector("#recipeList").children);
       conversionArray(response.recipes);
-      searchWords(response.recipes);
-    })
+      displayRecipesSelected(response.recipes);
+    })    
     .catch(() => {
       console.log("Erreur Fetch");
     });
 }
+
 
 
 

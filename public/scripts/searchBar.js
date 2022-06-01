@@ -1,11 +1,14 @@
-import { recipeCardsFactorie } from "./cardsRecipesFactory.js";
+import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 
-const allRecipesArray = [];
-let recipeArray = [];
-let recoveryData = [];
-let arraySelected = [];
-let word = "";
+const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
+let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
+let recoveryData = []; // json mis sous forme de tableau
+let arraySelected = []; // Tableau des id des recettes sélectionnées
+let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
 
+// Conversion du json en tableau puis 
+// création d'un tableau pour chaque recette incluant
+// id - name - ingredient - description
 export function conversionArray(data) {
   recoveryData = Array.from(data);
   recoveryData.forEach((element) => {
@@ -19,77 +22,105 @@ export function conversionArray(data) {
       // pour chaque "ingedients", ajouter danns le tableau uniquement les propirétés "ingredient"
       recipeArray.push(el.ingredient.toLowerCase());
     });
-    // console.log("recipeArray", recipeArray);
     allRecipesArray.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
   });
 }
 
-function capture() { 
-  // DÉTECTION DE LA SAISIE L'INPUT DE LA BARRE DE RECHERCHE
-  const inputSearch = document.querySelector('input[type="text"]');
-  inputSearch.addEventListener("input", (e) => {
-    // console.log(e.target.value);    
-    if(e.target.value.length > 2) {
-      console.log(">=3");
-      word = e.target.value;
-      // console.log("word", word);
-      return word;   
-      // searchWords(word, data); 
-    }    
-  });  
-  // console.log("word-in2", word);
+// Effacement de toutes les recettes
+function removeCards() {
+  let htmlCards = Array.from(document.querySelector("#recipeList").children);
+  
+  htmlCards.forEach((card) => {
+    card.remove();
+    // console.log("EFFACEMENT2");
+  });
 }
 
-export function searchWords(data) {
-  let word2 = capture();
-  console.log(word2);
-  // capture();
-  // console.log("word searchWords", capture());
-  // console.log("word-out", word);
-  allRecipesArray.forEach((el) => {
-    el.forEach((row) => {      
-      if (row.includes(word2)) {
-        arraySelected.push(el[0]);
-        if (arraySelected.length > 0) {
-          if (
-            arraySelected[arraySelected.length - 1] ===
-            arraySelected[arraySelected.length - 2]
-          ) {
-            arraySelected.pop();
-          }
-        }
+// Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
+export function displayRecipesSelected(data) {
+  const inputSearch = document.querySelector('input[type="text"]');
+  inputSearch.addEventListener("input", (e) => {
+    // SI il y au moins 3 caractères dans la barre de recherche
+    if (e.target.value.length >= 3) {
+      // ALORS chercher le mot saisi dans les recettes 
+      searchWords(e.target.value, data);
+    } else {
+      // SINON afficher toutes les recettes
+      // if ()
+      removeCards();
+      console.log(document.querySelector("#recipeList").children);
+      for (let recipe of recoveryData) {
+        recipeCardsFactorie(recipe);
       }
-    });
-    // console.log("arraySelected debut", arraySelected);
+    }    
   });
-  //  console.log("e.target.value", e.target.value);
-  // console.log("Search", word, arraySelected);
-  let index = 0;
-  // Si aucune expression dans la barre : Effacement de la liste de recettes avant son nouvel affichage prenant en compte les cards sélectionnées
-  // console.log("word", word);
-  // if (!word == "") {
-  //   console.log("worry");
-  // }
-  if (!word == "") {
-    console.log("non vide", !word == "");
-    console.log("word END", word);
-    let htmlCards = Array.from(document.querySelector("#recipeList").children);
-    htmlCards.forEach((cardRecipe) => {
-      // console.log("cardRecipe", cardRecipe);
-      cardRecipe.remove();
+}
+
+// Recherche de l'expression saisie dans chaque recette (son titre, ses ingredients, sa description)
+function searchWords(word, data) {
+  arraySelected = []; // initialisation du tableau des recettes sélectionnées
+  allRecipesArray.forEach((el) => {
+    // Rechercher le mot saisi dans  "name - ingredient - description" de chaque recette
+    el.forEach((row) => {
+      // SI le mot saisi est contenu dans la recette
+      if (row.includes(word)) {
+        console.log("word2", word, row.includes(word));
+        // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
+        arraySelected.push(el[0]);
+        // Enlever les doublons
+        arraySelectedFilter = arraySelected.filter((item, index) => {
+          return arraySelected.indexOf(item) === index;
+        });
+      }
+      else {
+        // console.log("word3", word, (row.includes(word)));
+        // arraySelected = [];
+        removeCards();
+        // console.log("EFFACEMENT");
+      }
+      refreshCards();
     });
-    console.log("end_Search", arraySelected);
-    arraySelected.forEach((stg) => {
-      index = parseInt(stg, 10);
-      recipeCardsFactorie(data[index - 1]);
-    });
+  });
+
+  // Effacement de toutes les recettes puis affichage des recettes contenant l'expression
+  function refreshCards() {
+    let index = 0;
+    // Si l'expression dans la barre de recherche fait au moins 3 lettres :
+    // Effacement de la liste de recettes
+    // avant nouvel affichage des recettes sélectionnées
+    if (word.length >= 3) {
+      removeCards();
+      arraySelectedFilter.forEach((stg) => {
+        index = parseInt(stg, 10);
+        // console.log(data[index - 1]);
+        recipeCardsFactorie(data[index - 1]);
+      });
+    }
   }
 }
 
 
-// function filterText(arr, requete) {
-//   return arr.filter(function (el) {
-//     return el.toLowerCase().indexOf(requete.toLowerCase()) !== -1;
-//   })
+
+
+
+
+
+
+
+
+// let htmlCards = Array.from(document.querySelector("#recipeList").children);
+// console.log("1 htmlCards", htmlCards);
+// htmlCards.forEach((card) => {
+//   // console.log("cardRecipe", cardRecipe);
+//   card.remove();
+// });
+
+// if (arraySelected.length > 0) {
+//   if (
+//     arraySelected[arraySelected.length - 1] ===
+//     arraySelected[arraySelected.length - 2]
+//   ) {
+//     arraySelected.pop();
+//   }
 // }
