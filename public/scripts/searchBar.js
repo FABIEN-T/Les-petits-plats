@@ -7,7 +7,7 @@ let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
 let occurenceNumber = 0; // nombre de mots comparés dans la base de données
 let noMatched = 0; // nombre de fois où l'expression saisie ne cooreponds à aucune occurence
-
+const message = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc."
 // Effacement de toutes les recettes
 function removeCards() {
   let htmlCards = Array.from(document.querySelector("#recipeList").children);
@@ -15,7 +15,6 @@ function removeCards() {
     card.remove();
   });
 }
-
 
 // Conversion du json en tableau puis
 // création d'un tableau pour chaque recette incluant
@@ -46,8 +45,9 @@ export function displayRecipesSelected(data) {
     if (e.target.value.length >= 3) {
       // ALORS chercher l'expression saisie dans les recettes
       searchWords(e.target.value, data);
-    } else if (e.target.value.length < 3) {
-      // SINON effacer les recettes en cours d'affichage 
+    } 
+    else if (e.target.value.length < 3) {
+      // SINON effacer les recettes en cours d'affichage
       removeCards();
       // puis afficher toutes les recettes
       for (let recipe of recoveryData) {
@@ -73,7 +73,7 @@ function searchWords(valueInput, data) {
         // et enlever les doublons
         arraySelectedFilter = arraySelected.filter((item, index) => {
           return arraySelected.indexOf(item) === index;
-        });        
+        });
       }
       if (!row.includes(valueInput)) {
         // SI non concordance incrémenter noMatched (non concordance)
@@ -85,12 +85,14 @@ function searchWords(valueInput, data) {
   if (occurenceNumber === noMatched) {
     // ALORS effacer toutes les recettes
     removeCards();
+    document.querySelector(".messageNoRecipe").innerHTML = message;
   } else {
+    document.querySelector(".messageNoRecipe").innerHTML = "";
     // SINON afficher les recettes sélectionnées
     refreshCards(arraySelectedFilter, valueInput);
   }
   console.log("occurenceNumber", occurenceNumber);
-  console.log("noMatched", noMatched);  
+  console.log("noMatched", noMatched);
 
   // Effacement de toutes les recettes puis affichage des recettes contenant l'expression
   function refreshCards(arrayIndex, valueInput) {
@@ -105,20 +107,8 @@ function searchWords(valueInput, data) {
         recipeCardsFactorie(data[index - 1]); // Décalage de -1, l'id 1 correspdant à l'index 0
       });
     }
-  }  
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // let htmlCards = Array.from(document.querySelector("#recipeList").children);
 // console.log("1 htmlCards", htmlCards);

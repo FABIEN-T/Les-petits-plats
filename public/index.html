@@ -5,10 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
-    <!-- <script src="./scripts/cardsRecipesFactory.js" defer></script> -->
-    <script type=module src="./scripts/index.js" defer></script>        
-    <!-- <script src="./scripts/recipes.js" defer></script> -->
-    <!-- <script src="./scripts/searchBar.js" defer></script> -->
+    <!-- <script type=module src="./scripts/index.js" defer></script>   -->
     <link
       rel="icon"
       type="image/png"
@@ -46,7 +43,7 @@
           </svg>
         </div>
       </div>
-      <section id="tagsSelect">
+      <div id="tagsSelect">
         <div class="tagContainer ingredients">
           <div class="tag">Lait de coco</div>
           <em class="far fa-times-circle"></em>
@@ -69,7 +66,7 @@
             <em class="fas fa-chevron-down arrowUtensils"></em>
           </div>
         </div>
-      </section>
+      </div>
       
       <!-- <div class="decriptionRecipe">
         <ul class="list" tabindex="0" aria-label="liste des ingrédients, apprareils et ustensiles nécessaires">
@@ -77,9 +74,11 @@
         </ul>
         <p class="recipeText" tabindex="0"></p>
       </div> -->
-
-      <section id="recipeList" aria-label="liste des recettes">     
+       
+      <span class="messageNoRecipe"></span>   
+      <section id="recipeList" aria-label="liste des recettes"> 
       </section>
     </main>
-  </body>
+    <script type=module src="./scripts/index.js"></script>
+  </body>    
 </html>
