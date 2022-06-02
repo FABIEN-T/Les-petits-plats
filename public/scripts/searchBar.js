@@ -30,29 +30,32 @@ export function conversionArray(data) {
 // Effacement de toutes les recettes
 function removeCards() {
   let htmlCards = Array.from(document.querySelector("#recipeList").children);
-  
   htmlCards.forEach((card) => {
-    card.remove();
-    // console.log("EFFACEMENT2");
+    card.remove();    
   });
+  // console.log("EFFACEMENT2");
 }
 
 // Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
 export function displayRecipesSelected(data) {
   const inputSearch = document.querySelector('input[type="text"]');
   inputSearch.addEventListener("input", (e) => {
+    if (e.target.value.length > 3) {
+      console.log(">3");
+    }
     // SI il y au moins 3 caractères dans la barre de recherche
     if (e.target.value.length >= 3) {
       // ALORS chercher le mot saisi dans les recettes 
-      searchWords(e.target.value, data);
+      console.log("e.target.value", e.target.value);
+      searchWords(e.target.value, data);      
     } else {
-      // SINON afficher toutes les recettes
-      // if ()
-      removeCards();
-      console.log(document.querySelector("#recipeList").children);
+      // SINON effacer les recettes en cours d'affichage, puis afficher toutes les recettes
+      removeCards();  
+      console.log("effacer")    
       for (let recipe of recoveryData) {
         recipeCardsFactorie(recipe);
       }
+      // console.log(document.querySelector("#recipeList").children);
     }    
   });
 }
@@ -65,21 +68,28 @@ function searchWords(word, data) {
     el.forEach((row) => {
       // SI le mot saisi est contenu dans la recette
       if (row.includes(word)) {
-        console.log("word2", word, row.includes(word));
+        console.log("inclus", word, row.includes(word));
         // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
         arraySelected.push(el[0]);
         // Enlever les doublons
         arraySelectedFilter = arraySelected.filter((item, index) => {
           return arraySelected.indexOf(item) === index;
         });
-      }
-      else {
-        // console.log("word3", word, (row.includes(word)));
-        // arraySelected = [];
-        removeCards();
-        // console.log("EFFACEMENT");
+        console.log('arraySelected', arraySelected);
       }
       refreshCards();
+      if (!row.includes(word)) {
+        console.log("exclus", !row.includes(word));
+        removeCards();        
+      }
+      // else {
+      //   console.log("exclus", word);
+      //   // arraySelected = [];
+      //   // arraySelectedFilter = [];
+      //   removeCards();
+      //   // console.log("EFFACEMENT");
+      // }
+      
     });
   });
 
@@ -93,10 +103,11 @@ function searchWords(word, data) {
       removeCards();
       arraySelectedFilter.forEach((stg) => {
         index = parseInt(stg, 10);
-        // console.log(data[index - 1]);
-        recipeCardsFactorie(data[index - 1]);
+        recipeCardsFactorie(data[index - 1]); // Décalage de -1, l'id 1 correspdant à l'index 0
       });
-    }
+      
+      // console.log("refresh arrayFilter", arraySelectedFilter);
+    }    
   }
 }
 
