@@ -2,7 +2,7 @@ import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 
 // Déclaration de variables
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
-let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
+// let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
 let recoveryData = []; // json mis sous forme de tableau
 let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
@@ -35,7 +35,7 @@ export function displayRecipesSelected(data) {
 // id - name - ingredient - description
 function conversionArray(data) {
   recoveryData = Array.from(data);
-  recoveryData.forEach((element) => {
+  for (let recipeArray of recoveryData) {
     // mettre dans le tableau de la recette : id, name, description
     recipeArray.push(
       element.id.toString(),
@@ -46,16 +46,19 @@ function conversionArray(data) {
       // pour chaque "ingedients", ajouter danns le tableau uniquement les propirétés "ingredient"
       recipeArray.push(el.ingredient.toLowerCase());
     });
+    console.log("recipeArray", recipeArray);
     allRecipesArray.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
-  });
+  };
+  console.log("allRecipesArray", allRecipesArray);
 }
 
 // Recherche de l'expression saisie dans chaque recette (son titre, ses ingredients, sa description)
 function searchWords(valueInput, data) {
   arraySelected = []; // initialisation du tableau des recettes sélectionnées
-  allRecipesArray.forEach((el) => {
+  for (let row of allRecipesArray) {
     // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
+    // for (let element of row ) 
     el.forEach((row) => {
       // SI l'expression saisie est contenue dans la recette
       if (row.includes(valueInput)) {
@@ -67,7 +70,7 @@ function searchWords(valueInput, data) {
         });
       }
     });
-  });
+  };
   refreshCards(data);
   messageNoRecipe();
 }
