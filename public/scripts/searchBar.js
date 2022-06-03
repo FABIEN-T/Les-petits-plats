@@ -118,7 +118,6 @@ function messageNoRecipe() {
 
 
 
-
 // let htmlCards = Array.from(document.querySelector("#recipeList").children);
 // console.log("1 htmlCards", htmlCards);
 // htmlCards.forEach((card) => {

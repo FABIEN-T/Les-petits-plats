@@ -360,7 +360,7 @@ h1 {
   font-family: "DM Sans", Arial, Helvetica, sans-serif;
   font-size: 2.25em;
   font-weight: 700;
-  color: #D04F4F;
+  color: green;
   margin: 0px auto;
 }
 
@@ -480,7 +480,7 @@ main {
 }
 
 .messageNoRecipe h2 {
-  color: #D04F4F;
+  color: green;
   text-align: center;
   line-height: 1.4em;
   margin-top: 50px;
