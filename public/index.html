@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
+    <meta
+      name="description"
+      content="Les petist plats : algorithme de recherche de recettes de cuisine"
+    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,8 +30,8 @@
     </header>
     <main>
       <div class="searchBar">
-        <input type="text" class="field" placeholder="Rechercher une recette"/>
-        
+        <input type="text" class="field" placeholder="Rechercher une recette" />
+
         <div class="iconGlass" tabindex="0" aria-label="Icône de recherche">
           <svg
             width="32"
@@ -48,37 +52,50 @@
           <div class="tag">Lait de coco</div>
           <em class="far fa-times-circle"></em>
         </div>
-        
+
         <div class="threeDropdownContainer">
           <div class="dropdownContainer">
-            <input type="text" class="ingredients tagsDropdown" placeholder="Ingrédients"/>
+            <input
+              type="text"
+              class="ingredients tagsDropdown"
+              placeholder="Ingrédients"
+            />
             <!-- <div class="ingredients tagsDropdown">Ingrédients</div> -->
             <em class="fas fa-chevron-down arrowIngredients"></em>
           </div>
           <div class="dropdownContainer">
-            <input type="text" class="devices tagsDropdown" placeholder="Appareils"/>
+            <input
+              type="text"
+              class="devices tagsDropdown"
+              placeholder="Appareils"
+            />
             <!-- <div class="devices tagsDropdown">Appareils</div> -->
             <em class="fas fa-chevron-down arrowDevices"></em>
           </div>
           <div class="dropdownContainer">
-            <input type="text" class="utensils tagsDropdown" placeholder="Ustensiles"/>
+            <input
+              type="text"
+              class="utensils tagsDropdown"
+              placeholder="Ustensiles"
+            />
             <!-- <div class="utensils tagsDropdown">Ustensiles</div> -->
             <em class="fas fa-chevron-down arrowUtensils"></em>
           </div>
         </div>
       </div>
-      
+
       <!-- <div class="decriptionRecipe">
         <ul class="list" tabindex="0" aria-label="liste des ingrédients, apprareils et ustensiles nécessaires">
 
         </ul>
         <p class="recipeText" tabindex="0"></p>
       </div> -->
-       
-      <span class="messageNoRecipe"></span>   
-      <section id="recipeList" aria-label="liste des recettes"> 
-      </section>
+
+      <div class="messageNoRecipe">
+        <h2></h2>
+      </div>
+      <section id="recipeList" aria-label="liste des recettes"></section>
     </main>
-    <script type=module src="./scripts/index.js"></script>
-  </body>    
+    <script type="module" src="./scripts/index.js"></script>
+  </body>
 </html>

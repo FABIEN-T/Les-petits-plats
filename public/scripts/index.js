@@ -1,7 +1,6 @@
 import { recipeCardsFactorie } from './recipeCardsFactorie.js'
-import { conversionArray } from './searchBar.js'
+// import { conversionArray } from './searchBar.js'
 import { displayRecipesSelected } from './searchBar.js'
-// import { searchWords } from './searchBar.js'
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 init();
@@ -12,12 +11,9 @@ async function init() {
     .then(response => response.json())
     .then(response => {
       response.recipes.forEach((data) => {
-        recipeCardsFactorie(data);
+        recipeCardsFactorie(data); // Affichage de toutes les recettes au chargement de la page
       });
-      // console.log("1", Array.from(document.querySelector("#recipeList").children));
-      // console.log("2", document.querySelector("#recipeList").children);
-      conversionArray(response.recipes);
-      displayRecipesSelected(response.recipes);
+      displayRecipesSelected(response.recipes); // Affichage des recettes en fonction d'une expression saisie
     })    
     .catch(() => {
       console.log("Erreur Fetch");

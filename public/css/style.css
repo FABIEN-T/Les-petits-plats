@@ -479,6 +479,13 @@ main {
   overflow: hidden;
 }
 
+.messageNoRecipe h2 {
+  color: #D04F4F;
+  text-align: center;
+  line-height: 1.4em;
+  margin-top: 50px;
+}
+
 article {
   cursor: pointer;
   width: 32%;
