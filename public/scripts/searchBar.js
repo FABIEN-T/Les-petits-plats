@@ -23,9 +23,9 @@ export function displayRecipesSelected(data) {
       removeCards();
       document.querySelector(".messageNoRecipe > h2").innerHTML = "";
       // puis afficher toutes les recettes
-      for (let recipe of recoveryData) {
+      recoveryData.forEach((recipe) => {
         recipeCardsFactorie(recipe);
-      }
+      });
     }
   });
 }
@@ -118,6 +118,12 @@ function messageNoRecipe() {
 
 
 
+
+
+
+// for (let recipe of recoveryData) {
+//   recipeCardsFactorie(recipe);
+// }
 
 // let htmlCards = Array.from(document.querySelector("#recipeList").children);
 // console.log("1 htmlCards", htmlCards);
