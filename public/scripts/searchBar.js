@@ -1,9 +1,10 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
+import { initTagsArrays } from "./tags.js"
 
 // Déclaration de variables
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
 let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
-let recoveryData = []; // json mis sous forme de tableau
+// let recoveryData = []; // json mis sous forme de tableau
 let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
 const message =
@@ -12,6 +13,7 @@ const message =
 // Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
 export function displayRecipesSelected(data) {
   conversionArray(data);
+  initTagsArrays(data);
   const inputSearch = document.querySelector('input[type="text"]');
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
@@ -23,7 +25,7 @@ export function displayRecipesSelected(data) {
       removeCards();
       document.querySelector(".messageNoRecipe > h2").innerHTML = "";
       // puis afficher toutes les recettes
-      recoveryData.forEach((recipe) => {
+      Array.from(data).forEach((recipe) => {
         recipeCardsFactorie(recipe);
       });
     }
@@ -34,8 +36,8 @@ export function displayRecipesSelected(data) {
 // création d'un tableau pour chaque recette incluant
 // id - name - ingredient - description
 function conversionArray(data) {
-  recoveryData = Array.from(data);
-  recoveryData.forEach((element) => {
+  // recoveryData = Array.from(data);
+  Array.from(data).forEach((element) => {
     // mettre dans le tableau de la recette : id, name, description
     recipeArray.push(
       element.id.toString(),
@@ -43,7 +45,7 @@ function conversionArray(data) {
       element.description.toLowerCase()
     );
     element.ingredients.forEach((el) => {
-      // pour chaque "ingedients", ajouter danns le tableau uniquement les propirétés "ingredient"
+      // pour chaque "ingedients", ajouter danns le tableau uniquement les propriétés "ingredient"
       recipeArray.push(el.ingredient.toLowerCase());
     });
     allRecipesArray.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
@@ -103,10 +105,6 @@ function messageNoRecipe() {
     document.querySelector(".messageNoRecipe > h2").innerHTML = "";
   }
 }
-
-
-
-
 
 
 
