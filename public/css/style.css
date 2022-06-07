@@ -424,6 +424,7 @@ main {
 .threeDropdownContainer {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .tagsDropdown {
@@ -452,6 +453,20 @@ main {
 
 .devices {
   background-color: #68D9A4;
+}
+
+.devicesList {
+  background-color: #68D9A4;
+  width: 667px;
+  padding: 15px;
+  border-radius: 5px;
+  margin-right: 20px;
+  font-size: 1.125em;
+  line-height: 1.35em;
+  font-weight: 400;
+  color: white;
+  border: transparent;
+  outline: none;
 }
 
 .utensils {

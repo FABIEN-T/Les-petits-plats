@@ -82,6 +82,7 @@ main {
 .threeDropdownContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
 .tagsDropdown {
@@ -113,6 +114,20 @@ main {
   background-color: $devices;
 }
 
+.devicesList {
+  background-color: $devices;
+  width: 667px;
+  padding: 15px;
+  border-radius: 5px;
+  margin-right: 20px;
+  font-size: 1.125em;
+  line-height: 1.35em;
+  font-weight: 400;
+  color: white;
+  border: transparent;
+  outline: none;
+}
+
 .utensils {
   background-color: $utensils;
 }
@@ -129,6 +144,10 @@ main {
   top: 29.45px;
   right: 38px;
 }
+
+
+
+
 
 // CARDS RECETTE
 #recipeList {

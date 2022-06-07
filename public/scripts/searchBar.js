@@ -13,7 +13,7 @@ const message =
 // Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
 export function displayRecipesSelected(data) {
   conversionArray(data);
-  initTagsArrays(data);
+  // initTagsArrays(data);
   const inputSearch = document.querySelector('input[type="text"]');
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
