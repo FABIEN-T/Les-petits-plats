@@ -70,12 +70,16 @@ function searchWords(valueInput, data) {
             arraySelected[arraySelected.length - 2]
           ) {
             arraySelected.pop();
+            // return arraySelected;
           }
         }
       }
-      console.log("arraySelected", arraySelected);
+      // console.log("arraySelected", arraySelected);
+      
     }
+
   }
+
   refreshCards(data);
   messageNoRecipe();
 }
