@@ -1,78 +1,76 @@
-let tagsIngredients = [];
-let tagsIngredientsFilter = [];
-let tagsAppliance = [];
-let tagsApplianceFilter = [];
-let tagsUstensils = [];
-let tagsUstensilsFilter = [];
+import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
+
+// let ingredientsTagsSorted = [];
+// let applianceTagsSorted = [];
+// let ustensilsTagsSorted = [];
+const ingredientsList = document.querySelector(".ingredientsList");
+const devicesList = document.querySelector(".devicesList");
+const utensilsList = document.querySelector(".utensilsList");
 
 export function initTagsArrays(data) {
-  // console.log(data)
+  let ingredientsTags = [];
+  let applianceTags = [];
+  let ustensilsTags = [];
+
   Array.from(data).forEach((element) => {
     // pour chaque "ingedients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
     element.ingredients.forEach((el) => {
-      tagsIngredients.push(el.ingredient);
-    });
-    tagsIngredientsFilter = tagsIngredients.filter((item, index) => {
-      return tagsIngredients.indexOf(item) === index;
+      ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
     });
 
     // pour chaque "appliance", ajouter danns le tableau les valeurs de propriétés "appliance"
-    tagsAppliance.push(element.appliance);
-    tagsApplianceFilter = tagsAppliance.filter((item, index) => {
-      return tagsAppliance.indexOf(item) === index;
-    });
+    applianceTags.push(element.appliance);
+
     // pour chaque "ustensils", ajouter danns le tableau les valeurs de propriétés "appliance"
     element.ustensils.forEach((el) => {
-      tagsUstensils.push(el);
-    });
-    tagsUstensilsFilter = tagsUstensils.filter((item, index) => {
-      return tagsUstensils.indexOf(item) === index;
+      ustensilsTags.push(stringUpperCaseFirst(el)); // Mettre en majuscule la première lettre du premier mot et enlever les accents
     });
   });
 
-  arraySort(tagsIngredientsFilter);
-  arraySort(tagsApplianceFilter);
-  // arrayFilter(tagsAppliance);
-  arraySort(tagsUstensilsFilter);
+  // ingredientsTagsSorted = [...new Set(ingredientsTags)].sort();
+  // applianceTagsSorted = [...new Set(applianceTags)].sort();
+  // ustensilsTagsSorted = [...new Set(ustensilsTags)].sort();
+  displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsList);
+  displayTagsList([...new Set(applianceTags)].sort(), devicesList);
+  displayTagsList([...new Set(ustensilsTags)].sort(), utensilsList);
 
-  //   console.log("ingredients", tagsIngredients);
-  //   console.log("ingredients", tagsIngredientsFilter);
-  //   //   console.log("appliance", tagsAppliance);
-  //   console.log("appliance", tagsApplianceFilter);
-  //   // //   console.log("ustensils", tagsUstensils);
-  //   console.log("ustensils", tagsUstensilsFilter);
-
-  displaytags();
+  // return {ingredientsTagsSorted, applianceTagsSorted, ustensilsTagsSorted};
 }
 
-function arrayFilter(arrayToFilter) {
-  arrayToFilter.filter((item, index) => {
-    return arrayToFilter.indexOf(item) === index;
+export function match(data, arraySelectedFilter) {
+  let ingredientsTags = [];
+  let applianceTags = [];
+  let ustensilsTags = [];
+  arraySelectedFilter.forEach((i) => {
+    data[parseInt(i, 10) - 1].ingredients.forEach((el) => {
+      ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
+    });
+    applianceTags.push(
+      stringUpperCaseFirst(data[parseInt(i, 10) - 1].appliance)
+    );
+    data[parseInt(i, 10) - 1].ustensils.forEach((el) => {
+      ustensilsTags.push(stringUpperCaseFirst(el));
+    });
   });
-  // console.log("arrayToFilter", arrayToFilter);
+  // console.log(
+  //   "SB ingredientsTags",
+  //   [...new Set(ingredientsTags)].sort()
+  // );
+  // console.log("applianceTags", [...new Set(applianceTags)].sort());
+  // console.log("ustensilsTags", [...new Set(ustensilsTags)].sort());
+
+  displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsList);
+  displayTagsList([...new Set(applianceTags)].sort(), devicesList);
+  displayTagsList([...new Set(ustensilsTags)].sort(), utensilsList);
 }
 
-function arraySort(arrayToSort) {
-  return arrayToSort.sort(function (a, b) {
-    return a.localeCompare(b);
+function displayTagsList(arrayList, classDom) {
+  Array.from(classDom.children).forEach((tag) => {
+    tag.remove();
+  });
+  arrayList.forEach((element) => {
+    classDom.innerHTML += `<p class="itemList">${element}</p>`;
   });
 }
 
-function displaytags() {
-  //   const divIngredients = document.createElement("div");
-  //   document
-  //     .querySelector(".ingredientsContainer")
-  //     .insertAdjacentElement("beforeend", divIngredients);
-  //   tagsIngredientsFilter.forEach((element) => {
-  //     divIngredients.innerHTML += element;
-  //   });
 
-  const divAppliance = document.createElement("div");
-  divAppliance.classList.add("devicesList")
-  document
-    .querySelector(".devicesContainer")
-    .insertAdjacentElement("beforeend", divAppliance);
-  tagsApplianceFilter.forEach((element) => {
-    divAppliance.innerHTML += element + "</br>";
-  });
-}

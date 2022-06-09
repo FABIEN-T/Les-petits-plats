@@ -106,29 +106,54 @@ main {
     opacity: 1;
 }
 
-.ingredients {
-  background-color: $ingredients;
-}
-
-.devices {
-  background-color: $devices;
-}
-
-.devicesList {
-  background-color: $devices;
-  width: 667px;
+.listShaping {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  overflow-x: auto;
+  width: 556px;
+  max-height: 150px;
+  margin: 0;
   padding: 15px;
-  border-radius: 5px;
-  margin-right: 20px;
+  border-radius: 0px 0px 5px 5px;
+  // margin-right: 20px;
   font-size: 1.125em;
   line-height: 1.35em;
   font-weight: 400;
   color: white;
-  border: transparent;
-  outline: none;
 }
 
-.utensils {
+.itemList {
+  cursor: pointer;
+  min-width: fit-content;
+  padding: 0 20px 0 0;
+  margin: 0;
+}
+
+.ingredients, .ingredientsList {
+  background-color: $ingredients;
+}
+
+.devices, .devicesList {
+  background-color: $devices;
+}
+
+// .devicesList {
+//   background-color: $devices;
+//   max-width: 667px;
+//   padding: 15px;
+//   border-radius: 5px;
+//   margin-right: 20px;
+//   font-size: 1.125em;
+//   line-height: 1.35em;
+//   font-weight: 400;
+//   color: white;
+//   border: transparent;
+//   outline: none;
+// }
+
+.utensils, .utensilsList {
   background-color: $utensils;
 }
 
@@ -139,7 +164,7 @@ main {
 .arrowIngredients,
 .arrowDevices,
 .arrowUtensils {
-  color: white;
+  color: rgb(149, 147, 147);
   position: absolute;
   top: 29.45px;
   right: 38px;

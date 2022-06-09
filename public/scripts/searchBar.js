@@ -1,28 +1,34 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 import { initTagsArrays } from "./tags.js"
+import { match } from "./tags.js"
+// import { tagsSelected } from "./tagsSelected.js"
 
 // Déclaration de variables
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
+let allTags = {};
 let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
-// let recoveryData = []; // json mis sous forme de tableau
 let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
+let ingredientsTagsMatched = [];
+let applianceTagsMatched = [];
+let ustensilsTagsMatched = [];
 const message =
   "Aucune recette ne correspond à votre critère… </br> vous pouvez chercher « tarte aux pommes », « poisson », etc...";
 
 // Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
 export function displayRecipesSelected(data) {
   conversionArray(data);
-  // initTagsArrays(data);
+  initTagsArrays(data);
   const inputSearch = document.querySelector('input[type="text"]');
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
-    if (e.target.value.length >= 3) {
+    if (e.target.value.length >= 3) {      
       // ALORS chercher l'expression saisie dans les recettes
-      searchWords(e.target.value, data);
+      searchWords(e.target.value, data);      
     } else if (e.target.value.length < 3) {
       // SINON effacer les recettes en cours d'affichage
       removeCards();
+      initTagsArrays(data);
       document.querySelector(".messageNoRecipe > h2").innerHTML = "";
       // puis afficher toutes les recettes
       Array.from(data).forEach((recipe) => {
@@ -70,13 +76,15 @@ function searchWords(valueInput, data) {
       }
     });
   });
-  refreshCards(data);
+  match(data, arraySelectedFilter);
+  refreshCards(data);  
   messageNoRecipe();
 }
 
 // Effacement de toutes les recettes
 function removeCards() {
   let htmlCards = Array.from(document.querySelector("#recipeList").children);
+  // console.log("hey", document.querySelector("#recipeList").children, htmlCards);
   htmlCards.forEach((card) => {
     card.remove();
   });
@@ -86,7 +94,7 @@ function removeCards() {
 function refreshCards(data) {
   let index = 0;
   // Effacement de la liste de recettes
-  removeCards();
+  removeCards();  
   // Nouvel affichage des recettes sélectionnées
   arraySelectedFilter.forEach((stg) => {
     index = parseInt(stg, 10); // conversion de l'id string en id number
@@ -105,6 +113,12 @@ function messageNoRecipe() {
     document.querySelector(".messageNoRecipe > h2").innerHTML = "";
   }
 }
+
+const ingredientsList = document.querySelector(".ingredientsList");
+const devicesList = document.querySelector(".devicesList");
+const utensilsList = document.querySelector(".utensilsList");
+
+
 
 
 
