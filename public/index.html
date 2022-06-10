@@ -30,7 +30,7 @@
     </header>
     <main>
       <div class="searchBar">
-        <input type="text" class="field" placeholder="Rechercher une recette" />
+        <input type="text" class="searchBarInput" placeholder="Rechercher une recette" />
 
         <div class="iconGlass" tabindex="0" aria-label="Icône de recherche">
           <svg
@@ -57,27 +57,30 @@
           <div class="dropdownContainer ingredientsContainer">
             <input
               type="text"
-              class="ingredients tagsDropdown"
+              id ="ingredientsInput"
+              class= "tagsDropdownInput"
               placeholder="Ingrédients"
             />
             <em class="fas fa-chevron-down arrowIngredients"></em>
             <div class="ingredientsList listShaping"></div>
           </div>
 
-          <div class="dropdownContainer devicesContainer">
+          <div class="dropdownContainer appliancesContainer">
             <input
               type="text"
-              class="devices tagsDropdown"
+              id="appliancesInput"
+              class="tagsDropdownInput"
               placeholder="Appareils"
             />
-            <em class="fas fa-chevron-down arrowDevices"></em>
-            <div class="devicesList listShaping"></div>
+            <em class="fas fa-chevron-down arrowAppliances"></em>
+            <div class="appliancesList listShaping"></div>
           </div>
 
           <div class="dropdownContainer utensilsContainer">
             <input
               type="text"
-              class="utensils tagsDropdown"
+              id="utensilsInput"
+              class="tagsDropdownInput"
               placeholder="Ustensiles"
             />
             <em class="fas fa-chevron-down arrowUtensils"></em>

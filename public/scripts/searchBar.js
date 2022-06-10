@@ -1,17 +1,18 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 import { initTagsArrays } from "./tags.js"
 import { match } from "./tags.js"
+// import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
 // import { tagsSelected } from "./tagsSelected.js"
 
 // Déclaration de variables
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
-let allTags = {};
+// let allTags = {};
 let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
 let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
-let ingredientsTagsMatched = [];
-let applianceTagsMatched = [];
-let ustensilsTagsMatched = [];
+// let ingredientsTagsMatched = [];
+// let applianceTagsMatched = [];
+// let utensilsTagsMatched = [];
 const message =
   "Aucune recette ne correspond à votre critère… </br> vous pouvez chercher « tarte aux pommes », « poisson », etc...";
 
@@ -19,12 +20,12 @@ const message =
 export function displayRecipesSelected(data) {
   conversionArray(data);
   initTagsArrays(data);
-  const inputSearch = document.querySelector('input[type="text"]');
+  const inputSearch = document.querySelector('.searchBarInput');
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
     if (e.target.value.length >= 3) {      
       // ALORS chercher l'expression saisie dans les recettes
-      searchWords(e.target.value, data);      
+      searchWords(e.target.value.toLowerCase(), data);      
     } else if (e.target.value.length < 3) {
       // SINON effacer les recettes en cours d'affichage
       removeCards();
@@ -114,9 +115,9 @@ function messageNoRecipe() {
   }
 }
 
-const ingredientsList = document.querySelector(".ingredientsList");
-const devicesList = document.querySelector(".devicesList");
-const utensilsList = document.querySelector(".utensilsList");
+// const ingredientsList = document.querySelector(".ingredientsList");
+// const appliancesList = document.querySelector(".appliancesList");
+// const utensilsList = document.querySelector(".utensilsList");
 
 
 

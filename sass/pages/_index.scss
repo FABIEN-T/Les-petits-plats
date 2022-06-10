@@ -33,7 +33,7 @@ main {
   position: relative;
 }
 
-.field {
+.searchBarInput {
   width: 100%;
   height: 100%;
   padding-left: 24px;
@@ -85,7 +85,7 @@ main {
     flex-wrap: wrap;
   }
 
-.tagsDropdown {
+.tagsDropdownInput {
   //   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -101,7 +101,7 @@ main {
   outline: none;
 }
 
-.tagsDropdown::placeholder {
+.tagsDropdownInput::placeholder {
     color: white;
     opacity: 1;
 }
@@ -131,15 +131,15 @@ main {
   margin: 0;
 }
 
-.ingredients, .ingredientsList {
+#ingredientsInput, .ingredientsList {
   background-color: $ingredients;
 }
 
-.devices, .devicesList {
+#appliancesInput, .appliancesList {
   background-color: $devices;
 }
 
-// .devicesList {
+// .appliancesList {
 //   background-color: $devices;
 //   max-width: 667px;
 //   padding: 15px;
@@ -153,7 +153,7 @@ main {
 //   outline: none;
 // }
 
-.utensils, .utensilsList {
+#utensilsInput, .utensilsList {
   background-color: $utensils;
 }
 
@@ -162,16 +162,13 @@ main {
 }
 
 .arrowIngredients,
-.arrowDevices,
+.arrowAppliances,
 .arrowUtensils {
   color: rgb(149, 147, 147);
   position: absolute;
   top: 29.45px;
   right: 38px;
 }
-
-
-
 
 
 // CARDS RECETTE
