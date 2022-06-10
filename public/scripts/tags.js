@@ -9,6 +9,8 @@ const utensilsListDom = document.querySelector(".utensilsList");
 let ingredientsTagsList = [];
 let appliancesTagsList = [];
 let utensilsTagsList = [];
+// const ingredientsItem = document.querySelectorAll(".ingredientsList > .itemList");
+// console.log("ingredientsItem 1", ingredientsItem);
 
 export function initTagsArrays(data) {
   let ingredientsTags = [];
@@ -33,13 +35,14 @@ export function initTagsArrays(data) {
   ingredientsTagsList = [...new Set(ingredientsTags)].sort();
   appliancesTagsList = [...new Set(appliancesTags)].sort();
   utensilsTagsList = [...new Set(utensilsTags)].sort();
-  
-  console.log("34", appliancesTagsList);
+
+  // console.log("34", appliancesTagsList);
 
   displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsListDom);
   displayTagsList([...new Set(appliancesTags)].sort(), appliancesListDom);
   displayTagsList([...new Set(utensilsTags)].sort(), utensilsListDom);
-
+  tagsListener();
+  
   // return {ingredientsTagsSorted, appliancesTagsSorted, utensilsTagsSorted};
 }
 
@@ -65,35 +68,51 @@ export function match(data, arraySelectedFilter) {
   displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsListDom);
   displayTagsList([...new Set(appliancesTags)].sort(), appliancesListDom);
   displayTagsList([...new Set(utensilsTags)].sort(), utensilsListDom);
-}
 
-function displayTagsList(arrayList, classDom) {
-  Array.from(classDom.children).forEach((tag) => {
-    tag.remove();
-  });
-  arrayList.forEach((element) => {
-    classDom.innerHTML += `<p class="itemList">${element}</p>`;
-  });
+  console.log(
+    "ingredientsItem",
+    document.querySelectorAll(".ingredientsList > .itemList")
+  );
+  closeTagsListener();
 }
 
 const inputsTags = document.querySelectorAll(".tagsDropdownInput");
 function tagsInput() {
   inputsTags.forEach((inputVar) => {
     inputVar.addEventListener("input", (e) => {
+      closeTagsListener();
       switch (e.target.id) {
         case "ingredientsInput":
           console.log("a", e.target.value);
-          console.log(ingredientsTagsList);
+          // console.log(ingredientsTagsList);
           // let bidule = searchWordInTags(e.target.value, ingredientsTagsList);
-          displayTagsList(searchWordInTags(e.target.value, ingredientsTagsList), ingredientsListDom);
+          displayTagsList(
+            searchWordInTags(e.target.value, ingredientsTagsList),
+            ingredientsListDom
+          );
+          tagsListener();
+          // const ingredientsItem = document.querySelectorAll(".ingredientsList > .itemList");
+          // console.log(
+          //   "ingredientsItem",
+          //   document.querySelectorAll(".ingredientsList > .itemList")
+          // );
           break;
         case "appliancesInput":
           console.log("b", e.target.value);
-          displayTagsList(searchWordInTags(e.target.value, appliancesTagsList), appliancesListDom);
+          displayTagsList(
+            searchWordInTags(e.target.value, appliancesTagsList),
+            appliancesListDom
+          );
+          // // console.log("ingredientsItem", ingredientsItem);
+          // tagsListener();
           break;
         case "utensilsInput":
           console.log("c", e.target.value);
-          displayTagsList(searchWordInTags(e.target.value, utensilsTagsList), utensilsListDom);
+          displayTagsList(
+            searchWordInTags(e.target.value, utensilsTagsList),
+            utensilsListDom
+          );
+          // tagsListener();
           break;
         default:
       }
@@ -102,6 +121,17 @@ function tagsInput() {
 }
 
 tagsInput();
+
+function displayTagsList(arrayList, classDom) {
+  Array.from(classDom.children).forEach((tag) => {
+    tag.remove();
+  });
+  arrayList.forEach((element) => {
+    classDom.innerHTML += `<p class="itemList">${element}</p>`;
+  });
+  // tagsListener();  
+}
+
 
 function searchWordInTags(valueInput, tagsList) {
   let arraySelectedTags = []; // initialisation du tableau des recettes sélectionnées
@@ -117,5 +147,63 @@ function searchWordInTags(valueInput, tagsList) {
     }
   });
   tagsList = arraySelectedTags;
+  // console.log("tagsList", tagsList);
   return tagsList;
 }
+
+export function tagsListener() {
+  // console.log("1", document.querySelectorAll(".ingredientsList > .itemList"));
+  // console.log(classDom);
+  // console.log(`"${classDom}"`);
+  // let bidule = `"${classDom}"`;
+  document.querySelectorAll(".ingredientsList > .itemList").forEach(item => {    
+    item.addEventListener("mousedown", (e) => {
+      console.log("listener ingredientsList");
+      // console.log("clic", e.target.innerHTML);
+      document.querySelector(".tagsContainer").innerHTML += `
+      <div class="tag ingredientColor">
+        <p>${e.target.innerHTML}</p>
+        <em class="far fa-times-circle"></em>
+      </div>`
+    });
+  })
+  document.querySelectorAll(".appliancesList > .itemList").forEach(item => {
+    // console.log(item);
+    item.addEventListener("mousedown", (e) => {
+      // console.log("clic", e.target.innerHTML);
+      console.log("listener .appliancesListt");
+      document.querySelector(".tagsContainer").innerHTML += `
+      <div class="tag appliancesColor">
+        <p>${e.target.innerHTML}</p>
+        <em class="far fa-times-circle"></em>
+      </div>`
+    });
+  })
+  document.querySelectorAll(".utensilsList > .itemList").forEach(item => {
+    // console.log(item);
+    item.addEventListener("mousedown", (e) => {
+      // console.log("clic", e.target.innerHTML);
+      console.log("listener .utensilsList");
+      document.querySelector(".tagsContainer").innerHTML += `
+      <div class="tag ustensilsColor">
+        <p>${e.target.innerHTML}</p>
+        <em class="far fa-times-circle"></em>
+      </div>`
+    });
+  })
+  
+}
+
+// tagsListener();
+
+export function closeTagsListener() {
+  console.log("hého", document.querySelectorAll(".fa-times-circle"));  
+  document.querySelectorAll(".fa-times-circle").forEach(item => {
+    // console.log(item);
+    item.addEventListener("mousedown", (e) => {
+      console.log("close", e.target);
+      e.target.closest(".tag").remove();
+    });
+  })
+}
+

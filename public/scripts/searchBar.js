@@ -1,6 +1,8 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 import { initTagsArrays } from "./tags.js"
 import { match } from "./tags.js"
+import {  tagsListener } from "./tags.js"
+import {  closeTagsListener } from "./tags.js"
 // import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
 // import { tagsSelected } from "./tagsSelected.js"
 
@@ -25,7 +27,9 @@ export function displayRecipesSelected(data) {
     // SI il y au moins 3 caractères dans la barre de recherche
     if (e.target.value.length >= 3) {      
       // ALORS chercher l'expression saisie dans les recettes
-      searchWords(e.target.value.toLowerCase(), data);      
+      searchWords(e.target.value.toLowerCase(), data);
+      tagsListener();
+      closeTagsListener();     
     } else if (e.target.value.length < 3) {
       // SINON effacer les recettes en cours d'affichage
       removeCards();
