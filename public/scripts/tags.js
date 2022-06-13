@@ -1,17 +1,17 @@
 import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
 import { stringNoAccent } from "./functions.js";
-// let ingredientsTagsSorted = [];
-// let appliancesTagsSorted = [];
-// let utensilsTagsSorted = [];
-const ingredientsListDom = document.querySelector(".ingredientsList");
-const appliancesListDom = document.querySelector(".appliancesList");
-const utensilsListDom = document.querySelector(".utensilsList");
+
 let ingredientsTagsList = [];
 let appliancesTagsList = [];
 let utensilsTagsList = [];
+let classDom = "";
+const ingredientsListDom = document.querySelector(".ingredientsList");
+const appliancesListDom = document.querySelector(".appliancesList");
+const utensilsListDom = document.querySelector(".utensilsList");
 // const ingredientsItem = document.querySelectorAll(".ingredientsList > .itemList");
 // console.log("ingredientsItem 1", ingredientsItem);
 
+// Initialisations des listes de tags
 export function initTagsArrays(data) {
   let ingredientsTags = [];
   let appliancesTags = [];
@@ -20,6 +20,7 @@ export function initTagsArrays(data) {
   Array.from(data).forEach((element) => {
     // pour chaque "ingedients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
     element.ingredients.forEach((el) => {
+      // console.log(element.id);
       ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
     });
 
@@ -32,24 +33,22 @@ export function initTagsArrays(data) {
     });
   });
 
-  ingredientsTagsList = [...new Set(ingredientsTags)].sort();
-  appliancesTagsList = [...new Set(appliancesTags)].sort();
-  utensilsTagsList = [...new Set(utensilsTags)].sort();
-
-  // console.log("34", appliancesTagsList);
-
-  displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsListDom);
-  displayTagsList([...new Set(appliancesTags)].sort(), appliancesListDom);
-  displayTagsList([...new Set(utensilsTags)].sort(), utensilsListDom);
-  tagsListener();
-  
-  // return {ingredientsTagsSorted, appliancesTagsSorted, utensilsTagsSorted};
+  filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags);
+  // classDom = document.querySelectorAll(".ingredientsList > .itemList");
+  // tagsListener(classDom, "ingredientsColorTag");
+  // classDom = document.querySelectorAll(".appliancesList > .itemList");
+  // tagsListener(classDom, "appliancesColorTag");
+  // classDom = document.querySelectorAll(".utensilsList > .itemList");
+  // tagsListener(classDom, "utensilsColorTag");
+  threeTypeTagsListener();
 }
 
-export function match(data, arraySelectedFilter) {
+// Recherche avancée : mise à jour de la liste de tags en fonction de la saisie
+export function advancedSearch(data, arraySelectedFilter) {
   let ingredientsTags = [];
   let appliancesTags = [];
   let utensilsTags = [];
+  // Création des listes filtrées à partir du tableau des recttes sélectionnées
   arraySelectedFilter.forEach((i) => {
     data[parseInt(i, 10) - 1].ingredients.forEach((el) => {
       ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
@@ -61,58 +60,49 @@ export function match(data, arraySelectedFilter) {
       utensilsTags.push(stringUpperCaseFirst(el));
     });
   });
-  console.log("match ingredientsTags", [...new Set(ingredientsTags)].sort());
-  console.log("appliancesTags", [...new Set(appliancesTags)].sort());
-  // console.log("utensilsTags", [...new Set(utensilsTags)].sort());
-  ingredientsTagsList = [...new Set(ingredientsTags)].sort();
-  displayTagsList([...new Set(ingredientsTags)].sort(), ingredientsListDom);
-  displayTagsList([...new Set(appliancesTags)].sort(), appliancesListDom);
-  displayTagsList([...new Set(utensilsTags)].sort(), utensilsListDom);
-
-  console.log(
-    "ingredientsItem",
-    document.querySelectorAll(".ingredientsList > .itemList")
-  );
-  closeTagsListener();
+  filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags);
 }
 
 const inputsTags = document.querySelectorAll(".tagsDropdownInput");
-function tagsInput() {
+
+// Détection du type de recherche avancée, affichage et recherche du mot
+export function tagsInput() {
   inputsTags.forEach((inputVar) => {
     inputVar.addEventListener("input", (e) => {
-      closeTagsListener();
       switch (e.target.id) {
         case "ingredientsInput":
           console.log("a", e.target.value);
-          // console.log(ingredientsTagsList);
-          // let bidule = searchWordInTags(e.target.value, ingredientsTagsList);
           displayTagsList(
-            searchWordInTags(e.target.value, ingredientsTagsList),
+            searchWordInList(e.target.value, ingredientsTagsList),
             ingredientsListDom
           );
-          tagsListener();
-          // const ingredientsItem = document.querySelectorAll(".ingredientsList > .itemList");
-          // console.log(
-          //   "ingredientsItem",
-          //   document.querySelectorAll(".ingredientsList > .itemList")
-          // );
+          console.log(
+            "truc",
+            document.querySelectorAll(".ingredientsList > .itemList")
+          );
+          classDom = document.querySelectorAll(".ingredientsList > .itemList");
+          tagsListener(classDom, "ingredientsColorTag");
           break;
+
         case "appliancesInput":
           console.log("b", e.target.value);
           displayTagsList(
-            searchWordInTags(e.target.value, appliancesTagsList),
+            searchWordInList(e.target.value, appliancesTagsList),
             appliancesListDom
           );
           // // console.log("ingredientsItem", ingredientsItem);
-          // tagsListener();
+          classDom = document.querySelectorAll(".appliancesList > .itemList");
+          tagsListener(classDom, "appliancesColorTag");
           break;
+
         case "utensilsInput":
           console.log("c", e.target.value);
           displayTagsList(
-            searchWordInTags(e.target.value, utensilsTagsList),
+            searchWordInList(e.target.value, utensilsTagsList),
             utensilsListDom
           );
-          // tagsListener();
+          classDom = document.querySelectorAll(".utensilsList > .itemList");
+          tagsListener(classDom, "utensilsColorTag");
           break;
         default:
       }
@@ -122,6 +112,7 @@ function tagsInput() {
 
 tagsInput();
 
+// Affichage de la liste mise à jour
 function displayTagsList(arrayList, classDom) {
   Array.from(classDom.children).forEach((tag) => {
     tag.remove();
@@ -129,12 +120,12 @@ function displayTagsList(arrayList, classDom) {
   arrayList.forEach((element) => {
     classDom.innerHTML += `<p class="itemList">${element}</p>`;
   });
-  // tagsListener();  
 }
 
-
-function searchWordInTags(valueInput, tagsList) {
+// Recherche de l'expression saisie dans la liste de tags
+function searchWordInList(valueInput, tagsList) {
   let arraySelectedTags = []; // initialisation du tableau des recettes sélectionnées
+  console.log(valueInput);
   tagsList.forEach((tag) => {
     if (
       tag.includes(valueInput) ||
@@ -147,63 +138,109 @@ function searchWordInTags(valueInput, tagsList) {
     }
   });
   tagsList = arraySelectedTags;
-  // console.log("tagsList", tagsList);
+  console.log("tagsList", tagsList);
   return tagsList;
 }
 
-export function tagsListener() {
-  // console.log("1", document.querySelectorAll(".ingredientsList > .itemList"));
-  // console.log(classDom);
-  // console.log(`"${classDom}"`);
-  // let bidule = `"${classDom}"`;
-  document.querySelectorAll(".ingredientsList > .itemList").forEach(item => {    
-    item.addEventListener("mousedown", (e) => {
-      console.log("listener ingredientsList");
-      // console.log("clic", e.target.innerHTML);
-      document.querySelector(".tagsContainer").innerHTML += `
-      <div class="tag ingredientColor">
-        <p>${e.target.innerHTML}</p>
-        <em class="far fa-times-circle"></em>
-      </div>`
-    });
-  })
-  document.querySelectorAll(".appliancesList > .itemList").forEach(item => {
-    // console.log(item);
-    item.addEventListener("mousedown", (e) => {
-      // console.log("clic", e.target.innerHTML);
-      console.log("listener .appliancesListt");
-      document.querySelector(".tagsContainer").innerHTML += `
-      <div class="tag appliancesColor">
-        <p>${e.target.innerHTML}</p>
-        <em class="far fa-times-circle"></em>
-      </div>`
-    });
-  })
-  document.querySelectorAll(".utensilsList > .itemList").forEach(item => {
-    // console.log(item);
-    item.addEventListener("mousedown", (e) => {
-      // console.log("clic", e.target.innerHTML);
-      console.log("listener .utensilsList");
-      document.querySelector(".tagsContainer").innerHTML += `
-      <div class="tag ustensilsColor">
-        <p>${e.target.innerHTML}</p>
-        <em class="far fa-times-circle"></em>
-      </div>`
-    });
-  })
-  
+
+
+function filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags) {
+  ingredientsTagsList = [...new Set(ingredientsTags)].sort();
+  appliancesTagsList = [...new Set(appliancesTags)].sort();
+  utensilsTagsList = [...new Set(utensilsTags)].sort();
+  displayTagsList(ingredientsTagsList, ingredientsListDom);
+  displayTagsList(appliancesTagsList, appliancesListDom);
+  displayTagsList(utensilsTagsList.sort(), utensilsListDom);
 }
 
-// tagsListener();
+// Affichage des tags
+
+export function tagsListener(classDom, classColor) {
+  console.log("classDom", classDom);
+  classDom.forEach((item) => {
+    item.addEventListener("mousedown", (e) => {
+      console.log("listener ingredientsList");
+      document.querySelector(".tagsContainer").innerHTML += `
+      <div class="tag ${classColor}">
+        <p>${e.target.innerHTML}</p>
+        <em class="far fa-times-circle"></em>
+      </div>`;
+      closeTagsListener();
+    });
+  });
+}
 
 export function closeTagsListener() {
-  console.log("hého", document.querySelectorAll(".fa-times-circle"));  
-  document.querySelectorAll(".fa-times-circle").forEach(item => {
+  document.querySelectorAll(".fa-times-circle").forEach((item) => {
     // console.log(item);
     item.addEventListener("mousedown", (e) => {
       console.log("close", e.target);
       e.target.closest(".tag").remove();
     });
-  })
+  });
 }
 
+export function threeTypeTagsListener() {
+  classDom = document.querySelectorAll(".ingredientsList > .itemList");
+  tagsListener(classDom, "ingredientsColorTag");
+  classDom = document.querySelectorAll(".appliancesList > .itemList");
+  tagsListener(classDom, "appliancesColorTag");
+  classDom = document.querySelectorAll(".utensilsList > .itemList");
+  tagsListener(classDom, "utensilsColorTag");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// export function tagsListener() {
+//   // console.log("1", document.querySelectorAll(".ingredientsList > .itemList"));
+//   // console.log(classDom);
+//   // console.log(`"${classDom}"`);
+//   // let bidule = `"${classDom}"`;
+//   document.querySelectorAll(".ingredientsList > .itemList").forEach(item => {
+
+//     item.addEventListener("mousedown", (e) => {
+//       console.log("listener ingredientsList");
+//       // console.log("clic", e.target.innerHTML);
+//       document.querySelector(".tagsContainer").innerHTML += `
+//       <div class="tag ingredientColor">
+//         <p>${e.target.innerHTML}</p>
+//         <em class="far fa-times-circle"></em>
+//       </div>`;
+//       closeTagsListener()
+//     });
+//   })
+//   document.querySelectorAll(".appliancesList > .itemList").forEach(item => {
+//     item.addEventListener("mousedown", (e) => {
+//       // console.log("clic", e.target.innerHTML);
+//       console.log("listener .appliancesListt");
+//       document.querySelector(".tagsContainer").innerHTML += `
+//       <div class="tag appliancesColor">
+//         <p>${e.target.innerHTML}</p>
+//         <em class="far fa-times-circle"></em>
+//       </div>`;
+//       closeTagsListener()
+//     });
+//   })
+//   document.querySelectorAll(".utensilsList > .itemList").forEach(item => {
+//     item.addEventListener("mousedown", (e) => {
+//       // console.log("clic", e.target.innerHTML);
+//       console.log("listener .utensilsList");
+//       document.querySelector(".tagsContainer").innerHTML += `
+//       <div class="tag ustensilsColor">
+//         <p>${e.target.innerHTML}</p>
+//         <em class="far fa-times-circle"></em>
+//       </div>`;
+//       closeTagsListener()
+//     });
+//   })
+
+// }

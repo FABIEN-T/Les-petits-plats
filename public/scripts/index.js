@@ -1,6 +1,9 @@
+// import { variables } from './variables.js'
 import { recipeCardsFactorie } from './recipeCardsFactorie.js'
 // import { conversionArray } from './searchBar.js'
 import { displayRecipesSelected } from './searchBar.js'
+
+
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 init();

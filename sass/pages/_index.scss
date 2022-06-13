@@ -137,11 +137,11 @@ main {
   margin: 0;
 }
 
-#ingredientsInput, .ingredientColor, .ingredientsList {
+#ingredientsInput, .ingredientsColorTag, .ingredientsList {
   background-color: $ingredients;
 }
 
-#appliancesInput, .appliancesColor, .appliancesList {
+#appliancesInput, .appliancesColorTag, .appliancesList {
   background-color: $appliances;
 }
 
@@ -159,7 +159,7 @@ main {
 //   outline: none;
 // }
 
-#utensilsInput, .ustensilsColor, .utensilsList {
+#utensilsInput, .utensilsColorTag, .utensilsList {
   background-color: $utensils;
 }
 

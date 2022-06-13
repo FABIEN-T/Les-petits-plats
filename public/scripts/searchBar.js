@@ -1,20 +1,13 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
-import { initTagsArrays } from "./tags.js"
-import { match } from "./tags.js"
-import {  tagsListener } from "./tags.js"
-import {  closeTagsListener } from "./tags.js"
-// import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
-// import { tagsSelected } from "./tagsSelected.js"
+import { initTagsArrays } from "./tags.js";
+import { advancedSearch } from "./tags.js";
+import { threeTypeTagsListener } from "./tags.js";
 
 // Déclaration de variables
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
-// let allTags = {};
 let recipeArray = []; // Tableau pour une recette contenant : id, name, description, ingredient
 let arraySelected = []; // Tableau des id des recettes sélectionnées
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
-// let ingredientsTagsMatched = [];
-// let applianceTagsMatched = [];
-// let utensilsTagsMatched = [];
 const message =
   "Aucune recette ne correspond à votre critère… </br> vous pouvez chercher « tarte aux pommes », « poisson », etc...";
 
@@ -22,14 +15,12 @@ const message =
 export function displayRecipesSelected(data) {
   conversionArray(data);
   initTagsArrays(data);
-  const inputSearch = document.querySelector('.searchBarInput');
+  const inputSearch = document.querySelector(".searchBarInput");
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
-    if (e.target.value.length >= 3) {      
+    if (e.target.value.length >= 3) {
       // ALORS chercher l'expression saisie dans les recettes
-      searchWords(e.target.value.toLowerCase(), data);
-      tagsListener();
-      closeTagsListener();     
+      simpleSearch(e.target.value.toLowerCase(), data);
     } else if (e.target.value.length < 3) {
       // SINON effacer les recettes en cours d'affichage
       removeCards();
@@ -47,7 +38,6 @@ export function displayRecipesSelected(data) {
 // création d'un tableau pour chaque recette incluant
 // id - name - ingredient - description
 function conversionArray(data) {
-  // recoveryData = Array.from(data);
   Array.from(data).forEach((element) => {
     // mettre dans le tableau de la recette : id, name, description
     recipeArray.push(
@@ -65,7 +55,7 @@ function conversionArray(data) {
 }
 
 // Recherche de l'expression saisie dans chaque recette (son titre, ses ingredients, sa description)
-function searchWords(valueInput, data) {
+function simpleSearch(valueInput, data) {
   arraySelected = []; // initialisation du tableau des recettes sélectionnées
   allRecipesArray.forEach((el) => {
     // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
@@ -81,15 +71,15 @@ function searchWords(valueInput, data) {
       }
     });
   });
-  match(data, arraySelectedFilter);
-  refreshCards(data);  
+  advancedSearch(data, arraySelectedFilter);
+  threeTypeTagsListener();
+  refreshCards(data);
   messageNoRecipe();
 }
 
 // Effacement de toutes les recettes
 function removeCards() {
   let htmlCards = Array.from(document.querySelector("#recipeList").children);
-  // console.log("hey", document.querySelector("#recipeList").children, htmlCards);
   htmlCards.forEach((card) => {
     card.remove();
   });
@@ -99,11 +89,12 @@ function removeCards() {
 function refreshCards(data) {
   let index = 0;
   // Effacement de la liste de recettes
-  removeCards();  
+  removeCards();
   // Nouvel affichage des recettes sélectionnées
   arraySelectedFilter.forEach((stg) => {
     index = parseInt(stg, 10); // conversion de l'id string en id number
     recipeCardsFactorie(data[index - 1]); // Décalage de -1, l'id 1 correspdant à l'index 0
+    console.log(data[index - 1].id);
   });
   arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
 }
@@ -118,23 +109,6 @@ function messageNoRecipe() {
     document.querySelector(".messageNoRecipe > h2").innerHTML = "";
   }
 }
-
-// const ingredientsList = document.querySelector(".ingredientsList");
-// const appliancesList = document.querySelector(".appliancesList");
-// const utensilsList = document.querySelector(".utensilsList");
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
