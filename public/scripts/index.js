@@ -1,28 +1,40 @@
 // import { variables } from './variables.js'
 import { recipeCardsFactorie } from './recipeCardsFactorie.js'
-// import { conversionArray } from './searchBar.js'
-import { displayRecipesSelected } from './searchBar.js'
+// import { conversionJsonToArray } from './searchBar.js'
 
-
+import { conversionJsonToArray } from './functions.js';
+import { conversionJsonToArray2 } from './functions.js';
+import { initArraysLists } from "./tags.js";
+import { displayRecipesSelected } from './searchBar.js';
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
+// variables();
 init();
 
 // DECLARATION DU PROGRAMME D'INITIALISATION
 async function init() {
+  
   await fetch("./data/recipes.json")
     .then(response => response.json())
     .then(response => {
+      mydata = response.recipes;
+      
+
       response.recipes.forEach((data) => {
         recipeCardsFactorie(data); // Affichage de toutes les recettes au chargement de la page
       });
+      
+      conversionJsonToArray(response.recipes); // Conversion du json en tableau puis création d'un tableau pour chaque recette incluant : id - name - ingredient - description
+      conversionJsonToArray2(response.recipes);
+      initArraysLists(response.recipes);
       displayRecipesSelected(response.recipes); // Affichage des recettes en fonction d'une expression saisie
-    })    
-    .catch(() => {
-      console.log("Erreur Fetch");
-    });
-}
 
+    })    
+    // .catch(() => {
+    //   console.log("Erreur Fetch");    
+    // });
+    .catch(err => console.error(err));
+}
 
 
 
@@ -44,7 +56,7 @@ async function init() {
 // async function init() {
 //   // Récupère les datas pour chaque recette
 //   const { recipes } = await getRecipes();
-//   conversionArray(recipes);
+//   conversionJsonToArray(recipes);
 //   searchWords();
 //   recipes.forEach((data) => {
 //     recipeCardsFactorie(data);

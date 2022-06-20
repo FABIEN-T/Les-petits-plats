@@ -1,24 +1,44 @@
 import { stringUpperCaseFirst } from "./functions.js"; // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
 import { stringNoAccent } from "./functions.js";
 
+import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
+import { simpleSearch } from "./searchBar.js";
+import { removeCards } from "./functions.js";
+import { refreshCards } from "./functions.js";
+import { messageNoRecipe } from "./functions.js";
+
 let ingredientsTagsList = [];
 let appliancesTagsList = [];
 let utensilsTagsList = [];
 let classDom = "";
+let tampon = [];
+let tampon2 = [];
+// let arrayTagsSelected = [];
+
 const ingredientsListDom = document.querySelector(".ingredientsList");
 const appliancesListDom = document.querySelector(".appliancesList");
 const utensilsListDom = document.querySelector(".utensilsList");
-// const ingredientsItem = document.querySelectorAll(".ingredientsList > .itemList");
-// console.log("ingredientsItem 1", ingredientsItem);
 
-// Initialisations des listes de tags
-export function initTagsArrays(data) {
+// const ingredientsItemListDom = document.querySelectorAll(
+//   ".ingredientsList > .itemList"
+// );
+// const appliancesItemListDom = document.querySelectorAll(
+//   ".appliancesList > .itemList"
+// );
+// const utensilsItemListDom = document.querySelectorAll(
+//   ".utensilsList > .itemList"
+// );
+
+const inputsTags = document.querySelectorAll(".tagsDropdownInput");
+
+// Initialisations des listes de recherche avancée
+export function initArraysLists(data) {
   let ingredientsTags = [];
   let appliancesTags = [];
   let utensilsTags = [];
 
   Array.from(data).forEach((element) => {
-    // pour chaque "ingedients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
+    // pour chaque "ingrédients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
     element.ingredients.forEach((el) => {
       // console.log(element.id);
       ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
@@ -33,23 +53,20 @@ export function initTagsArrays(data) {
     });
   });
 
-  filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags);
-  // classDom = document.querySelectorAll(".ingredientsList > .itemList");
-  // tagsListener(classDom, "ingredientsColorTag");
-  // classDom = document.querySelectorAll(".appliancesList > .itemList");
-  // tagsListener(classDom, "appliancesColorTag");
-  // classDom = document.querySelectorAll(".utensilsList > .itemList");
-  // tagsListener(classDom, "utensilsColorTag");
-  threeTypeTagsListener();
+  filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags);
+  // console.log(ingredientsTags, appliancesTags, utensilsTags);
+  // threeTypeTagsListener();
 }
 
 // Recherche avancée : mise à jour de la liste de tags en fonction de la saisie
-export function advancedSearch(data, arraySelectedFilter) {
+export function updateLists(data) {
   let ingredientsTags = [];
   let appliancesTags = [];
   let utensilsTags = [];
+  // console.log("TAG", arraySelectedFilter);
   // Création des listes filtrées à partir du tableau des recttes sélectionnées
   arraySelectedFilter.forEach((i) => {
+    console.log(parseInt(i, 10));
     data[parseInt(i, 10) - 1].ingredients.forEach((el) => {
       ingredientsTags.push(stringUpperCaseFirst(el.ingredient));
     });
@@ -60,49 +77,103 @@ export function advancedSearch(data, arraySelectedFilter) {
       utensilsTags.push(stringUpperCaseFirst(el));
     });
   });
-  filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags);
+  filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags);
+  threeTypeTagsListener(data);
+  console.log("update");
 }
 
-const inputsTags = document.querySelectorAll(".tagsDropdownInput");
+// Ecoute du clic sur les items des listes et Affichage des tags
+function tagsListenerAndDisplay(data, classDom, classColor) {
+  // console.log("TAG arraySelectedFilter", arraySelectedFilter);
+  // let arrayTagsSelected = []; 
+  classDom.forEach((item) => {
+    item.addEventListener("mousedown", (e) => {
+      document.querySelector(".tagsContainer").innerHTML += `
+      <div class="tag ${classColor}">
+        <p>${e.target.innerHTML}</p>
+        <em class="far fa-times-circle"></em>
+      </div>`;
+      // debugger
+      closeTagsListener(data);
 
-// Détection du type de recherche avancée, affichage et recherche du mot
-export function tagsInput() {
+      // console.log(".tag IN", document.querySelectorAll(".tag").length);
+      arrayTagsSelected.push(e.target.innerHTML);
+      // console.log("IN", arrayTagsSelected);
+      sortBySubList(data);
+      // refreshCards(data, arraySelectedFilter);
+      allRecipesArray2.forEach((el) => {
+        // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
+        el.forEach((row) => {
+          // SI l'expression saisie est contenue dans la recette
+          if (row.includes(e.target.innerHTML)) {
+            // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
+            arraySelected.push(el[0]);
+            // et enlever les doublons
+            arraySelectedFilter = arraySelected.filter((item, index) => {
+              return arraySelected.indexOf(item) === index;
+            });
+          }
+        });
+      });
+      console.log("TAGS", arraySelectedFilter);
+      // updateLists(data, arraySelectedFilter);
+    });
+  });
+  
+} 
+
+// Lors clic sur la croix : effacement du tag de la page html et du Dom
+function closeTagsListener(data) {
+  document.querySelectorAll(".fa-times-circle").forEach((item) => {
+    // console.log(item);
+    item.addEventListener("mousedown", (e) => {
+      // console.log("close", e.target);
+      e.target.closest(".tag").remove();
+      let closedTag = e.target.closest(".tag").children[0].innerText;
+      // console.log("closedTag", closedTag);
+      arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag);
+      console.log("OUT", arrayTagsSelected);
+      threeTypeTagsListener(data);
+      sortBySubList(data);
+      console.log("close");
+    });
+  });
+}
+
+// Détection du type de recherche avancée, recherche du mot
+export function tagsInput(data) {
   inputsTags.forEach((inputVar) => {
     inputVar.addEventListener("input", (e) => {
       switch (e.target.id) {
         case "ingredientsInput":
           console.log("a", e.target.value);
-          displayTagsList(
+          displayLists(
             searchWordInList(e.target.value, ingredientsTagsList),
             ingredientsListDom
           );
-          console.log(
-            "truc",
-            document.querySelectorAll(".ingredientsList > .itemList")
-          );
           classDom = document.querySelectorAll(".ingredientsList > .itemList");
-          tagsListener(classDom, "ingredientsColorTag");
+          tagsListenerAndDisplay(data, classDom, "ingredientsColorTag");
           break;
 
         case "appliancesInput":
           console.log("b", e.target.value);
-          displayTagsList(
+          displayLists(
             searchWordInList(e.target.value, appliancesTagsList),
             appliancesListDom
           );
           // // console.log("ingredientsItem", ingredientsItem);
           classDom = document.querySelectorAll(".appliancesList > .itemList");
-          tagsListener(classDom, "appliancesColorTag");
+          tagsListenerAndDisplay(data, classDom, "appliancesColorTag");
           break;
 
         case "utensilsInput":
           console.log("c", e.target.value);
-          displayTagsList(
+          displayLists(
             searchWordInList(e.target.value, utensilsTagsList),
             utensilsListDom
           );
           classDom = document.querySelectorAll(".utensilsList > .itemList");
-          tagsListener(classDom, "utensilsColorTag");
+          tagsListenerAndDisplay(data, classDom, "utensilsColorTag");
           break;
         default:
       }
@@ -110,22 +181,10 @@ export function tagsInput() {
   });
 }
 
-tagsInput();
-
-// Affichage de la liste mise à jour
-function displayTagsList(arrayList, classDom) {
-  Array.from(classDom.children).forEach((tag) => {
-    tag.remove();
-  });
-  arrayList.forEach((element) => {
-    classDom.innerHTML += `<p class="itemList">${element}</p>`;
-  });
-}
-
-// Recherche de l'expression saisie dans la liste de tags
+// Recherche de l'expression saisie dans la liste (recherche avancée)
 function searchWordInList(valueInput, tagsList) {
   let arraySelectedTags = []; // initialisation du tableau des recettes sélectionnées
-  console.log(valueInput);
+  // console.log(valueInput);
   tagsList.forEach((tag) => {
     if (
       tag.includes(valueInput) ||
@@ -138,109 +197,133 @@ function searchWordInList(valueInput, tagsList) {
     }
   });
   tagsList = arraySelectedTags;
-  console.log("tagsList", tagsList);
+  // console.log("tagsList", tagsList);
   return tagsList;
 }
 
-
-
-function filterAndDisplay(ingredientsTags, appliancesTags, utensilsTags) {
+// Elémination des doublons, tri alphabétique et appel des fonctions d'affichage des listes
+function filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags) {
   ingredientsTagsList = [...new Set(ingredientsTags)].sort();
   appliancesTagsList = [...new Set(appliancesTags)].sort();
   utensilsTagsList = [...new Set(utensilsTags)].sort();
-  displayTagsList(ingredientsTagsList, ingredientsListDom);
-  displayTagsList(appliancesTagsList, appliancesListDom);
-  displayTagsList(utensilsTagsList.sort(), utensilsListDom);
+  displayLists(ingredientsTagsList, ingredientsListDom);
+  displayLists(appliancesTagsList, appliancesListDom);
+  displayLists(utensilsTagsList, utensilsListDom);
+  console.log("Listes", ingredientsTagsList.length, appliancesTagsList.length, utensilsTagsList.length);
 }
 
-// Affichage des tags
-
-export function tagsListener(classDom, classColor) {
-  console.log("classDom", classDom);
-  classDom.forEach((item) => {
-    item.addEventListener("mousedown", (e) => {
-      console.log("listener ingredientsList");
-      document.querySelector(".tagsContainer").innerHTML += `
-      <div class="tag ${classColor}">
-        <p>${e.target.innerHTML}</p>
-        <em class="far fa-times-circle"></em>
-      </div>`;
-      closeTagsListener();
-    });
+// Affichage de la liste mise à jour
+function displayLists(arrayList, classDom) {
+  Array.from(classDom.children).forEach((tag) => {
+    tag.remove();
+  });
+  arrayList.forEach((element) => {
+    classDom.innerHTML += `<p class="itemList">${element}</p>`;
   });
 }
 
-export function closeTagsListener() {
-  document.querySelectorAll(".fa-times-circle").forEach((item) => {
-    // console.log(item);
-    item.addEventListener("mousedown", (e) => {
-      console.log("close", e.target);
-      e.target.closest(".tag").remove();
-    });
-  });
-}
-
-export function threeTypeTagsListener() {
+export function threeTypeTagsListener(data) {
+  // tagsListenerAndDisplay(ingredientsItemListDom, "ingredientsColorTag");
+  // tagsListenerAndDisplay(appliancesItemListDom, "appliancesColorTag");
+  // tagsListenerAndDisplay(utensilsItemListDom, "utensilsColorTag");
   classDom = document.querySelectorAll(".ingredientsList > .itemList");
-  tagsListener(classDom, "ingredientsColorTag");
+  tagsListenerAndDisplay(data, classDom, "ingredientsColorTag");
   classDom = document.querySelectorAll(".appliancesList > .itemList");
-  tagsListener(classDom, "appliancesColorTag");
+  tagsListenerAndDisplay(data, classDom, "appliancesColorTag");
   classDom = document.querySelectorAll(".utensilsList > .itemList");
-  tagsListener(classDom, "utensilsColorTag");
+  tagsListenerAndDisplay(data, classDom, "utensilsColorTag");
+  // const tag = document.querySelectorAll(".tag");
+  //     tag.forEach((el) => {
+  //       return el;
+  //     });
+  tagsInput(data);
 }
 
+function sortBySubList(data) {
+  console.log("1_sortBySubList", arrayTagsSelected);
+  let arraySelected = [];
 
+  if (document.querySelectorAll(".tag").length == 0) {
+    tampon = [];
+    tampon2 = [];
+    console.log(document.querySelectorAll(".tag").length);
+    removeCards();
+    Array.from(data).forEach((recipe) => {
+      recipeCardsFactorie(recipe);
+    });
+    initArraysLists(data);
+    threeTypeTagsListener(data);
+  } else {
+    console.log("arrayTagsSelected Sort", arrayTagsSelected);
+    arrayTagsSelected.forEach((tag) => {
+      // console.log("tag", tag.toLowerCase());
+      allRecipesArray2.forEach((el) => {
+        // initialisation du tableau des recettes sélectionnées
+        // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
+        el.forEach((row) => {
+          // SI l'expression saisie est contenue dans la recette
+          if (row.includes(tag.toLowerCase())) {
+            // console.log(row.includes(tag.toLowerCase()));
+            // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
+            arraySelected.push(el[0]);
+            // console.log("push0", arraySelected);
+            tampon2 = arraySelected.filter((item, index, array) => {
+              return array.indexOf(item) !== index;
+            });
+            // console.log("pré tampon2", arraySelected, tampon2)
+            // et enlever les doublons
+          }
+        });
+      });
 
+      if (document.querySelectorAll(".tag").length == 1) {
+        arraySelectedFilter = arraySelected;
+        console.log("++++++++++");
+        console.log("length == 1", arraySelectedFilter);
+        console.log("-----------");
+        
+      }
+      if (document.querySelectorAll(".tag").length == 2) {
+        console.log("*********");
+        console.log("length == 2", arraySelectedFilter);
+        // console.log(arraySelectedFilter);
+        console.log("-----------");
+        let machin = arraySelected.filter((item, index, array) => {
+          return array.indexOf(item) !== index;
+        });
+        // console.log("filter", machin);
+        // arraySelectedFilter = arraySelected.filter((item, index) => {
+        //   return arraySelected.indexOf(item) === index;
+        // });
+        arraySelectedFilter = [...new Set(machin)].sort(function (a, b) {
+          return a - b;
+        });
+        tampon = arraySelectedFilter;
+      }
+      if (document.querySelectorAll(".tag").length > 2) {
+        console.log("tampon", tampon);
+        console.log("tampon2", tampon2);
+        // console.log("OLD arraySelectedFilter", arraySelectedFilter);
 
-
-
-
-
-
-
-
-
-// export function tagsListener() {
-//   // console.log("1", document.querySelectorAll(".ingredientsList > .itemList"));
-//   // console.log(classDom);
-//   // console.log(`"${classDom}"`);
-//   // let bidule = `"${classDom}"`;
-//   document.querySelectorAll(".ingredientsList > .itemList").forEach(item => {
-
-//     item.addEventListener("mousedown", (e) => {
-//       console.log("listener ingredientsList");
-//       // console.log("clic", e.target.innerHTML);
-//       document.querySelector(".tagsContainer").innerHTML += `
-//       <div class="tag ingredientColor">
-//         <p>${e.target.innerHTML}</p>
-//         <em class="far fa-times-circle"></em>
-//       </div>`;
-//       closeTagsListener()
-//     });
-//   })
-//   document.querySelectorAll(".appliancesList > .itemList").forEach(item => {
-//     item.addEventListener("mousedown", (e) => {
-//       // console.log("clic", e.target.innerHTML);
-//       console.log("listener .appliancesListt");
-//       document.querySelector(".tagsContainer").innerHTML += `
-//       <div class="tag appliancesColor">
-//         <p>${e.target.innerHTML}</p>
-//         <em class="far fa-times-circle"></em>
-//       </div>`;
-//       closeTagsListener()
-//     });
-//   })
-//   document.querySelectorAll(".utensilsList > .itemList").forEach(item => {
-//     item.addEventListener("mousedown", (e) => {
-//       // console.log("clic", e.target.innerHTML);
-//       console.log("listener .utensilsList");
-//       document.querySelector(".tagsContainer").innerHTML += `
-//       <div class="tag ustensilsColor">
-//         <p>${e.target.innerHTML}</p>
-//         <em class="far fa-times-circle"></em>
-//       </div>`;
-//       closeTagsListener()
-//     });
-//   })
-
-// }
+        // arraySelected = arraySelected.concat(tampon);
+        // console.log("Fin_arraySelected", arraySelected);
+        // let machin = arraySelected.filter((item, index, array) => {
+        //   return array.indexOf(item) !== index;
+        // });
+        // arraySelectedFilter = [...new Set(machin)].sort(function(a, b){
+        //   return a - b;
+        // });
+        let enfin = tampon.concat(tampon2);
+        console.log("enfin", enfin);
+        enfin.filter((item, index, array) => {
+          return array.indexOf(item) !== index;
+        });
+        arraySelected = enfin;
+        console.log("Fin_arraySelected", arraySelected);
+      }
+      updateLists(data);
+      console.log("2_sortBySubList", arraySelectedFilter);
+      refreshCards(data, arraySelectedFilter);
+    });
+  }
+}
