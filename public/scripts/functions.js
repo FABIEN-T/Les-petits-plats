@@ -60,6 +60,26 @@ export function conversionJsonToArray2(data) {
   // console.log("allRecipesArray2", allRecipesArray2);   
 }
 
+export function searchCommonId(array1, array2) {
+  let arrayFinal = [];
+  let arrayConcat = [];
+  
+  if (array1.length === 0) {
+    arrayFinal = array2;
+  }
+  if (array2.length === 0) {
+    arrayFinal = array1;
+  }
+  if (array1.length > 0 && array2.length > 0) {
+    arrayConcat = array1.concat(array2).sort((a, b) => {
+      return a - b;
+    });
+    arrayFinal = arrayConcat.filter((item, index, array) => {
+      return array.indexOf(item) !== index;
+    });
+  }
+  return [...new Set(arrayFinal)];
+}
 
 
 
@@ -89,12 +109,12 @@ export function removeCards() {
 }
 
 // Affichage des recettes contenant l'expression
-export function refreshCards(data, arraySelectedFilter) {  
+export function refreshCards(data) {  
   let index = 0;  
   // Effacement de la liste de recettes
   removeCards();
   // Nouvel affichage des recettes sélectionnées
-  arraySelectedFilter.forEach((stg) => {  
+  arraySelectedFusion.forEach((stg) => {  
     // console.log("refreshCards", stg);  
     index = parseInt(stg, 10); // conversion de l'id string en id number
     // console.log("refreshCards", index);
@@ -102,6 +122,7 @@ export function refreshCards(data, arraySelectedFilter) {
     // console.log(data[index - 1].id);
   });
   // arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
+  console.log("into refresh", arraySelectedFusion); 
 }
 
 export function messageNoRecipe() {
