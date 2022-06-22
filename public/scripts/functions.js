@@ -122,7 +122,7 @@ export function refreshCards(data) {
     // console.log(data[index - 1].id);
   });
   // arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
-  console.log("into refresh", arraySelectedFusion); 
+  // console.log("refresh", arraySelectedFusion); 
 }
 
 export function messageNoRecipe() {

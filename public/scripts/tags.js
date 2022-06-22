@@ -67,7 +67,10 @@ export function updateLists(data) {
   let utensilsTags = [];
   // console.log("TAG", arraySelectedFilter);
   // Création des listes filtrées à partir du tableau des recttes sélectionnées
-  arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
+  arraySelectedFusion = searchCommonId(
+    arraySelectedFilter,
+    arraySelectedFilter2
+  );
   // console.log("!!!!!!!!!!!");
   // console.log("updateLists", arraySelectedFilter, arraySelectedFilter2);
   // console.log("!!!!!!!!!!!");
@@ -90,20 +93,21 @@ export function updateLists(data) {
 
 // Ecoute du clic sur les items des listes et Affichage des tags
 function tagsListenerAndDisplay(data, classDom, classColor) {
-  // console.log("TAG arraySelectedFilter", arraySelectedFilter);
-  // let arrayTagsSelected = []; 
+  
   classDom.forEach((item) => {
     item.addEventListener("mousedown", (e) => {
+      console.log("Après arrayTagsSelected", arrayTagsSelected);
+      if (!arrayTagsSelected.includes(e.target.innerHTML)) {  
       document.querySelector(".tagsContainer").innerHTML += `
       <div class="tag ${classColor}">
         <p>${e.target.innerHTML}</p>
         <em class="far fa-times-circle"></em>
       </div>`;
-      // debugger
-      closeTagsListener(data);
-
+      closeTagsListener(data);      
+      
       // console.log(".tag IN", document.querySelectorAll(".tag").length);
       arrayTagsSelected.push(e.target.innerHTML);
+      // console.log("110 arrayTagsSelected", arrayTagsSelected);
       // console.log("IN", arrayTagsSelected);
       sortBySubList(data);
       // refreshCards(data, arraySelectedFilter);
@@ -114,23 +118,24 @@ function tagsListenerAndDisplay(data, classDom, classColor) {
           if (row.includes(e.target.innerHTML)) {
             // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
             arraySelected.push(el[0]);
-            // et enlever les doublons
-            // arraySelectedFilter2 = arraySelected.filter((item, index) => {
-            //   return arraySelected.indexOf(item) === index;
-            // });
+            // et enlever les doublons            
             arraySelectedFilter2 = [...new Set(arraySelected)].sort();
           }
         });
       });
-      console.log("Selected-Listener", arraySelectedFilter, arraySelectedFilter2);
-      arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
-      console.log("fusion listener", arraySelectedFusion);
-      updateLists(data, arraySelectedFusion);
+      // console.log("Selected-Listener", arraySelectedFilter, arraySelectedFilter2);
+      arraySelectedFusion = searchCommonId(
+        arraySelectedFilter,
+        arraySelectedFilter2
+      );
+      // console.log("fusion listener", arraySelectedFusion);
+      console.log("^^^^^^^^^^^^^^^^^^^");
+      updateLists(data);
       refreshCards(data);
+    }
     });
   });
-  
-} 
+}
 
 // Lors clic sur la croix : effacement du tag de la page html et du Dom
 function closeTagsListener(data) {
@@ -142,10 +147,11 @@ function closeTagsListener(data) {
       let closedTag = e.target.closest(".tag").children[0].innerText;
       // console.log("closedTag", closedTag);
       arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag);
-      console.log("OUT", arrayTagsSelected);
       threeTypeTagsListener(data);
       sortBySubList(data);
-      console.log("close");
+      updateLists(data);
+      refreshCards(data);
+      console.log("close arrayTagsSelected", arrayTagsSelected);
     });
   });
 }
@@ -250,9 +256,12 @@ export function threeTypeTagsListener(data) {
 }
 
 function sortBySubList(data) {
-  console.log("1_sortBySubList", arrayTagsSelected);
+  // console.log("1_sortBySubList", arrayTagsSelected);
+  // console.log("in to");
   let arraySelected = [];
+  let arraySuperSelected = [];
 
+  // Si il n'y a pas de tags, réinitialiser l'affichage de toutes les recettes et listes
   if (document.querySelectorAll(".tag").length == 0) {
     tampon = [];
     tampon2 = [];
@@ -265,87 +274,159 @@ function sortBySubList(data) {
     initArraysLists(data);
     threeTypeTagsListener(data);
   } else {
-    console.log("arrayTagsSelected Sort", arrayTagsSelected);
-    arrayTagsSelected.forEach((tag) => {
+    // SINON chercher les recettes incluant le tag
+    
+    // Créer un tableau avec les id des recettes incluant le tag
+    [...new Set(arrayTagsSelected)].forEach((tag) => {
+      // console.log("tag", tag);
+      console.log("Sort arrayTagsSelected", [...new Set(arrayTagsSelected)]);
+      arraySelected = [];
       // console.log("tag", tag.toLowerCase());
       allRecipesArray2.forEach((el) => {
-        // initialisation du tableau des recettes sélectionnées
-        // Rechercher l'expression saisie dans chaque recette
+        // Rechercher le tag saisie dans chaque recette
         el.forEach((row) => {
           // SI l'expression saisie est contenue dans la recette
           if (row.includes(tag.toLowerCase())) {
-            // console.log(row.includes(tag.toLowerCase()));
             // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
             arraySelected.push(el[0]);
-            console.log("push0", arraySelected);
-
-            tampon2 = arraySelected.filter((item, index, array) => {
-              return array.indexOf(item) == index;
-            });
-            tampon3 = arraySelected;
-            // console.log("tampon2", tampon2);
-            // console.log("tampon3", tampon3);
-            // console.log("pré tampon2", arraySelected, tampon2)
-            // et enlever les doublons
           }
         });
       });
-
-      if (document.querySelectorAll(".tag").length == 1) {
-        arraySelectedFilter2 = arraySelected;
-        // console.log("++++++++++");
-        // console.log("length == 1", arraySelectedFilter2);
-        // console.log("-----------");
-        
-      }
-      if (document.querySelectorAll(".tag").length == 2) {
-        // console.log("*********");
-        // console.log("length == 2", arraySelectedFilter2);
-        // // console.log(arraySelectedFilter);
-        // console.log("*********");
-        // let intersection = array1.filter(x => array2.includes(x));
-        // console.log("intersection", intersection);
-        let machin = arraySelected.filter((item, index, array) => {
-          return array.indexOf(item) !== index;
-        });
-        // console.log("filter", machin);
-        // arraySelectedFilter = arraySelected.filter((item, index) => {
-        //   return arraySelected.indexOf(item) === index;
-        // });
-        arraySelectedFilter2 = [...new Set(machin)].sort(function (a, b) {
-          return a - b;
-        });
-        tampon = arraySelectedFilter2;
-      }
-      if (document.querySelectorAll(".tag").length > 2) {
-        console.log("tampon", tampon);
-        console.log("tampon2", tampon2);
-        // console.log("OLD arraySelectedFilter", arraySelectedFilter);
-
-        // arraySelected = arraySelected.concat(tampon);
-        // console.log("Fin_arraySelected", arraySelected);
-        // let machin = arraySelected.filter((item, index, array) => {
-        //   return array.indexOf(item) !== index;
-        // });
-        // arraySelectedFilter = [...new Set(machin)].sort(function(a, b){
-        //   return a - b;
-        // });
-        // highResult = intersection.filter(x => array3.includes(x))
-        // console.log("highResult", highResult);
-        let enfin = tampon.concat(tampon3);
-        console.log("enfin", enfin);
-        enfin.filter((item, index, array) => {
-          return array.indexOf(item) !== index;
-        });
-        arraySelected = enfin;
-        console.log("Fin_arraySelected", arraySelected);
-      }
-      arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
-      updateLists(data);
-      // console.log(",,,,,,,,,,,,,,,,,,,,");
-      // console.log("Fin_sortBySubList", arraySelectedFilter, arraySelectedFilter2, arraySelectedFusion);
-      // console.log(",,,,,,,,,,,,,,,,,,,,");
-      refreshCards(data);
+      arraySuperSelected.push(arraySelected);
+      // console.log("ELSE arraySelected", arraySelected);
+      // console.log("ELSE arraySuperSelected", arraySuperSelected);
     });
+    if (document.querySelectorAll(".tag").length == 1) {
+      arraySelectedFilter2 = arraySelected;
+      console.log("=1 | arraySelectedFilter2", arraySelectedFilter2);
+    }
+    if (document.querySelectorAll(".tag").length > 1) {
+      // console.log("arraySuperSelected.length >>>1", arraySuperSelected.length-1);
+      for (
+        let i = 0;
+        i < arraySuperSelected.length - (arraySuperSelected.length - 1);
+        i++
+      ) {
+        tampon = arraySuperSelected[i].filter((x) =>
+          arraySuperSelected[i + 1].includes(x)
+        );
+        // console.log("tampon", tampon, i);
+        // console.log("arraySelected t3", arraySelected);
+        tampon2 = arraySelected.filter((x) => tampon.includes(x));
+        console.log("tampon2", tampon2);
+      }
+      arraySelectedFilter2 = tampon2;
+      // console.log(">1 | arraySelectedFilter2", arraySelectedFilter2);
+    }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (document.querySelectorAll(".tag").length > 2) {
+//   console.log("arraySuperSelected.length >>>2", arraySuperSelected.length-(arraySuperSelected.length-1));
+//     // console.log("arraySuperSelected[0]", arraySuperSelected[0]);
+//     // console.log("arraySuperSelected[1]", arraySuperSelected[1]);
+//     // tampon2 = arraySuperSelected[0].filter(x => arraySuperSelected[1].includes(x));
+//     for (let i =0; i < arraySuperSelected.length-(arraySuperSelected.length-1); i++) {
+//       tampon3 = arraySuperSelected[i].filter(x => arraySuperSelected[i+1].includes(x));
+//       console.log("tampon3", tampon3, i);
+//       console.log("arraySelected t3", arraySelected);
+//       tampon2 = arraySelected.filter(x => tampon3.includes(x));
+//       console.log("tampon2", tampon2);
+//     }
+//   arraySelectedFilter2 = tampon2;
+// }
+// tampon2 = arraySelected.filter(x => tampon.includes(x));
+// tampon = arraySelected;
+// console.log("tampon2", tampon2);
+// console.log("tampon", tampon);
+// let intersection = tampon2.filter(x => arraySelected.includes(x));
+// console.log("intersection", [...new Set(intersection)]);
+// console.log("arraySelected", arraySelected);
+
+// if (document.querySelectorAll(".tag").length == 2) {
+//   console.log("arraySelectedFilter2 =2", arraySelectedFilter2);
+//   // console.log("*********");
+//   // console.log("length == 2", arraySelectedFilter2);
+//   // // console.log(arraySelectedFilter);
+//   // console.log("*********");
+//   // let intersection = array1.filter(x => array2.includes(x));
+//   // console.log("intersection", intersection);
+//   // console.log("tampon2", tampon2);
+// console.log("%%%%%%%%%%%%%%%");
+// console.log("arraySelected", arraySelected);
+// // console.log("arraySelectedFilter2", arraySelectedFilter2);
+// // console.log("tampon2", tampon2);
+//   // let intersection = arraySelected.filter(x => tampon2.includes(x));
+
+//   // console.log("intersection", intersection);
+//   let machin = arraySelected.filter((item, index, array) => {
+//     return array.indexOf(item) !== index;
+//   });
+//   // console.log("filter", machin);
+//   // arraySelectedFilter = arraySelected.filter((item, index) => {
+//   //   return arraySelected.indexOf(item) === index;
+//   // });
+//   arraySelectedFilter2 = [...new Set(machin)].sort(function (a, b) {
+//     return a - b;
+//   });
+//   // tampon = arraySelectedFilter2;
+//   // console.log("tampon", tampon);
+// }
+// if (document.querySelectorAll(".tag").length > 2) {
+//   console.log("tampon >2", tampon);
+//   console.log("tampon2 >2", tampon2);
+//   // console.log("OLD arraySelectedFilter", arraySelectedFilter);
+
+//   // arraySelected = arraySelected.concat(tampon);
+//   // console.log("Fin_arraySelected", arraySelected);
+//   // let machin = arraySelected.filter((item, index, array) => {
+//   //   return array.indexOf(item) !== index;
+//   // });
+//   // arraySelectedFilter = [...new Set(machin)].sort(function(a, b){
+//   //   return a - b;
+//   // });
+//   // highResult = intersection.filter(x => array3.includes(x))
+//   // console.log("highResult", highResult);
+//   let enfin = tampon.concat(tampon3);
+//   console.log("enfin", enfin);
+//   enfin.filter((item, index, array) => {
+//     return array.indexOf(item) !== index;
+//   });
+//   arraySelected = enfin;
+//   console.log("Fin_arraySelected", arraySelected);
+// }
+// arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
+// updateLists(data);
+// // console.log(",,,,,,,,,,,,,,,,,,,,");
+// // console.log("Fin_sortBySubList", arraySelectedFilter, arraySelectedFilter2, arraySelectedFusion);
+// // console.log(",,,,,,,,,,,,,,,,,,,,");
+// refreshCards(data);

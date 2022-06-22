@@ -80,33 +80,33 @@ let array2 = [1, 2, 9, 6, 7, 13, 14, 15, 16, 3];
 let array3 = [1, 4];
 // let array1 = ['1','5','9','3','4','7','14'];
 // let array2 = ['1','2','9','6','7','13','14','15','16','3'];
-let concat = [];
-let concat2 = [];
-let result = [];
-let highResult =[];
-console.log(array1);
-console.log(array2);
-console.log(array3);
+// let concat = [];
+// let concat2 = [];
+// let result = [];
+// let highResult =[];
+// console.log(array1);
+// console.log(array2);
+// console.log(array3);
 
-concat = array1.concat(array2).sort(function (a, b) {
-  return a - b;
-});
+// concat = array1.concat(array2).sort(function (a, b) {
+//   return a - b;
+// });
 
-let intersection = array1.filter(x => array2.includes(x));
-console.log("intersection", intersection);
-highResult = intersection.filter(x => array3.includes(x))
-console.log("highResult", highResult);
+// let intersection = array1.filter(x => array2.includes(x));
+// console.log("intersection", intersection);
+// highResult = intersection.filter(x => array3.includes(x))
+// console.log("highResult", highResult);
 
-let differenceA1 = array1.filter(x => !array2.includes(x));
-// console.log("differenceA1", differenceA1);
+// let differenceA1 = array1.filter(x => !array2.includes(x));
+// // console.log("differenceA1", differenceA1);
 
-let differenceA2 = array2.filter(x => !array1.includes(x));
-// console.log("differenceA2", differenceA2);
+// let differenceA2 = array2.filter(x => !array1.includes(x));
+// // console.log("differenceA2", differenceA2);
 
 
-let differenceSym = array1
-                 .filter(x => !array2.includes(x))
-                 .concat(array2.filter(x => !array1.includes(x)));
+// let differenceSym = array1
+//                  .filter(x => !array2.includes(x))
+//                  .concat(array2.filter(x => !array1.includes(x)));
 // console.log("differenceSym", differenceSym);
 
 
