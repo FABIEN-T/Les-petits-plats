@@ -1,10 +1,12 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
-import { removeCards } from "./functions.js";
+import { messageNoRecipe, removeCards } from "./functions.js";
 import { refreshCards } from "./functions.js";
-import { messageNoRecipe } from "./functions.js";
+// import { messageNoRecipe } from "./functions.js";
 import { searchCommonId } from "./functions.js";
 import { initArraysLists } from "./tags.js";
+import { tagsInput } from "./tags.js";
 import { updateLists } from "./tags.js";
+import { closeTagsListener } from "./tags.js";
 // import { advancedSearch2 } from "./tags.js";
 import { threeTypeTagsListener } from "./tags.js";
 // import { recipesSelectionByTags } from "./tags.js";
@@ -19,6 +21,7 @@ let arraySelected = []; // Tableau des id des recettes sélectionnées
 
 // Gestion de la saisie dans la barre de recherche et envoi vers la fonction de recherche
 export function displayRecipesSelected(data) {  
+  tagsInput(data);
   threeTypeTagsListener(data); // Ecoute du clic sur les items des 3 listes et Affichage des tags concernés
   const inputSearch = document.querySelector(".searchBarInput");
   inputSearch.addEventListener("input", (e) => {
@@ -48,10 +51,13 @@ export function displayRecipesSelected(data) {
         });
       } else {
         arraySelectedFilter = [];
-        console.log("²²²²²²²²²²²²²²");
-      console.log("SimpleSearch", arraySelectedFilter, arraySelectedFilter2);
-      console.log("²²²²²²²²²²²²²²");
-  
+      //   console.log("²²²²²²²²²²²²²²");
+      // console.log("SimpleSearch", arraySelectedFilter, arraySelectedFilter2);
+      // console.log("²²²²²²²²²²²²²²");
+      arraySelectedFusion = searchCommonId(
+        arraySelectedFilter,
+        arraySelectedFilter2
+      );
         // arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
         updateLists(data);
         refreshCards(data);
@@ -64,6 +70,7 @@ export function displayRecipesSelected(data) {
 export function simpleSearch(valueInput, data) {
   arraySelected = []; // initialisation du tableau des recettes sélectionnées
   arraySelectedFilter = [];
+  error = false;
   console.log("intoSEARCH arraySelectedFilter", arraySelected, arraySelectedFilter);
   allRecipesArray.forEach((el) => {
     // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
@@ -71,6 +78,7 @@ export function simpleSearch(valueInput, data) {
       // SI l'expression saisie est contenue dans la recette
       // console.log("row.includes(valueInput)", row.includes(valueInput));
       if (row.includes(valueInput)) {
+        error = false;
         console.log("valueInput", valueInput);
         // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
         arraySelected.push(el[0]);
@@ -78,29 +86,39 @@ export function simpleSearch(valueInput, data) {
         // et enlever les doublons
         arraySelectedFilter = arraySelected.filter((item, index) => {
           return arraySelected.indexOf(item) === index;
-        });
-        console.log(arraySelectedFilter);
-      }
-      // else {
-      //   arraySelectedFilter = [];
-      // }
+        });        
+      }            
     });
   });
-  arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
+  console.log("SS", arraySelectedFilter);
+  if (arraySelectedFilter.length == 0) {
+    // document.querySelector(".messageNoRecipe > h2").innerHTML = message;
+    error = true;
+    console.log("error", error);
+    console.log("coucou");    
+    closeTagsListener(data)
+    removeCards();
+    messageNoRecipe();
+    // document.querySelector(".messageNoRecipe > h2").innerHTML = message;
+    arraySelectedFusion = [];  
+    updateLists(data);
+  }
+ else {
+    arraySelectedFusion = searchCommonId(arraySelectedFilter, arraySelectedFilter2);
   console.log("&&&&&&&&&&&&&&");
       console.log("SimpleSearch", arraySelectedFilter, arraySelectedFilter2, arraySelectedFusion);
       console.log("&&&&&&&&&&&&&&");
-  updateLists(data);
-  // console.log("SEARCH arraySelectedFilter2", arraySelectedFilter2);
-  // advancedSearch2(data, arraySelectedFilter);
-  // threeTypeTagsListener(); // Ecoute du clic sur les items des 3 listes et Affichage des tags concernés
-  refreshCards(data);
-  messageNoRecipe();
+      updateLists(data);
+      refreshCards(data);
+  }  
 }
 
 
 
 
+// ||  (arraySelectedFilter.length == 0 && document.querySelectorAll(".tag").length == 0)
+
+// || (arraySelectedFilter.length == 0 && document.querySelectorAll(".tag").length ==0))
 
 
 
@@ -115,15 +133,12 @@ export function simpleSearch(valueInput, data) {
 
 
 
-
-
-
-export function simpleSearchObjet(data) {
-  arraySelected = []; // initialisation du tableau des recettes sélectionnées
-  data.forEach((dat) => {
-    console.log("objet id", dat.id);
-    console.log("objet ingredients", dat.ingredients);
-  });
+// export function simpleSearchObjet(data) {
+//   arraySelected = []; // initialisation du tableau des recettes sélectionnées
+//   data.forEach((dat) => {
+//     console.log("objet id", dat.id);
+//     console.log("objet ingredients", dat.ingredients);
+//   });
 
   // allRecipesArray.forEach((el) => {
   //   // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
@@ -139,7 +154,7 @@ export function simpleSearchObjet(data) {
   //     }
   //   });
   // });
-}
+// }
 
 // // Effacement de toutes les recettes
 // export function removeCards() {

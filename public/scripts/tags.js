@@ -5,7 +5,7 @@ import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 import { simpleSearch } from "./searchBar.js";
 import { removeCards } from "./functions.js";
 import { refreshCards } from "./functions.js";
-import { messageNoRecipe } from "./functions.js";
+// import { messageNoRecipe } from "./functions.js";
 import { searchCommonId } from "./functions.js";
 
 let ingredientsTagsList = [];
@@ -53,24 +53,23 @@ export function initArraysLists(data) {
     element.ustensils.forEach((el) => {
       utensilsTags.push(stringUpperCaseFirst(el)); // Mettre en majuscule la première lettre du premier mot et enlever les accents
     });
-  });
-
-  filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags);
+  });  
+  filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags); // mets à jour, filtre et affiche les listes
   // console.log(ingredientsTags, appliancesTags, utensilsTags);
   // threeTypeTagsListener();
 }
 
 // Recherche avancée : mise à jour de la liste de tags en fonction de la saisie
-export function updateLists(data) {
+export function updateLists(data) {  
   let ingredientsTags = [];
   let appliancesTags = [];
   let utensilsTags = [];
   // console.log("TAG", arraySelectedFilter);
   // Création des listes filtrées à partir du tableau des recttes sélectionnées
-  arraySelectedFusion = searchCommonId(
-    arraySelectedFilter,
-    arraySelectedFilter2
-  );
+  // arraySelectedFusion = searchCommonId(
+  //   arraySelectedFilter,
+  //   arraySelectedFilter2
+  // );
   // console.log("!!!!!!!!!!!");
   // console.log("updateLists", arraySelectedFilter, arraySelectedFilter2);
   // console.log("!!!!!!!!!!!");
@@ -86,6 +85,7 @@ export function updateLists(data) {
       utensilsTags.push(stringUpperCaseFirst(el));
     });
   });
+  // console.log("up", ingredientsTags, appliancesTags, utensilsTags);
   filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags);
   threeTypeTagsListener(data);
   // console.log("update");
@@ -95,17 +95,16 @@ export function updateLists(data) {
 function tagsListenerAndDisplay(data, classDom, classColor) {
   
   classDom.forEach((item) => {
-    item.addEventListener("mousedown", (e) => {
-      console.log("Après arrayTagsSelected", arrayTagsSelected);
+    item.addEventListener("mousedown", (e) => {      
+      // console.log("TagsListener arrayTagsSelected", arrayTagsSelected);
       if (!arrayTagsSelected.includes(e.target.innerHTML)) {  
       document.querySelector(".tagsContainer").innerHTML += `
       <div class="tag ${classColor}">
         <p>${e.target.innerHTML}</p>
         <em class="far fa-times-circle"></em>
       </div>`;
-      closeTagsListener(data);      
-      
-      // console.log(".tag IN", document.querySelectorAll(".tag").length);
+      closeTagsListener(data); 
+      document.getElementById("form").reset();  
       arrayTagsSelected.push(e.target.innerHTML);
       // console.log("110 arrayTagsSelected", arrayTagsSelected);
       // console.log("IN", arrayTagsSelected);
@@ -124,21 +123,27 @@ function tagsListenerAndDisplay(data, classDom, classColor) {
         });
       });
       // console.log("Selected-Listener", arraySelectedFilter, arraySelectedFilter2);
-      arraySelectedFusion = searchCommonId(
-        arraySelectedFilter,
-        arraySelectedFilter2
-      );
+      // arraySelectedFusion = searchCommonId(
+      //   arraySelectedFilter,
+      //   arraySelectedFilter2
+      // );
       // console.log("fusion listener", arraySelectedFusion);
       console.log("^^^^^^^^^^^^^^^^^^^");
       updateLists(data);
       refreshCards(data);
+      // messageNoRecipe();
+      // inputsTags.forEach(input => {
+      //   console.log("input", input.id);
+      //   input.id.reset();
+      // })
+      
     }
     });
   });
 }
 
 // Lors clic sur la croix : effacement du tag de la page html et du Dom
-function closeTagsListener(data) {
+export function closeTagsListener(data) {
   document.querySelectorAll(".fa-times-circle").forEach((item) => {
     // console.log(item);
     item.addEventListener("mousedown", (e) => {
@@ -147,11 +152,30 @@ function closeTagsListener(data) {
       let closedTag = e.target.closest(".tag").children[0].innerText;
       // console.log("closedTag", closedTag);
       arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag);
-      threeTypeTagsListener(data);
-      sortBySubList(data);
-      updateLists(data);
-      refreshCards(data);
+      console.log("error", error);
+      if (error === true) {
+        removeCards();
+        arraySelectedFilter2 = [];
+        // document.querySelectorAll(".tag").map(tag => tag.remove());
+        document.querySelectorAll(".tag").forEach(tag => tag.remove());
+      } else {
+        sortBySubList(data);
       console.log("close arrayTagsSelected", arrayTagsSelected);
+      console.log("close arraySelectedFilter1&2", arraySelectedFilter, arraySelectedFilter2);
+      console.log("close arraySelectedFusion", arraySelectedFusion);
+      console.log("length", document.querySelectorAll(".tag").length);
+      // if (document.querySelectorAll(".tag").length == 0 && arraySelectedFilter.length == 0) {
+      //   Array.from(data).forEach((recipe) => {
+      //     recipeCardsFactorie(recipe);
+      //     initArraysLists(data);
+      //     threeTypeTagsListener(data);
+      //   });
+      // } else {
+      
+      threeTypeTagsListener(data);
+      }          
+      
+      // }
     });
   });
 }
@@ -197,7 +221,7 @@ export function tagsInput(data) {
   });
 }
 
-// Recherche de l'expression saisie dans la liste (recherche avancée)
+// Recherche de l'expression saisie (dans la barre de recherche avancée) dans la liste
 function searchWordInList(valueInput, tagsList) {
   let arraySelectedTags = []; // initialisation du tableau des recettes sélectionnées
   // console.log(valueInput);
@@ -208,9 +232,7 @@ function searchWordInList(valueInput, tagsList) {
         stringNoAccent(valueInput.charAt(0)).toUpperCase() +
           valueInput.substring(1)
       )
-    ) {
-      arraySelectedTags.push(tag);
-    }
+    ) { arraySelectedTags.push(tag); }
   });
   tagsList = arraySelectedTags;
   // console.log("tagsList", tagsList);
@@ -263,23 +285,43 @@ function sortBySubList(data) {
 
   // Si il n'y a pas de tags, réinitialiser l'affichage de toutes les recettes et listes
   if (document.querySelectorAll(".tag").length == 0) {
+    console.log("sort 0 arrayTagsSelected", arrayTagsSelected, arraySelectedFilter2);
+    arraySelectedFilter2 =[];
+    // arraySelectedFusion = searchCommonId(
+    //   arraySelectedFilter,
+    //   arraySelectedFilter2
+    // );
     tampon = [];
     tampon2 = [];
     tampon3 = [];
     console.log(document.querySelectorAll(".tag").length);
+    // arraySelectedFilter = [];
     removeCards();
     Array.from(data).forEach((recipe) => {
       recipeCardsFactorie(recipe);
     });
     initArraysLists(data);
     threeTypeTagsListener(data);
+    arraySelectedFusion = searchCommonId(
+      arraySelectedFilter,
+      arraySelectedFilter2
+    );
+    if (arraySelectedFilter.length == 0) {
+      Array.from(data).forEach((recipe) => {
+        recipeCardsFactorie(recipe);
+      });
+    }
+    else {
+      refreshCards(data);
+    }
+    console.log("sort 0 arrayTagsSelected", arrayTagsSelected, arraySelectedFilter2, arraySelectedFusion);
   } else {
     // SINON chercher les recettes incluant le tag
     
     // Créer un tableau avec les id des recettes incluant le tag
     [...new Set(arrayTagsSelected)].forEach((tag) => {
       // console.log("tag", tag);
-      console.log("Sort arrayTagsSelected", [...new Set(arrayTagsSelected)]);
+      // console.log("Sort arrayTagsSelected", [...new Set(arrayTagsSelected)]);
       arraySelected = [];
       // console.log("tag", tag.toLowerCase());
       allRecipesArray2.forEach((el) => {
@@ -298,27 +340,58 @@ function sortBySubList(data) {
     });
     if (document.querySelectorAll(".tag").length == 1) {
       arraySelectedFilter2 = arraySelected;
-      console.log("=1 | arraySelectedFilter2", arraySelectedFilter2);
+      // console.log("=1 | arraySelectedFilter2", arraySelectedFilter2);
+      arraySelectedFusion = searchCommonId(
+        arraySelectedFilter,
+        arraySelectedFilter2
+      );
+      // console.log("=1 | arraySelectedFusion", arraySelectedFusion);
+      updateLists(data);
+      refreshCards(data);
     }
     if (document.querySelectorAll(".tag").length > 1) {
       // console.log("arraySuperSelected.length >>>1", arraySuperSelected.length-1);
-      for (
-        let i = 0;
-        i < arraySuperSelected.length - (arraySuperSelected.length - 1);
-        i++
-      ) {
-        tampon = arraySuperSelected[i].filter((x) =>
-          arraySuperSelected[i + 1].includes(x)
+      // for (
+      //   let i = 0;
+      //   // i < arraySuperSelected.length - (arraySuperSelected.length - 1);
+      //   // i = 1;
+      //   i++
+      // ) {
+        // console.log("count i", i);
+        // tampon = arraySuperSelected[0].filter((x) =>
+        //   arraySuperSelected[1].includes(x)
+        // );
+        console.log("arraySelected", arraySelected);
+        console.log("arraySelectedFilter2", arraySelectedFilter2);
+        console.log("arraySuperSelected", arraySuperSelected);
+        console.log("tampon2", tampon2);
+        tampon = arraySuperSelected[0].filter((x) =>
+          arraySuperSelected[1].includes(x)
+        );
+        tampon = arraySelectedFilter2.filter((x) =>
+          arraySuperSelected[arraySuperSelected.length - 1].includes(x)
         );
         // console.log("tampon", tampon, i);
-        // console.log("arraySelected t3", arraySelected);
-        tampon2 = arraySelected.filter((x) => tampon.includes(x));
-        console.log("tampon2", tampon2);
-      }
-      arraySelectedFilter2 = tampon2;
-      // console.log(">1 | arraySelectedFilter2", arraySelectedFilter2);
+        // console.log("arraySuperSelected.length", arraySuperSelected.length, arraySuperSelected.length - 1, arraySuperSelected.length - (arraySuperSelected.length - 1));
+        console.log("arraySuperSelected", arraySuperSelected);
+        console.log("tampon", tampon);
+        // tampon2 = arraySelected.filter((x) => tampon.includes(x));
+        // console.log("tampon2", tampon2);
+      // }
+      arraySelectedFilter2 = tampon;
+      arraySelectedFusion = searchCommonId(
+        arraySelectedFilter,
+        arraySelectedFilter2
+      );
+      console.log(">1 | arraySelectedFilter", arraySelectedFilter);
+      console.log(">1 | arraySelectedFilter2", arraySelectedFilter2);
+      console.log(">1 | arraySelectedFusion", arraySelectedFusion);
+      updateLists(data);
+      refreshCards(data);
     }
   }
+  
+  // console.log("Sort End | arraySelectedFusion", arraySelectedFusion);
 }
 
 

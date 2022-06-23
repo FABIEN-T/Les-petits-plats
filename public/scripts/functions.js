@@ -108,23 +108,6 @@ export function removeCards() {
   });
 }
 
-// Affichage des recettes contenant l'expression
-export function refreshCards(data) {  
-  let index = 0;  
-  // Effacement de la liste de recettes
-  removeCards();
-  // Nouvel affichage des recettes sélectionnées
-  arraySelectedFusion.forEach((stg) => {  
-    // console.log("refreshCards", stg);  
-    index = parseInt(stg, 10); // conversion de l'id string en id number
-    // console.log("refreshCards", index);
-    recipeCardsFactorie(data[index - 1]); // Décalage de -1, l'id 1 correspondant à l'index 0
-    // console.log(data[index - 1].id);
-  });
-  // arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
-  // console.log("refresh", arraySelectedFusion); 
-}
-
 export function messageNoRecipe() {
   // SI il n'y aucune recette d'affichée donc de trouvée
   if (document.querySelectorAll("article").length === 0) {
@@ -135,3 +118,24 @@ export function messageNoRecipe() {
     document.querySelector(".messageNoRecipe > h2").innerHTML = "";
   }
 }
+
+// Affichage des recettes contenant l'expression
+export function refreshCards(data) {  
+  let index = 0;  
+  // Effacement de la liste de recettes
+  removeCards();
+  // console.log("refresh arraySelectedFusion", arraySelectedFusion);
+  // Nouvel affichage des recettes sélectionnées
+  arraySelectedFusion.forEach((stg) => {  
+    // console.log("refreshCards", stg);  
+    index = parseInt(stg, 10); // conversion de l'id string en id number
+    // console.log("refreshCards", index);
+    recipeCardsFactorie(data[index - 1]); // Décalage de -1, l'id 1 correspondant à l'index 0
+    // console.log(data[index - 1].id);
+  });
+  messageNoRecipe();
+  // arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
+  // console.log("refresh", arraySelectedFusion); 
+}
+
+
