@@ -12,8 +12,9 @@
 const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
 const allRecipesArray2 = [];
 
-let error = true;
+let error = false;
 let mydata;
+let arraySelected2 = [];
 let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
 let arraySelectedFilter2 = [];
 let arraySelectedFusion = [];

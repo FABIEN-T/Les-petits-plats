@@ -1,19 +1,32 @@
 // Remplacement de l'accent sur prèmiere lettre du mot et mis en capitale
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
-let recipeArray = [];
+// let recipeArray = [];
 
 
 export function conversionJsonToArray(data) { 
+  let recipeArray = [];
   Array.from(data).forEach((element) => {
     // mettre dans le tableau de la recette : id, name, description
-    recipeArray.push(
+    // recipeArray.push(
+    //   element.id.toString(),
+    //   element.name.toLowerCase(),
+    //   element.description.toLowerCase()
+    // );
+    // element.ingredients.forEach((el) => {
+    //   // pour chaque "ingedients", ajouter danns le tableau uniquement les propriétés "ingredient"
+    //   recipeArray.push(el.ingredient.toLowerCase());
+    // });
+    // stringNoAccent(valueInput.charAt(0)).toLowerCase()) +
+    //         valueInput.substring(1)
+    recipeArray.push(      
       element.id.toString(),
-      element.name.toLowerCase(),
-      element.description.toLowerCase()
+      stringNoAccent((element.name.charAt(0)).toLowerCase()) + element.name.substring(1),
+      stringNoAccent((element.description.charAt(0)).toLowerCase()) + element.description.substring(1),
     );
     element.ingredients.forEach((el) => {
       // pour chaque "ingedients", ajouter danns le tableau uniquement les propriétés "ingredient"
-      recipeArray.push(el.ingredient.toLowerCase());
+      recipeArray.push(
+        stringNoAccent((el.ingredient.charAt(0)).toLowerCase()) + el.ingredient.substring(1))
     });
     allRecipesArray.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
@@ -36,6 +49,7 @@ export function conversionJsonToArray(data) {
 }
 
 export function conversionJsonToArray2(data) {
+  let recipeArray = [];
   Array.from(data).forEach((element) => {
     // mettre dans le tableau de la recette : id, name, description
     recipeArray.push(
@@ -135,7 +149,7 @@ export function refreshCards(data) {
   });
   messageNoRecipe();
   // arraySelectedFilter = []; // Vider le tableau des id sélectionnées (Réinitialisation)
-  // console.log("refresh", arraySelectedFusion); 
+  console.log("refresh", arraySelectedFilter2, arraySelectedFusion); 
 }
 
 

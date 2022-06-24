@@ -53,14 +53,14 @@ export function initArraysLists(data) {
     element.ustensils.forEach((el) => {
       utensilsTags.push(stringUpperCaseFirst(el)); // Mettre en majuscule la première lettre du premier mot et enlever les accents
     });
-  });  
+  });
   filterAndDisplayLists(ingredientsTags, appliancesTags, utensilsTags); // mets à jour, filtre et affiche les listes
   // console.log(ingredientsTags, appliancesTags, utensilsTags);
   // threeTypeTagsListener();
 }
 
 // Recherche avancée : mise à jour de la liste de tags en fonction de la saisie
-export function updateLists(data) {  
+export function updateLists(data) {
   let ingredientsTags = [];
   let appliancesTags = [];
   let utensilsTags = [];
@@ -93,51 +93,59 @@ export function updateLists(data) {
 
 // Ecoute du clic sur les items des listes et Affichage des tags
 function tagsListenerAndDisplay(data, classDom, classColor) {
-  
   classDom.forEach((item) => {
-    item.addEventListener("mousedown", (e) => {      
+    item.addEventListener("mousedown", (e) => {
       // console.log("TagsListener arrayTagsSelected", arrayTagsSelected);
-      if (!arrayTagsSelected.includes(e.target.innerHTML)) {  
-      document.querySelector(".tagsContainer").innerHTML += `
+      if (!arrayTagsSelected.includes(e.target.innerHTML)) {
+        document.querySelector(".tagsContainer").innerHTML += `
       <div class="tag ${classColor}">
         <p>${e.target.innerHTML}</p>
         <em class="far fa-times-circle"></em>
       </div>`;
-      closeTagsListener(data); 
-      document.getElementById("form").reset();  
-      arrayTagsSelected.push(e.target.innerHTML);
-      // console.log("110 arrayTagsSelected", arrayTagsSelected);
-      // console.log("IN", arrayTagsSelected);
-      sortBySubList(data);
-      // refreshCards(data, arraySelectedFilter);
-      allRecipesArray2.forEach((el) => {
-        // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
-        el.forEach((row) => {
-          // SI l'expression saisie est contenue dans la recette
-          if (row.includes(e.target.innerHTML)) {
-            // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
-            arraySelected.push(el[0]);
-            // et enlever les doublons            
-            arraySelectedFilter2 = [...new Set(arraySelected)].sort();
-          }
-        });
-      });
-      // console.log("Selected-Listener", arraySelectedFilter, arraySelectedFilter2);
-      // arraySelectedFusion = searchCommonId(
-      //   arraySelectedFilter,
-      //   arraySelectedFilter2
-      // );
-      // console.log("fusion listener", arraySelectedFusion);
-      console.log("^^^^^^^^^^^^^^^^^^^");
-      updateLists(data);
-      refreshCards(data);
-      // messageNoRecipe();
-      // inputsTags.forEach(input => {
-      //   console.log("input", input.id);
-      //   input.id.reset();
-      // })
-      
-    }
+        closeTagsListener(data);
+        document.getElementById("form").reset();
+        arrayTagsSelected.push(e.target.innerHTML);
+        // console.log("110 arrayTagsSelected", arrayTagsSelected);
+        // console.log("IN", arrayTagsSelected);
+
+        // refreshCards(data, arraySelectedFilter);
+        // allRecipesArray2.forEach((el) => {
+        //   // Rechercher l'expression saisie dans  "name - ingredient - description" de chaque recette
+        //   el.forEach((row) => {
+        //     // SI l'expression saisie est contenue dans la recette
+        //     if (row.includes(e.target.innerHTML)) {
+        //       // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
+        //       arraySelected.push(el[0]);
+        //       console.log("LISTENER arraySelected", arraySelected, e.target.innerHTML);
+        //       // et enlever les doublons
+        //       arraySelectedFilter2 = [...new Set(arraySelected)].sort();
+        //     }
+        //   });
+        // });
+        console.log("LISTENER arraySelectedFilter2", arraySelectedFilter2);
+        arraySelected2.push(arraySelectedFilter2);
+        arraySelected2.forEach((tab) =>
+          console.log("PUSH arraySelected2", tab)
+        );
+        sortBySubList(data);
+
+        console.log();
+        // console.log("Selected-Listener", arraySelectedFilter, arraySelectedFilter2);
+        // arraySelectedFusion = searchCommonId(
+        //   arraySelectedFilter,
+        //   arraySelectedFilter2
+        // );
+        // console.log("fusion listener", arraySelectedFusion);
+        console.log("^^^^^^^^^^^^^^^^^^^");
+        // refreshCards(data);
+        updateLists(data);
+
+        // messageNoRecipe();
+        // inputsTags.forEach(input => {
+        //   console.log("input", input.id);
+        //   input.id.reset();
+        // })
+      }
     });
   });
 }
@@ -152,30 +160,47 @@ export function closeTagsListener(data) {
       let closedTag = e.target.closest(".tag").children[0].innerText;
       // console.log("closedTag", closedTag);
       arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag);
+      console.log("arrayTagsSelected", arrayTagsSelected);
       console.log("error", error);
       if (error === true) {
         removeCards();
         arraySelectedFilter2 = [];
         // document.querySelectorAll(".tag").map(tag => tag.remove());
-        document.querySelectorAll(".tag").forEach(tag => tag.remove());
+        document.querySelectorAll(".tag").forEach((tag) => tag.remove());
       } else {
+        arraySelected2.forEach((tab) =>
+          console.log("avt POP arraySelected2", tab)
+        );
+        console.log("avt POP arraySelected2", arraySelected2);
+        // let bidule = arraySelected2.pop();
+        // console.log("bidule", bidule);        
+        // arraySelectedFilter2 = bidule;
+        arraySelectedFilter2 = arraySelected2.pop();
+        console.log("après POP arraySelected2", arraySelectedFilter2);
         sortBySubList(data);
-      console.log("close arrayTagsSelected", arrayTagsSelected);
-      console.log("close arraySelectedFilter1&2", arraySelectedFilter, arraySelectedFilter2);
-      console.log("close arraySelectedFusion", arraySelectedFusion);
-      console.log("length", document.querySelectorAll(".tag").length);
-      // if (document.querySelectorAll(".tag").length == 0 && arraySelectedFilter.length == 0) {
-      //   Array.from(data).forEach((recipe) => {
-      //     recipeCardsFactorie(recipe);
-      //     initArraysLists(data);
-      //     threeTypeTagsListener(data);
-      //   });
-      // } else {
-      
-      threeTypeTagsListener(data);
-      }          
-      
-      // }
+        console.log("close arrayTagsSelected", arrayTagsSelected);
+        console.log(
+          "close arraySelectedFilter1&2",
+          arraySelectedFilter,
+          arraySelectedFilter2
+        );
+        console.log("close arraySelectedFusion", arraySelectedFusion);
+        console.log("length", document.querySelectorAll(".tag").length);
+        if (
+          document.querySelectorAll(".tag").length == 0 &&
+          arraySelectedFilter.length == 0
+        ) {
+          Array.from(data).forEach((recipe) => {
+            recipeCardsFactorie(recipe);
+            initArraysLists(data);
+            threeTypeTagsListener(data);
+          });
+        } else {
+          // refreshCards(data);
+          updateLists(data);
+          threeTypeTagsListener(data);
+        }
+      }
     });
   });
 }
@@ -232,7 +257,9 @@ function searchWordInList(valueInput, tagsList) {
         stringNoAccent(valueInput.charAt(0)).toUpperCase() +
           valueInput.substring(1)
       )
-    ) { arraySelectedTags.push(tag); }
+    ) {
+      arraySelectedTags.push(tag);
+    }
   });
   tagsList = arraySelectedTags;
   // console.log("tagsList", tagsList);
@@ -285,12 +312,12 @@ function sortBySubList(data) {
 
   // Si il n'y a pas de tags, réinitialiser l'affichage de toutes les recettes et listes
   if (document.querySelectorAll(".tag").length == 0) {
-    console.log("sort 0 arrayTagsSelected", arrayTagsSelected, arraySelectedFilter2);
-    arraySelectedFilter2 =[];
-    // arraySelectedFusion = searchCommonId(
-    //   arraySelectedFilter,
-    //   arraySelectedFilter2
-    // );
+    console.log(
+      "sort 0 arrayTagsSelected",
+      arrayTagsSelected,
+      arraySelectedFilter2
+    );
+    arraySelectedFilter2 = [];
     tampon = [];
     tampon2 = [];
     tampon3 = [];
@@ -310,14 +337,18 @@ function sortBySubList(data) {
       Array.from(data).forEach((recipe) => {
         recipeCardsFactorie(recipe);
       });
-    }
-    else {
+    } else {
       refreshCards(data);
     }
-    console.log("sort 0 arrayTagsSelected", arrayTagsSelected, arraySelectedFilter2, arraySelectedFusion);
+    console.log(
+      "sort 0 arrayTagsSelected",
+      arrayTagsSelected,
+      arraySelectedFilter2,
+      arraySelectedFusion
+    );
   } else {
     // SINON chercher les recettes incluant le tag
-    
+
     // Créer un tableau avec les id des recettes incluant le tag
     [...new Set(arrayTagsSelected)].forEach((tag) => {
       // console.log("tag", tag);
@@ -333,11 +364,15 @@ function sortBySubList(data) {
             arraySelected.push(el[0]);
           }
         });
+        // console.log("arraySelected", arraySelected);
       });
       arraySuperSelected.push(arraySelected);
       // console.log("ELSE arraySelected", arraySelected);
-      // console.log("ELSE arraySuperSelected", arraySuperSelected);
     });
+    arraySuperSelected.forEach((tab) =>
+      console.log("ELSE arraySuperSelected", tab)
+    );
+    console.log("ELSE arraySuperSelected", arraySuperSelected.length);
     if (document.querySelectorAll(".tag").length == 1) {
       arraySelectedFilter2 = arraySelected;
       // console.log("=1 | arraySelectedFilter2", arraySelectedFilter2);
@@ -351,32 +386,23 @@ function sortBySubList(data) {
     }
     if (document.querySelectorAll(".tag").length > 1) {
       // console.log("arraySuperSelected.length >>>1", arraySuperSelected.length-1);
-      // for (
-      //   let i = 0;
-      //   // i < arraySuperSelected.length - (arraySuperSelected.length - 1);
-      //   // i = 1;
-      //   i++
-      // ) {
-        // console.log("count i", i);
-        // tampon = arraySuperSelected[0].filter((x) =>
-        //   arraySuperSelected[1].includes(x)
-        // );
-        console.log("arraySelected", arraySelected);
-        console.log("arraySelectedFilter2", arraySelectedFilter2);
-        console.log("arraySuperSelected", arraySuperSelected);
-        console.log("tampon2", tampon2);
-        tampon = arraySuperSelected[0].filter((x) =>
-          arraySuperSelected[1].includes(x)
-        );
-        tampon = arraySelectedFilter2.filter((x) =>
-          arraySuperSelected[arraySuperSelected.length - 1].includes(x)
-        );
-        // console.log("tampon", tampon, i);
-        // console.log("arraySuperSelected.length", arraySuperSelected.length, arraySuperSelected.length - 1, arraySuperSelected.length - (arraySuperSelected.length - 1));
-        console.log("arraySuperSelected", arraySuperSelected);
-        console.log("tampon", tampon);
-        // tampon2 = arraySelected.filter((x) => tampon.includes(x));
-        // console.log("tampon2", tampon2);
+      console.log("arraySelectedFilter2", arraySelectedFilter2);
+      console.log("arraySuperSelected", arraySuperSelected);
+      // console.log("tampon2", tampon2);
+      // tampon = arraySuperSelected[0].filter((x) =>
+      //   arraySuperSelected[1].includes(x)
+      // );
+      tampon = arraySelectedFilter2.filter((x) =>
+        arraySuperSelected[arraySuperSelected.length - 1].includes(x)
+      );
+      // console.log("tampon", tampon, i);
+      // console.log("arraySuperSelected.length", arraySuperSelected.length, arraySuperSelected.length - 1, arraySuperSelected.length - (arraySuperSelected.length - 1));
+      arraySuperSelected.forEach((tab) =>
+        console.log("ELSE arraySuperSelected", tab)
+      );
+      console.log("tampon", tampon);
+      // tampon2 = arraySelected.filter((x) => tampon.includes(x));
+      // console.log("tampon2", tampon2);
       // }
       arraySelectedFilter2 = tampon;
       arraySelectedFusion = searchCommonId(
@@ -390,38 +416,20 @@ function sortBySubList(data) {
       refreshCards(data);
     }
   }
-  
+
   // console.log("Sort End | arraySelectedFusion", arraySelectedFusion);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// for (
+//   let i = 0;
+//   // i < arraySuperSelected.length - (arraySuperSelected.length - 1);
+//   // i = 1;
+//   i++
+// ) {
+// console.log("count i", i);
+// tampon = arraySuperSelected[0].filter((x) =>
+//   arraySuperSelected[1].includes(x)
+// );
 
 // if (document.querySelectorAll(".tag").length > 2) {
 //   console.log("arraySuperSelected.length >>>2", arraySuperSelected.length-(arraySuperSelected.length-1));
