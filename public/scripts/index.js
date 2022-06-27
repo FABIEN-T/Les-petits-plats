@@ -1,11 +1,11 @@
 // import { variables } from './variables.js'
-import { recipeCardsFactorie } from './recipeCardsFactorie.js'
-// import { conversionJsonToArray } from './searchBar.js'
+import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
+// import { conversionJsonToArraySimpleSearch } from './searchBar.js'
 
-import { conversionJsonToArray } from './functions.js';
-import { conversionJsonToArray2 } from './functions.js';
+import { conversionJsonToArraySimpleSearch, conversionJsonToArrayAdvancedSearch } from "./functions.js";
+// import { conversionJsonToArrayAdvancedSearch } from "./functions.js";
 import { initArraysLists } from "./tags.js";
-import { displayRecipesSelected } from './searchBar.js';
+import { displayRecipesSelected } from "./searchBar.js";
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 // variables();
@@ -13,36 +13,27 @@ init();
 
 // DECLARATION DU PROGRAMME D'INITIALISATION
 async function init() {
-  
   await fetch("./data/recipes.json")
-    .then(response => response.json())
-    .then(response => {
-      mydata = response.recipes;
-      
-
-      response.recipes.forEach((data) => {
-        recipeCardsFactorie(data); // Affichage de toutes les recettes au chargement de la page
+    .then((response) => response.json())
+    .then((response) => {
+      myData = response.recipes;
+      myData.forEach((data) => {
+        recipeCardsFactorie(data); // Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
       });
-      
-      conversionJsonToArray(response.recipes); // Conversion du json en tableau puis création d'un tableau pour chaque recette incluant : id - name - ingredient - description
-      conversionJsonToArray2(response.recipes);
-      initArraysLists(response.recipes);
-      displayRecipesSelected(response.recipes); // Affichage des recettes en fonction d'une expression saisie
-
-    })    
-    // .catch(() => {
-    //   console.log("Erreur Fetch");    
-    // });
-    .catch(err => console.error(err));
+      // Conversion du json en tableau en gardant pour chaque recette : id - name - ingredient - description
+      // Utilisé pour la recherche simple
+      conversionJsonToArraySimpleSearch();
+      // Conversion du json en tableau en gardant pour chaque recette : ingredient - appareils - ustensiles
+      // Utilisé pour la recherche avancée
+      conversionJsonToArrayAdvancedSearch();
+      // Initialisation des listes de la recherche avancée
+      initArraysLists();
+      // Affichage des recettes en fonction d'une expression saisie dans la barre de recherche
+      // Et/ou en fonction des tags sélectionnés
+      displayRecipesSelected();
+    })
+    .catch((err) => console.error(err));
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -56,7 +47,7 @@ async function init() {
 // async function init() {
 //   // Récupère les datas pour chaque recette
 //   const { recipes } = await getRecipes();
-//   conversionJsonToArray(recipes);
+//   conversionJsonToArraySimpleSearch(recipes);
 //   searchWords();
 //   recipes.forEach((data) => {
 //     recipeCardsFactorie(data);
@@ -68,8 +59,6 @@ async function init() {
 //   let response = await fetch("./data/recipes.json");
 //   return await response.json();
 // }
-
-
 
 // export const fetchDatas = async () => {
 //   await fetch('data/photographers.json')

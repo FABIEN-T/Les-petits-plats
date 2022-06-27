@@ -9,15 +9,15 @@
 //   ".appliancesList > .itemList"
 // );
 // const utensilsItemListDom = document.querySelectorAll(".utensilsList > .itemList");
-const allRecipesArray = []; // Tableau incluant toutes les recettes sous forme de tableau
-const allRecipesArray2 = [];
+const allRecipesSimpleSearch = []; // Tableau incluant toutes les recettes sous forme de tableau
+const allRecipesAdvancedSearch = [];
 
 let error = false;
-let mydata;
-let arraySelected2 = [];
-let arraySelectedFilter = []; // Tableau des id des recettes sélectionnées sans doublons
-let arraySelectedFilter2 = [];
-let arraySelectedFusion = [];
+let myData;
+let arrayRecipesByEachTag = []; // garde en mémoire la liste de recettes (id) pour chaque Tag
+let arrayIdSimpleSearch = []; // Tableau des id des recettes sélectionnées sans doublons
+let arrayIdAdvancedSearch = [];
+let arrayIdSelectedFusion = [];
 let arrayTagsSelected = [];
 const message =
   "Aucune recette ne correspond à votre critère… </br> vous pouvez chercher « tarte aux pommes », « poisson », etc...";
@@ -72,107 +72,4 @@ const message =
 //     });
 //   })
 
-// ***************************ESSAIS**************************
-// }
-// [1,5,9,3,4,7,14];
-// [1,2,9,6,7,13,14,15,16,3]
-// [1, 5, 3, 4, 7, 14, 1, 2, 9, 6, 7, 13, 14, 15, 16, 3, 1, 4];
-let array1 = [1, 5, 3, 4, 7, 14];
-let array2 = [1, 2, 9, 6, 7, 13, 14, 15, 16, 3];
-let array3 = [1, 4];
-// let array1 = ['1','5','9','3','4','7','14'];
-// let array2 = ['1','2','9','6','7','13','14','15','16','3'];
-// let concat = [];
-// let concat2 = [];
-// let result = [];
-// let highResult =[];
-// console.log(array1);
-// console.log(array2);
-// console.log(array3);
 
-// concat = array1.concat(array2).sort(function (a, b) {
-//   return a - b;
-// });
-
-// let intersection = array1.filter(x => array2.includes(x));
-// console.log("intersection", intersection);
-// highResult = intersection.filter(x => array3.includes(x))
-// console.log("highResult", highResult);
-
-// let differenceA1 = array1.filter(x => !array2.includes(x));
-// // console.log("differenceA1", differenceA1);
-
-// let differenceA2 = array2.filter(x => !array1.includes(x));
-// // console.log("differenceA2", differenceA2);
-
-
-// let differenceSym = array1
-//                  .filter(x => !array2.includes(x))
-//                  .concat(array2.filter(x => !array1.includes(x)));
-// console.log("differenceSym", differenceSym);
-
-
-
-// concat2 = array3.concat(concat).sort(function (a, b) {
-//   return a - b;
-// });
-
-
-// result = [...new Set(array3)];
-
-// result = concat.filter((value, index, array) => {
-//   return array.indexOf(value) !== index;
-// });
-
-// let resultMap =[];
-// resultMap = concat.map((value, index, array) => {
-//   array.indexOf(value) !== index;
-// });
-
-// // highResult = result.map(x => )
-
-
-// console.log(concat2);
-// console.log("reslut", result, resultMap);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (array1.length === 0) {
-//   result = array2;
-// }
-// if (array2.length === 0) {
-//   result = array1;
-// }
-// if (array1.length > 0 && array2.length > 0) {
-// array1.forEach(e1=>{
-//   array2.forEach(e2 =>{
-//     if (e1 === e2) {
-//       result.push(e1);
-//     }
-//   })
-// })
-
-// array3 = (array1.concat(array2)).sort(function(a, b){
-//     return a - b;
-//   });
-// array3 = [...new Set(array3)];
-
-// console.log(array3);
-
-// }
-
-// let resultSorted = result.sort(function(a, b){
-//   return a - b;
-// })
-// console.log("result", resultSorted);

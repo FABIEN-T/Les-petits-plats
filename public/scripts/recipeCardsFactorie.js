@@ -43,8 +43,6 @@ export function recipeCardsFactorie(data) {
             <span>${time} min</span>
         </div>*/ 
 
-   
-
     // Création de l'élément contenant le descriptif de la recette (nom, temps de cuisson, liste des ingrédients, texte de la recette)
     const recipe = document.createElement("div");
     recipe.classList.add("recipe");
@@ -105,6 +103,28 @@ export function recipeCardsFactorie(data) {
     recipeText.innerHTML = `${description}`;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* <svg
 width="20"
