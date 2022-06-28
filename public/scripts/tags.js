@@ -13,9 +13,9 @@ let indexTagClosed = 0; // variable récupérant l'indice du tag fermé
 let tempTab = []; // tableau tampon
 // let tagSelected = "";
 
-const ingredientsListDom = document.querySelector(".ingredientsList");
-const appliancesListDom = document.querySelector(".appliancesList");
-const utensilsListDom = document.querySelector(".utensilsList");
+// const ingredientsListDom = document.querySelector(".ingredientsList");
+// const appliancesListDom = document.querySelector(".appliancesList");
+// const utensilsListDom = document.querySelector(".utensilsList");
 
 const inputsTags = document.querySelectorAll(".tagsDropdownInput");
 
@@ -148,92 +148,68 @@ export function closeTagsListener() {
       indexTagClosed = arrayTagsSelected.indexOf(
         e.target.closest(".tag").children[0].innerText
       );
-      // console.log("indexTagClosed", indexTagClosed);
+      console.log("indexTagClosed", indexTagClosed);
       e.target.closest(".tag").remove(); // Efface le tag cliqué
       let closedTag = e.target.closest(".tag").children[0].innerText; // mémorise l'intitulé du tag fermé
       // console.log("closedTag", closedTag);
       arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag); // efface le tag du tableau des tags sélectionnés
+      
+      function updateAdvancedSearch() {
+        let tamponTab = [];
+      // let arraySelected2Spread = [];
+      console.log("AVANT arrayRecipesByEachTag", arrayRecipesByEachTag);
+      arrayRecipesByEachTag.forEach(tab => tamponTab.push(...tab));
+      console.log("APRES arrayRecipesByEachTag", arrayRecipesByEachTag);
+      console.log("tamponTab", tamponTab);
+
+      arrayRecipesByEachTag.forEach((array, index) => {
+        if (arrayRecipesByEachTag.length > index + 1) {
+          tamponTab = tamponTab.filter((item, index, array) => {
+            return array.indexOf(item) !== index;
+          });
+        }
+      });
+      console.log("tamponTab", tamponTab);
+      arrayIdAdvancedSearch = tamponTab;
+      arrayIdSelectedFusion = searchCommonId(
+          arrayIdSimpleSearch,
+          arrayIdAdvancedSearch
+        );
+      }
       // SI faute de frappe ou terme inconnu dans la recherche simple,
       if (error === true) {
+        console.log("remove");
         removeCards(); // effacer toutes les recettes
-        arrayIdAdvancedSearch = []; // réinitialiser la recheche avancée
+        arrayRecipesByEachTag.splice(indexTagClosed, 1);
+        console.log("ERROR close arrayRecipesByEachTag", arrayRecipesByEachTag);
+        updateAdvancedSearch()
+        // arrayIdAdvancedSearch = []; // réinitialiser la recheche avancée
         // document.querySelectorAll(".tag").map(tag => tag.remove());
         // document.querySelectorAll(".tag").forEach((tag) => tag.remove());
         // SINON enlever les recettes (id) du tag fermé de la mémoire "arrayRecipesByEachTag"
       } else {
+        console.log("avant SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag);
         arrayRecipesByEachTag.splice(indexTagClosed, 1);
-        // console.log("après SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag);
-        // console.log("après SPLICE arrayIdAdvancedSearch", arrayIdAdvancedSearch);
-        searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
+        console.log("après SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag); 
+        updateAdvancedSearch();      
+        // searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
         // SI il n'y a aucun tag et que la recherche simple ne donne rien
         if (
           document.querySelectorAll(".tag").length == 0 &&
           arrayIdSimpleSearch.length == 0
         ) {
           myData.forEach((recipe) => {
-            recipeCardsFactorie(recipe); // Réinitialisation : Affichage de toutes les recettes
-            initArraysLists(); // Initialisations des listes de recherche avancée
-            threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
+            recipeCardsFactorie(recipe); // Réinitialisation : Affichage de toutes les recettes            
           });
+          initArraysLists(); // Initialisations des listes de recherche avancée
+          threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
           // SINON chercher les recettes en commen des tags restants dans la mémoire "arrayRecipesByEachTag"
           // EN COURS DE CONSTRUCTION
         } else {
-          // let arraySelected2Spread = [];
-          // arrayRecipesByEachTag.forEach(tab => {
-          //   arraySelected2Spread.push(...tab)
-          // })
-          // console.log("arraySelected2Spread", arraySelected2Spread);
-          let tamponTab = [];
-
-          // let provi = arraySelected2Spread.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi", provi);
-          // let provi2 = provi.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi2", provi2);
-          // let provi3 = provi2.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi3", provi3);
-          // let provi4 = provi3.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi5", provi4);
-
-          // for (let i=0; i=arrayRecipesByEachTag.length-2; i++) {
-          //   tamponTab = arrayRecipesByEachTag.filter((item, index, array) => {
-          //     return array.indexOf(item) !== index;
-          //   });
-          // }
-
-          // let result = [...new Set([...provi4])];
-          // console.log("result", result);
-
-          // arrayRecipesByEachTag
-          // tamponTab = arrayRecipesByEachTag[0].filter((x) =>
-          // arrayRecipesByEachTag[1].includes(x));
-
-          // for (let i=0; i=arrayRecipesByEachTag.length-1; i++) {
-          //   // console.log("tamponTab", tamponTab);
-          //   tamponTab = arrayRecipesByEachTag[i].filter((x) =>
-          // arrayRecipesByEachTag[i+1].includes(x));
-          // }
-
-          // tamponTab = arrayRecipesByEachTag.filter((x) =>
-          // arrayRecipesByEachTag.includes(x));
-          // tamponTab = arrayIdAdvancedSearch.filter((x) =>
-          //   arrayRecipesByEachTag[arrayRecipesByEachTag.length - 1].includes(x)
-          // );
-
-          // console.log("arrayRecipesByEachTag", arrayRecipesByEachTag);
-          // console.log("tamponTab", tamponTab);
-          // arrayIdSelectedFusion = searchCommonId(
-          //   arrayIdSimpleSearch,
-          //   arrayIdAdvancedSearch
-          // );
-          // refreshCards();
+          updateAdvancedSearch();          
+          
+          console.log("arrayIdSelectedFusion", arrayIdSelectedFusion);
+          refreshCards();          
           updateLists(); // mise à jour des listes de la recherche avancée
           threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
         }
@@ -288,18 +264,21 @@ export function searchTagInListsAndCrossArrayId() {
         });
         // console.log("arraySelected", arraySelected);
       });
-      arraySuperSelected.push(arraySelected); // Ajouter tableau des recettes sélectionnées (id) du tag
-      // console.log("ELSE arraySelected", arraySelected);
+      arraySuperSelected.push([...new Set(arraySelected)]); // Ajouter tableau des recettes sélectionnées (id) du tag
+      console.log("ELSE arraySelected", arraySelected);
+      console.log("ELSE arraySuperSelected", arraySuperSelected);
+      console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     });
-
+    console.log("searchTag arrayRecipesByEachTag", arrayRecipesByEachTag);
     // SI il y a 1 tag
     if (document.querySelectorAll(".tag").length == 1) {
       arrayIdAdvancedSearch = arraySelected; // la recherche avancée correspond à la première recherche de tag
       // Recherche des recettes communes à la recherche simple et à la recherche avancée
       arrayIdSelectedFusion = searchCommonId(arrayIdSimpleSearch, 
         [...new Set(arrayIdAdvancedSearch)]);
-      arrayRecipesByEachTag = [];
-      arrayRecipesByEachTag.push(arraySelected); // mémorise pour chaque tag, la liste de recettes (id)
+      arrayRecipesByEachTag = arraySuperSelected;
+      // arrayRecipesByEachTag.push(arraySelected); // mémorise pour chaque tag, la liste de recettes (id)
+      console.log("searchTag arrayRecipesByEachTag", arrayRecipesByEachTag);
       updateLists(); // mise à jour des listes de la recherche avancée
       refreshCards(); // afficher les recettes communes à la recherche simple et à la recherche avancée
     }
@@ -315,8 +294,11 @@ export function searchTagInListsAndCrossArrayId() {
       );
       console.log("tempTab", tempTab);
       arrayIdAdvancedSearch = tempTab; // affecte le résultat de la recherche des id communs entre la précédente recherche avancée et la nouvelle
-      arrayRecipesByEachTag.push(arrayIdAdvancedSearch); // Mémorisation de la liste des recettes ppour chaque tag
+      console.log("searchTag PUSH !!!!");
+      arrayRecipesByEachTag = arraySuperSelected;
+      // arrayRecipesByEachTag.push(arrayIdAdvancedSearch); // Mémorisation de la liste des recettes ppour chaque tag
       console.log(">1 | arrayRecipesByEachTag", arrayRecipesByEachTag);
+      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
       arrayIdSelectedFusion = searchCommonId(
         arrayIdSimpleSearch,
         arrayIdAdvancedSearch
@@ -389,3 +371,58 @@ function searchWordInList(valueInput, tagsList) {
   // console.log("tagsList", tagsList);
   return tagsList;
 }
+
+
+
+
+
+// searchTagInListsAndCrossArrayId();
+          // let provi = arraySelected2Spread.filter((item, index, array) => {
+          //   return array.indexOf(item) !== index;
+          // });
+          // console.log("provi", provi);
+          // let provi2 = provi.filter((item, index, array) => {
+          //   return array.indexOf(item) !== index;
+          // });
+          // console.log("provi2", provi2);
+          // let provi3 = provi2.filter((item, index, array) => {
+          //   return array.indexOf(item) !== index;
+          // });
+          // console.log("provi3", provi3);
+          // let provi4 = provi3.filter((item, index, array) => {
+          //   return array.indexOf(item) !== index;
+          // });
+          // console.log("provi5", provi4);
+
+          // for (let i=0; i=arrayRecipesByEachTag.length-2; i++) {
+          //   tamponTab = arrayRecipesByEachTag.filter((item, index, array) => {
+          //     return array.indexOf(item) !== index;
+          //   });
+          // }
+
+          // let result = [...new Set([...provi4])];
+          // console.log("result", result);
+
+          // arrayRecipesByEachTag
+          // tamponTab = arrayRecipesByEachTag[0].filter((x) =>
+          // arrayRecipesByEachTag[1].includes(x));
+
+          // for (let i=0; i=arrayRecipesByEachTag.length-1; i++) {
+          //   // console.log("tamponTab", tamponTab);
+          //   tamponTab = arrayRecipesByEachTag[i].filter((x) =>
+          // arrayRecipesByEachTag[i+1].includes(x));
+          // }
+
+          // tamponTab = arrayRecipesByEachTag.filter((x) =>
+          // arrayRecipesByEachTag.includes(x));
+          // tamponTab = arrayIdAdvancedSearch.filter((x) =>
+          //   arrayRecipesByEachTag[arrayRecipesByEachTag.length - 1].includes(x)
+          // );
+
+          // console.log("arrayRecipesByEachTag", arrayRecipesByEachTag);
+          // console.log("tamponTab", tamponTab);
+          // arrayIdSelectedFusion = searchCommonId(
+          //   arrayIdSimpleSearch,
+          //   arrayIdAdvancedSearch
+          // );
+          // refreshCards();

@@ -1,6 +1,6 @@
-// const ingredientsListDom = document.querySelector(".ingredientsList");
-// const appliancesListDom = document.querySelector(".appliancesList");
-// const utensilsListDom = document.querySelector(".utensilsList");
+const ingredientsListDom = document.querySelector(".ingredientsList");
+const appliancesListDom = document.querySelector(".appliancesList");
+const utensilsListDom = document.querySelector(".utensilsList");
 
 // const ingredientsItemListDom = document.querySelectorAll(
 //   ".ingredientsList > .itemList"

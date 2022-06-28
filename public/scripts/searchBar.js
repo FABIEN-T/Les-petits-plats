@@ -2,7 +2,7 @@ import { recipeCardsFactorie } from "./recipeCardsFactorie.js"; // Affichage de 
 import { messageNoRecipe, removeCards, refreshCards, searchCommonId } from "./functions.js";
 // import { refreshCards } from "./functions.js"; // Affichage des recettes trouvées par la recherche
 // import { searchCommonId } from "./functions.js"; // Recherche des recettes communes à la recherche simple et à la recherche avancée
-import { initArraysLists, tagsInput, updateLists, closeTagsListener, threeTypeTagsListener } from "./tags.js";
+import { initArraysLists, tagsInput, updateLists, closeTagsListener, threeTypeTagsListener, searchTagInListsAndCrossArrayId } from "./tags.js";
 // import { tagsInput } from "./tags.js";
 // import { updateLists } from "./tags.js";
 // import { closeTagsListener } from "./tags.js";
@@ -33,8 +33,8 @@ export function displayRecipesSelected() {
         document.querySelector(".messageNoRecipe > h2").innerHTML = "";
         // puis afficher toutes les recettes
         myData.forEach((recipe) => {
-          recipeCardsFactorie(recipe);
-        });
+          recipeCardsFactorie(recipe);          
+        });        
       } else {
         // SINON
         arrayIdSimpleSearch = []; // initialisation du tableau des recettes sélectionnées et filtrées (recherche simple)
@@ -72,15 +72,21 @@ export function simpleSearch(valueInput) {
   // SI la saisie n'a pas de correspondance (faute de frappe ou terme non contenu dans la base de données)
   if (arrayIdSimpleSearch.length == 0) {
     error = true; // true : indique à la fonction "closeTagsListener()"que la saisie ne donne aucune recette
-    // console.log("error", error);
+    console.log("error", error);
     removeCards(); // efface toutes les recettes
     messageNoRecipe(); // affiche message d'avertissement
-    arrayIdSelectedFusion = []; // vide le tableau des recettes communes à la recherche simple et à la recherche avancée
-    updateLists(); // mise à jour des listes de la recherche avancée
-    closeTagsListener(); // écoute le clic sur fermeture de tags
+    // closeTagsListener(); // écoute le clic sur fermeture de tags
+    // console.log
+    // let bidule = arrayIdSelectedFusion;
+    arrayIdSelectedFusion = []; // vide le tableau des recettes communes à la recherche simple et à la recherche avancée   
+    updateLists(); // mise à jour des listes de la recherche avancée  
+    // arrayIdSelectedFusion = bidule;
+    console.log("ERROR arrayIdSelectedFusion", arrayIdSelectedFusion);
   } else {
+
     // searchTagInListsAndCrossArrayId();
     // SINON (si correspondance), Recherche des recettes communes à la recherche simple et à la recherche avancée
+    // arrayIdAdvancedSearch = 
     arrayIdSelectedFusion = searchCommonId(
       arrayIdSimpleSearch, // tableau des id filtrés (recherche simple)
       arrayIdAdvancedSearch // tableau des id filtrés (recherche avancée)

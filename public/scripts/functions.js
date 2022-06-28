@@ -115,7 +115,7 @@ export function refreshCards() {
   let index = 0;  
   // Effacement de la liste de recettes
   removeCards();
-  console.log("refresh arrayIdSelectedFusion", arrayIdSelectedFusion);
+  // console.log("refresh arrayIdSelectedFusion", arrayIdSelectedFusion);
   // Nouvel affichage des recettes sélectionnées
   arrayIdSelectedFusion.forEach((stg) => {  
     // console.log("refreshCards", stg);  
@@ -127,5 +127,16 @@ export function refreshCards() {
   // arrayIdSimpleSearch = []; // Vider le tableau des id sélectionnées (Réinitialisation)
   // console.log("refresh", arrayIdAdvancedSearch, arrayIdSelectedFusion); 
 }
+
+
+// span.addEventListener('click', function() {
+//   let result = classes.toggle("c");
+
+//   if (result) {
+//     span.textContent = `'c' ajouté ; classList vaut désormais "${classes}".`;
+//   } else {
+//     span.textContent = `'c' retiré ; classList vaut désormais "${classes}".`;
+//   }
+// })
 
 
