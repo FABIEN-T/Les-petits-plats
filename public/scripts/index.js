@@ -6,10 +6,12 @@ import { conversionJsonToArraySimpleSearch, conversionJsonToArrayAdvancedSearch 
 // import { conversionJsonToArrayAdvancedSearch } from "./functions.js";
 import { initArraysLists } from "./tags.js";
 import { displayRecipesSelected } from "./searchBar.js";
+import { dropdown} from "./dropdown.js"
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 // variables();
 init();
+dropdown();
 
 // DECLARATION DU PROGRAMME D'INITIALISATION
 async function init() {
@@ -34,6 +36,7 @@ async function init() {
     })
     .catch((err) => console.error(err));
 }
+
 
 
 

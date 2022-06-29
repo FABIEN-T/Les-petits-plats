@@ -541,47 +541,42 @@ article {
 }
 
 .dropdownContainer {
-  border: black solid 3px;
-  position: relative;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 15px;
-  border-radius: 5px;
-  margin-right: 20px;
-  font-size: 1.125em;
-  color: white;
-  border: transparent;
-  outline: none;
+  flex-direction: column;
+  margin: 0px 20px 20px 0px;
 }
 
-#ingredientsInput,
-#appliancesInput,
-#utensilsInput {
-  position: absolute;
-  top: 0;
-  z-index: 10;
+.inputChevron {
+  box-sizing: border-box;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding-left: 15px;
   width: 170px;
   height: 69px;
   border-radius: 5px;
-  margin-right: 20px;
+  padding: 0px 18px 0px 15px;
+}
+
+#formIngredients, #formAppliances, #formUtensils {
+  margin: 0;
+  padding: 0;
+}
+
+.fas {
+  padding: 0px;
+  color: white;
+}
+
+.tagsDropdownInput {
+  display: flex;
+  max-width: 120px;
   font-size: 1.125em;
   font-weight: 700;
-  color: white;
   border: transparent;
+  background-color: transparent;
   outline: none;
-}
-
-#appliancesInput, .appliancesList {
-  left: 576px;
-}
-
-#utensilsInput,
-.utensilsList {
-  left: 1152px;
+  color: white;
 }
 
 .tagsDropdownInput::placeholder {
@@ -590,18 +585,15 @@ article {
 }
 
 .listShaping {
-  position: absolute;
-  z-index: 1;
-  top: 0px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-content: flex-start;
   overflow-x: auto;
   width: 556px;
-  max-height: 150px;
-  margin: 0px 50px 0px 0px;
-  padding: 84px 15px 15px;
+  min-width: 200px;
+  max-height: 200px;
+  padding: 15px;
   border-radius: 5px;
   font-size: 1.125em;
   line-height: 1.35em;
@@ -616,35 +608,19 @@ article {
   margin: 0;
 }
 
-#ingredientsInput,
-.ingredientsColorTag,
-.ingredientsList {
+.ingredientsColor,
+.ingredientsColorTag {
   background-color: #3282F7;
 }
 
-#appliancesInput,
-.appliancesColorTag,
-.appliancesList {
+.appliancesColor,
+.appliancesColorTag {
   background-color: #68D9A4;
 }
 
-#utensilsInput,
-.utensilsColorTag,
-.utensilsList {
+.utensilsColor,
+.utensilsColorTag {
   background-color: #ED6454;
-}
-
-.dropdownContainer {
-  position: relative;
-}
-
-.arrowIngredients,
-.arrowAppliances,
-.arrowUtensils {
-  color: rgb(149, 147, 147);
-  position: absolute;
-  top: 29.45px;
-  right: 38px;
 }
 
 /*# sourceMappingURL=style.css.map */

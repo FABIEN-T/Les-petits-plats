@@ -103,10 +103,10 @@ export function messageNoRecipe() {
   // SI il n'y aucune recette d'affichée donc de trouvée
   if (document.querySelectorAll("article").length === 0) {
     // ALORS afficher message d'avertissement : "Aucune recette..."
-    document.querySelector(".messageNoRecipe > h2").innerHTML = message;
+    document.querySelector(".messageNoRecipe").innerHTML = `<h2>${message}</h2>`;
   } else {
     // SINON effacer message d'avertissement
-    document.querySelector(".messageNoRecipe > h2").innerHTML = "";
+    document.querySelector(".messageNoRecipe").innerHTML = `<h2></h2>`;
   }
 }
 

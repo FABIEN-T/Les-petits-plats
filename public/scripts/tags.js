@@ -123,7 +123,9 @@ function tagsListenerAndDisplay(classDom, classColor) {
             <em class="far fa-times-circle"></em>
           </div>`;
         closeTagsListener(); // écoute du clic sur la croix des tags
-        document.getElementById("form").reset(); // efface la saisie dans la recherche avancée
+        document.getElementById("formIngredients").reset();
+        document.getElementById("formAppliances").reset();
+        document.getElementById("formUtensils").reset(); // efface la saisie dans la recherche avancée
         arrayTagsSelected.push(e.target.innerHTML); // ajoute le nouveau tag dans le tableau des tags sélectionnés
         updateLists(); // mise à jour des listes de la recherche avancée
         searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée

@@ -16,9 +16,7 @@
       type="image/png"
       sizes="32x32"
       href="./assets/icons/favicon_LogoPetitsPlats.png"
-    />
-    <script src="./scripts/variables.js"  defer></script>
-    <script type="module" src="./scripts/index.js" defer></script>    
+    />        
   </head>
   <body>
     <header>
@@ -62,41 +60,55 @@
         </div>
 
         <div class="threeDropdownContainer">
-          <div class="dropdownContainer ingredientsContainer">
-            <form name="rechercheAvancee" action="index.html" method="get" id="form">
-            <input
-              type="text"
-              id="ingredientsInput"
-              class="tagsDropdownInput"
-              placeholder="Ingrédients"
-            />
-            <!-- <em class="fas fa-chevron-down arrowIngredients"></em> -->
-            <div class="ingredientsList listShaping"></div>
-          </div>
+          
+          
+            <div class="dropdownContainer ingredientsContainer"> 
+              <form name="rechercheAvancee" action="index.html" method="get" id="formIngredients">           
+                <div class="inputChevron ingredientsColor ingredientsDropdown">
+                  <input
+                    type="text"
+                    id="ingredientsInput"
+                    class="tagsDropdownInput"
+                    placeholder="Ingrédients"
+                  />
+                  <em class="fas fa-chevron-down arrowIngredients"></em>
+                </div>   
+              </form>        
+              <div class="ingredientsList listShaping ingredientsColor"></div>
+            </div>
 
-          <div class="dropdownContainer appliancesContainer">
-            <input
-              type="text"
-              id="appliancesInput"
-              class="tagsDropdownInput"
-              placeholder="Appareils"
-            />
-            <!-- <em class="fas fa-chevron-down arrowAppliances"></em> -->
-            <div class="appliancesList listShaping"></div>
-          </div>
+            <div class="dropdownContainer appliancesContainer">
+              <form name="rechercheAvancee" action="index.html" method="get" id="formAppliances">
+                <div class="inputChevron appliancesColor appliancesDropdown">
+                  <input
+                    type="text"
+                    id="appliancesInput"
+                    class="tagsDropdownInput"
+                    placeholder="Appareils"
+                  />              
+                  <em class="fas fa-chevron-down arrowAppliances"></em>
+                </div>
+              </form>            
+              <div class="appliancesList listShaping appliancesColor"></div>
+            </div>
 
-          <div class="dropdownContainer utensilsContainer">
-            <input
-              type="text"
-              id="utensilsInput"
-              class="tagsDropdownInput"
-              placeholder="Ustensiles"
-            />
-            <!-- <em class="fas fa-chevron-down arrowUtensils"></em> -->
-            <div class="utensilsList listShaping"></div>
+            <div class="dropdownContainer utensilsContainer">
+              <form name="rechercheAvancee" action="index.html" method="get" id="formUtensils">
+                <div class="inputChevron utensilsColor utensilsDropdown">
+                  
+                  <input
+                    type="text"
+                    id="utensilsInput"
+                    class="tagsDropdownInput"
+                    placeholder="Ustensiles"
+                  />
+                  <em class="fas fa-chevron-down arrowUtensils"></em>
+                
+                </div>   
+              </form>         
+              <div class="utensilsList listShaping utensilsColor"></div>
+            </div>        
           </div>
-        </form>
-        </div>
       </div>
 
       <!-- <div class="decriptionRecipe">
@@ -107,10 +119,13 @@
       </div> -->
 
       <div class="messageNoRecipe">
-        <h2></h2>
+        <!-- <h2>message</h2> -->
       </div>
       <section id="recipeList" aria-label="liste des recettes"></section>
     </main>
+
+    <script src="./scripts/variables.js"></script>
+    <script type="module" src="./scripts/index.js"></script>
     
   </body>
 </html>

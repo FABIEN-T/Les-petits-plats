@@ -30,7 +30,7 @@ export function displayRecipesSelected() {
         arrayIdAdvancedSearch = []; // réinitialiser le tableau des id filtrés (recherche avancée)
         initArraysLists();
         threeTypeTagsListener();
-        document.querySelector(".messageNoRecipe > h2").innerHTML = "";
+        document.querySelector(".messageNoRecipe").innerHTML = `<h2></h2>`;
         // puis afficher toutes les recettes
         myData.forEach((recipe) => {
           recipeCardsFactorie(recipe);          
