@@ -11,7 +11,6 @@ let utensilsListFilter = []; // tableau contenant la liste filtrée des ustensil
 let classDom = ""; // type de liste (ingredients, appliances, utensils)
 let indexTagClosed = 0; // variable récupérant l'indice du tag fermé
 let tempTab = []; // tableau tampon
-// let tagSelected = "";
 
 // const ingredientsListDom = document.querySelector(".ingredientsList");
 // const appliancesListDom = document.querySelector(".appliancesList");
@@ -73,20 +72,18 @@ function filterAndDisplayLists(ingredientsList, appliancesList, utensilsList) {
   ingredientsListFilter = [...new Set(ingredientsList)].sort();
   appliancesListFilter = [...new Set(appliancesList)].sort();
   utensilsListFilter = [...new Set(utensilsList)].sort();
-  // Suppression du tag sélectionné de la liste
-  // if (ingredientsListFilter.includes(tagSelected)) {
-  //   let provi = ingredientsListFilter.filter(x => x !== tagSelected);
-  //   ingredientsListFilter = provi;
-  // }
-  // if (appliancesListFilter.includes(tagSelected)) {
-  //   let provi = appliancesListFilter.filter(x => x !== tagSelected);
-  //   appliancesListFilter = provi;
-  // }
-  // if (utensilsListFilter.includes(tagSelected)) {
-  //   let provi = utensilsListFilter.filter(x => x !== tagSelected);
-  //   utensilsListFilter = provi;
-  // }
-  // console.log(ingredientsListFilter);
+  //Suppression du tag sélectionné de la liste
+  arrayTagsSelected.forEach(tagSelected => {
+    if (ingredientsListFilter.includes(tagSelected)) {
+      ingredientsListFilter = ingredientsListFilter.filter(x => x !== tagSelected);
+    }
+    if (appliancesListFilter.includes(tagSelected)) {
+      appliancesListFilter = appliancesListFilter.filter(x => x !== tagSelected);
+    }
+    if (utensilsListFilter.includes(tagSelected)) {
+      utensilsListFilter = utensilsListFilter.filter(x => x !== tagSelected);
+    }
+  }) 
   displayLists(ingredientsListFilter, ingredientsListDom); // ingredientsListDom = document.querySelector(".ingredientsList");
   displayLists(appliancesListFilter, appliancesListDom);
   displayLists(utensilsListFilter, utensilsListDom);
@@ -104,9 +101,6 @@ function displayLists(arrayList, classDom) {
 
 // Ecoute du clic sur un tag en fonction du type et affichage
 export function threeTypeTagsListener() {
-  // tagsListenerAndDisplay(ingredientsItemListDom, "ingredientsColorTag");
-  // tagsListenerAndDisplay(appliancesItemListDom, "appliancesColorTag");
-  // tagsListenerAndDisplay(utensilsItemListDom, "utensilsColorTag");
   classDom = document.querySelectorAll(".ingredientsList > .itemList");
   tagsListenerAndDisplay(classDom, "ingredientsColorTag");
   classDom = document.querySelectorAll(".appliancesList > .itemList");
@@ -120,7 +114,6 @@ export function threeTypeTagsListener() {
 function tagsListenerAndDisplay(classDom, classColor) {
   classDom.forEach((item) => {
     item.addEventListener("mousedown", (e) => {
-      // console.log("TagsListener arrayTagsSelected", arrayTagsSelected);
       // Si le tableau des tags sélectionnés ne contient pas déjà le tag qui vient d'être cliqué
       if (!arrayTagsSelected.includes(e.target.innerHTML)) {
         // Création de l'élément HTML du tag
@@ -132,7 +125,6 @@ function tagsListenerAndDisplay(classDom, classColor) {
         closeTagsListener(); // écoute du clic sur la croix des tags
         document.getElementById("form").reset(); // efface la saisie dans la recherche avancée
         arrayTagsSelected.push(e.target.innerHTML); // ajoute le nouveau tag dans le tableau des tags sélectionnés
-        //tagSelected = e.target.innerHTML; // élément à enlever de la liste
         updateLists(); // mise à jour des listes de la recherche avancée
         searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
       }
