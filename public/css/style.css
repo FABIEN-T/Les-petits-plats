@@ -397,17 +397,16 @@ main {
 
 #recipeList {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: wrap;
-  margin-top: 25px;
   overflow: hidden;
+  margin: 0vw -0.9vw;
 }
 
 .messageNoRecipe h2 {
   color: #D04F4F;
   text-align: center;
   line-height: 1.4em;
-  margin-top: 50px;
 }
 
 article {
@@ -566,6 +565,7 @@ article {
 .fas {
   padding: 0px;
   color: white;
+  cursor: pointer;
 }
 
 .tagsDropdownInput {
@@ -584,17 +584,15 @@ article {
   opacity: 1;
 }
 
-.listShaping {
-  display: flex;
+.listContainer {
+  display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-content: flex-start;
-  overflow-x: auto;
-  width: 556px;
-  min-width: 200px;
-  max-height: 200px;
+  overflow-x: scroll;
+  width: 400px;
+  height: 200px;
   padding: 15px;
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
   font-size: 1.125em;
   line-height: 1.35em;
   font-weight: 400;

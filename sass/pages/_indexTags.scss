@@ -68,9 +68,9 @@
 }
 
 .fas {
-  padding: 0px;
-  
+  padding: 0px;  
   color: white;
+  cursor: pointer;
 }
 
 .tagsDropdownInput {
@@ -89,20 +89,21 @@
   opacity: 1;
 }
 
-.listShaping {
-  // top: 0px;
-  display: flex;
+.listContainer {
+  display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-content: flex-start;
-  overflow-x: auto;
-  width: 556px;
-  min-width: 200px;
-  max-height: 200px;
+  // align-content: flex-start;
+  overflow-x: scroll;
+  // overflow-y: hidden;
+  // max-width: 556px;
+  width: 400px;
+  // max-height: 328px;
+  height: 200px;
   // margin: 0px 50px 0px 0px;
   padding: 15px;
   // padding: 84px 15px 15px;
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
   font-size: 1.125em;
   line-height: 1.35em;
   font-weight: 400;
@@ -111,6 +112,7 @@
 
 .itemList {
   cursor: pointer;
+  // white-space: nowrap;
   min-width: fit-content;
   padding: 0 20px 0 0;
   margin: 0;

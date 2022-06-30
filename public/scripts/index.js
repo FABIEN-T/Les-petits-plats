@@ -11,7 +11,15 @@ import { dropdown} from "./dropdown.js"
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 // variables();
 init();
-dropdown();
+
+// const itemIngredients = document.querySelectorAll(".listContainer > p");
+// itemIngredients.forEach(item => console.log("item", item));
+// console.log("itemIngredients", itemIngredients);
+// const itemIngredients2 = document.querySelector(".listContainer > p");
+// console.log("item", itemIngredients2);
+// ingredientsListDom.style.display = "block";
+// appliancesListDom.style.display = "block";
+// utensilsListDom.style.display = "block";
 
 // DECLARATION DU PROGRAMME D'INITIALISATION
 async function init() {
@@ -33,6 +41,7 @@ async function init() {
       // Affichage des recettes en fonction d'une expression saisie dans la barre de recherche
       // Et/ou en fonction des tags sélectionnés
       displayRecipesSelected();
+      dropdown();
     })
     .catch((err) => console.error(err));
 }
