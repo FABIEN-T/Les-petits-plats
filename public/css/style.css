@@ -594,7 +594,6 @@ article {
   flex-direction: column;
   flex-wrap: wrap;
   overflow-x: scroll;
-  overflow-y: hidden;
   width: 400px;
   height: 200px;
   padding: 15px;
