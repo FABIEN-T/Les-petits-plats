@@ -542,7 +542,6 @@ article {
 }
 
 .dropdownContainer {
-  position: relative;
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px;
@@ -588,15 +587,13 @@ article {
 }
 
 .listContainer {
-  position: absolute;
-  top: 69px;
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
-  overflow-x: scroll;
-  width: 400px;
-  height: 200px;
-  padding: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0px 15px 15px;
+  margin-top: -10px;
   border-radius: 0px 0px 5px 5px;
   font-size: 1.125em;
   line-height: 1.35em;
@@ -605,24 +602,21 @@ article {
 }
 
 .itemList {
-  display: block;
   cursor: pointer;
+  min-width: 170px;
   max-width: fit-content;
   margin: 0 20px 0 0;
 }
 
-.ingredientsColor,
-.ingredientsList {
+.ingredientsColor {
   background-color: #3282F7;
 }
 
-.appliancesColor,
-.appliancesList {
+.appliancesColor {
   background-color: #68D9A4;
 }
 
-.utensilsColor,
-.utensilsList {
+.utensilsColor {
   background-color: #ED6454;
 }
 

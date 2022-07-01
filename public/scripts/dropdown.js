@@ -1,8 +1,5 @@
 // Déclaration de Variables
-const itemIngredients = document.querySelectorAll(".ingredientsList > p");
-itemIngredients.forEach((item) => console.log("item", item));
-// console.log("item", itemIngredients);
-
+const ingredientsContainer = document.querySelector(".ingredientsContainer");
 const ingredientsHeaderDropdown = document.querySelector(
   ".ingredientsDropdown"
 );
@@ -10,21 +7,223 @@ const ingredientsList = document.querySelector(".ingredientsList");
 const ingredientsArrow = document.querySelector(".arrowIngredients");
 const ingredientsArrowClass = "arrowIngredients";
 
-const appliancesHeaderDropdown = document.querySelector(
-  ".appliancesDropdown"
-);
+const appliancesContainer = document.querySelector(".appliancesContainer");
+const appliancesHeaderDropdown = document.querySelector(".appliancesDropdown");
 const appliancesList = document.querySelector(".appliancesList");
 const appliancesArrow = document.querySelector(".arrowAppliances");
-const inappliancesArrowClass = "arrowAppliances";
+const appliancesArrowClass = "arrowAppliances";
 
+const utensilsContainer = document.querySelector(".utensilsContainer");
 const utensilsHeaderDropdown = document.querySelector(".utensilsDropdown");
 const utensilsList = document.querySelector(".utensilsList");
 const utensilsArrow = document.querySelector(".arrowUtensils");
 const utensilsArrowClass = "arrowUtensils";
 
-ingredientsList.style.display = "none";
-appliancesList.style.display = "none";
-utensilsList.style.display = "none";
+// ingredientsList.style.display = "none";
+// appliancesList.style.display = "none";
+// utensilsList.style.display = "none";
+let positionBlockY = -2000;
+
+ingredientsList.style.transform = "translateY( " + positionBlockY + "px)";
+appliancesList.style.transform = "translateY( " + positionBlockY + "px)";
+utensilsList.style.transform = "translateY( " + positionBlockY + "px)";
+
+ingredientsContainer.style.width = "170px";
+appliancesContainer.style.width = "170px";
+utensilsContainer.style.width = "170px";
+
+ingredientsContainer.style.height = "69px";
+appliancesContainer.style.height = "69px";
+utensilsContainer.style.height = "69px";
+
+export function dropdown() {
+  ingredientsHeaderDropdown.addEventListener("mousedown", (e) => {
+    // if (ingredientsList.style.display == "none") {
+    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)
+    if (ingredientsArrow.outerHTML.includes("down")) {
+      openDropdown(
+        ingredientsContainer,
+        ingredientsHeaderDropdown,
+        ingredientsList,
+        ingredientsArrow,
+        ingredientsArrowClass
+      );
+    } else {
+      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      closeDropdown(
+        ingredientsContainer,
+        ingredientsHeaderDropdown,
+        ingredientsList,
+        ingredientsArrow,
+        ingredientsArrowClass
+      );
+    }
+  });
+  // SI item de la liste (tag) cliqué ALORS fermeture du Dropdown (liste)
+  ingredientsList.addEventListener("mousedown", (e) => {
+    if (e.target.classList == "itemList") {
+      closeDropdown(
+        ingredientsContainer,
+        ingredientsHeaderDropdown,
+        ingredientsList,
+        ingredientsArrow,
+        ingredientsArrowClass
+      );
+    }
+  });
+
+  appliancesHeaderDropdown.addEventListener("mousedown", () => {
+    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)
+    if (appliancesArrow.outerHTML.includes("down")) {
+      openDropdown(
+        appliancesContainer,
+        appliancesHeaderDropdown,
+        appliancesList,
+        appliancesArrow,
+        appliancesArrowClass
+      );
+    } else {
+      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      closeDropdown(
+        appliancesContainer,
+        appliancesHeaderDropdown,
+        appliancesList,
+        appliancesArrow,
+        appliancesArrowClass
+      );
+    }
+  });
+  // SI item de la liste (tag) cliqué ALORS fermeture du Dropdown (liste)
+  appliancesList.addEventListener("mousedown", (e) => {
+    if (e.target.classList == "itemList") {
+      closeDropdown(
+        appliancesContainer,
+        appliancesHeaderDropdown,
+        appliancesList,
+        appliancesArrow,
+        appliancesArrowClass
+      );
+    }
+  });
+
+  utensilsHeaderDropdown.addEventListener("mousedown", () => {
+    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)
+    if (utensilsArrow.outerHTML.includes("down")) {
+      openDropdown(
+        utensilsContainer,
+        utensilsHeaderDropdown,
+        utensilsList,
+        utensilsArrow,
+        utensilsArrowClass
+      );
+    } else {
+      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      closeDropdown(
+        utensilsContainer,
+        utensilsHeaderDropdown,
+        utensilsList,
+        utensilsArrow,
+        utensilsArrowClass
+      );
+    }
+  });
+  // SI item de la liste (tag) cliqué ALORS fermeture du Dropdown (liste)
+  utensilsList.addEventListener("mousedown", (e) => {
+    if (e.target.classList == "itemList") {
+      closeDropdown(
+        utensilsContainer,
+        utensilsHeaderDropdown,
+        utensilsList,
+        utensilsArrow,
+        utensilsArrowClass
+      );
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      !ingredientsHeaderDropdown.contains(e.target) &&
+      // ingredientsList.style.display == "block"
+      ingredientsList.style.transform == "translateY(0px)"
+    ) {
+      closeDropdown(
+        ingredientsContainer,
+        ingredientsHeaderDropdown,
+        ingredientsList,
+        ingredientsArrow,
+        ingredientsArrowClass
+      );
+    }
+    if (
+      !appliancesHeaderDropdown.contains(e.target) &&
+      // appliancesList.style.display == "block"
+      appliancesList.style.transform == "translateY(0px)"
+    ) {
+      closeDropdown(
+        appliancesContainer,
+        appliancesHeaderDropdown,
+        appliancesList,
+        appliancesArrow,
+        appliancesArrowClass
+      );
+    }
+    if (
+      !utensilsHeaderDropdown.contains(e.target) &&
+      // utensilsList.style.display == "block"
+      utensilsList.style.transform == "translateY(0px)"
+    ) {
+      closeDropdown(
+        utensilsContainer,
+        utensilsHeaderDropdown,
+        utensilsList,
+        utensilsArrow,
+        utensilsArrowClass
+      );
+    }
+  });
+}
+
+// Déclaration de la fonction d'ouverture du menu
+// function openDropdown(header, list, arrowClass, arrowClassText) {
+function openDropdown(container, header, list, arrowClass, arrowClassText) {
+  // const {header, list, arrowClass, arrowClassText} = objet;
+  // console.log("objet", header, list, arrowClass, arrowClassText);
+  // list.style.display = "block";
+  list.style.transform = "translateY(0px)";
+  header.style.width = "586px";
+  header.style.borderRadius = "5px 5px 0px 0px";
+  container.style.width = "586px";
+  container.style.height = "300px";
+  // console.log("arrowClassIN", arrowClass, arrowClass.classList);
+  arrowClass.setAttribute("class", "fas fa-chevron-up");
+  // arrowClass.replace("class", "fas fa-chevron-up");
+  arrowClass.classList.add(arrowClassText); // flèche vers le haut
+}
+
+// Déclaration de la fonction de fermeture du menu
+// function closeDropdown(header, list, arrowClass, arrowClassText) {
+function closeDropdown(container, header, list, arrowClass, arrowClassText) {
+  // const {header, list, arrowClass, arrowClassText} = objet;
+  // console.log("close", list);
+  // list.style.display = "none";
+  container.style.width = "170px";
+  container.style.height = "69px";
+  list.style.transform = "translateY( " + positionBlockY + "px)";
+  // console.log("close2");
+  header.style.width = "170px";
+  header.style.borderRadius = "5px";
+  // console.log("arrowClass1", arrowClass, arrowClass.classList);
+  arrowClass.setAttribute("class", "fas fa-chevron-down"); // flèche vers le bas
+  arrowClass.classList.add(arrowClassText);
+  // console.log("arrowClass2", arrowClass, arrowClass.classList);
+}
+
+// ingredientsContainer.style.width = "170px";
+// appliancesContainer.style.width = "170px";
+// utensilsContainer.style.width = "170px";
+// ingredientsContainer.style.height = "69px";
+// appliancesContainer.style.height = "69px";
+// utensilsContainer.style.height = "69px";
 
 // console.log("ingredientsObject", ingredientsObject);
 // const {header, list, arrowClass, arrowClassText} = ingredientsObject;
@@ -43,174 +242,9 @@ utensilsList.style.display = "none";
 //   console.log("essai2", objet.header);
 // }
 
-export function dropdown() {
-  // SOURIS : OUVERTURE du menu de tri
- 
-
-  // //SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
-  // ingredientsList.addEventListener("mousedown", (e) => {
-  //   if (e.target.classList == "itemList") {
-  //     closeDropdown(ingredientsObject );
-  //   }
-  // });
-
-  ingredientsHeaderDropdown.addEventListener("mousedown", (e) => {
-    // console.log("ingredientsArrow", ingredientsArrow.outerHTML);
-    // console.log(
-    //   "ingredientsArrow",
-    //   ingredientsArrow.classList === "fas fa-chevron-up arrowsIngredient"
-    // );
-    // if (ingredientsList.style.display == "none") {
-    if (ingredientsArrow.outerHTML.includes("down")) {
-      openDropdown(
-        ingredientsHeaderDropdown,
-        ingredientsList,
-        ingredientsArrow,
-        ingredientsArrowClass
-      );
-    } else {
-      closeDropdown(
-        ingredientsHeaderDropdown,
-        ingredientsList,
-        ingredientsArrow,
-        ingredientsArrowClass
-      );
-    }
-  });
-/////////////////////////////////////////////////
-  //SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
-  ingredientsList.addEventListener("mousedown", (e) => {
-    if (e.target.classList == "itemList") {
-      closeDropdown(
-        ingredientsHeaderDropdown,
-        ingredientsList,
-        ingredientsArrow,
-        ingredientsArrowClass
-      );
-    }
-  });
-
-  appliancesHeaderDropdown.addEventListener("mousedown", () => {
-    if (appliancesArrow.outerHTML.includes("down")) {
-      openDropdown(
-        appliancesHeaderDropdown,
-        appliancesList,
-        appliancesArrow,
-        inappliancesArrowClass
-      );
-    } else {
-      closeDropdown(
-        appliancesHeaderDropdown,
-        appliancesList,
-        appliancesArrow,
-        inappliancesArrowClass
-      );
-    }
-  });
-
-  // SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
-  appliancesList.addEventListener("mousedown", (e) => {
-    if (e.target.classList == "itemList") {
-      closeDropdown(
-        appliancesHeaderDropdown,
-        appliancesList,
-        appliancesArrow,
-        inappliancesArrowClass
-      );
-    }
-  });
-
-  utensilsHeaderDropdown.addEventListener("mousedown", () => {
-    if (utensilsArrow.outerHTML.includes("down")) {
-      openDropdown(
-        utensilsHeaderDropdown,
-        utensilsList,
-        utensilsArrow,
-        utensilsArrowClass
-      );
-    } else {
-      closeDropdown(
-        utensilsHeaderDropdown,
-        utensilsList,
-        utensilsArrow,
-        utensilsArrowClass
-      );
-    }
-  });
-  // SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
-  utensilsList.addEventListener("mousedown", (e) => {
-    if (e.target.classList == "itemList") {
-      closeDropdown(
-        utensilsHeaderDropdown,
-        utensilsList,
-        utensilsArrow,
-        utensilsArrowClass
-      );
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    if (
-      !ingredientsHeaderDropdown.contains(e.target) &&
-      ingredientsList.style.display == "block"
-    ) {
-      closeDropdown(
-        ingredientsHeaderDropdown,
-        ingredientsList,
-        ingredientsArrow,
-        ingredientsArrowClass
-      );
-    }
-    if (
-      !appliancesHeaderDropdown.contains(e.target) &&
-      appliancesList.style.display == "block"
-    ) {
-      closeDropdown(
-        appliancesHeaderDropdown,
-        appliancesList,
-        appliancesArrow,
-        inappliancesArrowClass
-      );
-    }
-    if (
-      !utensilsHeaderDropdown.contains(e.target) &&
-      utensilsList.style.display == "block"
-    ) {
-      closeDropdown(
-        utensilsHeaderDropdown,
-        utensilsList,
-        utensilsArrow,
-        utensilsArrowClass
-      );
-    }
-  });
-}
-
-// Déclaration de la fonction d'ouverture du menu
-// function openDropdown(header, list, arrowClass, arrowClassText) {
-  function openDropdown(header, list, arrowClass, arrowClassText) {
-  // const {header, list, arrowClass, arrowClassText} = objet;
-  console.log("objet", header, list, arrowClass, arrowClassText);
-  list.style.display = "block";
-  header.style.width = "430px";
-  header.style.borderRadius = "5px 5px 0px 0px";
-  // console.log("arrowClassIN", arrowClass, arrowClass.classList);
-  arrowClass.setAttribute("class", "fas fa-chevron-up");
-  // arrowClass.replace("class", "fas fa-chevron-up");
-  arrowClass.classList.add(arrowClassText); // flèche vers le haut
-}
-
-// Déclaration de la fonction de fermeture du menu
-// function closeDropdown(header, list, arrowClass, arrowClassText) {
-  function closeDropdown(header, list, arrowClass, arrowClassText) {
-  // const {header, list, arrowClass, arrowClassText} = objet;
-  console.log("close", list);
-  list.style.display = "none";
-  console.log("close2");
-  header.style.width = "170px";
-  header.style.borderRadius = "5px";
-  // console.log("arrowClass1", arrowClass, arrowClass.classList);
-  arrowClass.setAttribute("class", "fas fa-chevron-down"); // flèche vers le bas
-  arrowClass.classList.add(arrowClassText);
-  // console.log("arrowClass2", arrowClass, arrowClass.classList);
-}
+// //SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
+// ingredientsList.addEventListener("mousedown", (e) => {
+//   if (e.target.classList == "itemList") {
+//     closeDropdown(ingredientsObject );
+//   }
+// });
