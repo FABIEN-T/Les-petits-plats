@@ -42,6 +42,7 @@
 }
 
 .dropdownContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px; 
@@ -90,19 +91,19 @@
 }
 
 .listContainer {
+  position: absolute;
+  top: 69px;
   display: inline-flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  // align-content: flex-start;
+  flex-wrap:wrap;
   overflow-x: scroll;
-  // overflow-y: hidden;
+  overflow-y: hidden;
   // max-width: 556px;
   width: 400px;
   // max-height: 328px;
   height: 200px;
   // margin: 0px 50px 0px 0px;
   padding: 15px;
-  // padding: 84px 15px 15px;
   border-radius: 0px 0px 5px 5px;
   font-size: 1.125em;
   line-height: 1.35em;
@@ -111,45 +112,31 @@
 }
 
 .itemList {
+  display: block;
   cursor: pointer;
+  // width: 150px;
   // white-space: nowrap;
-  min-width: fit-content;
-  padding: 0 20px 0 0;
-  margin: 0;
+  // text-overflow:unset;
+  max-width:fit-content;
+  // padding: 0 20px 0 0;
+  margin: 0 20px 0 0;
 }
 
 .ingredientsColor,
-.ingredientsColorTag {
+.ingredientsList 
+{
   background-color: $ingredients;
 }
 
 .appliancesColor,
-.appliancesColorTag
-// .appliancesList 
-{
+.appliancesList {
   background-color: $appliances;
 }
 
-// .appliancesList {
-//   background-color: $devices;
-//   max-width: 667px;
-//   padding: 15px;
-//   border-radius: 5px;
-//   margin-right: 20px;
-//   font-size: 1.125em;
-//   line-height: 1.35em;
-//   font-weight: 400;
-//   color: white;
-//   border: transparent;
-//   outline: none;
-// }
-
-// #utensilsInput,
 .utensilsColor,
-.utensilsColorTag
-// .utensilsList
-{
+.utensilsList {
   background-color: $utensils;
 }
+
 
 

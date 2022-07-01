@@ -102,11 +102,11 @@ function displayLists(arrayList, classDom) {
 // Ecoute du clic sur un tag en fonction du type et affichage
 export function threeTypeTagsListener() {
   classDom = document.querySelectorAll(".ingredientsList > .itemList");
-  tagsListenerAndDisplay(classDom, "ingredientsColorTag");
+  tagsListenerAndDisplay(classDom, "ingredientsColor");
   classDom = document.querySelectorAll(".appliancesList > .itemList");
-  tagsListenerAndDisplay(classDom, "appliancesColorTag");
+  tagsListenerAndDisplay(classDom, "appliancesColor");
   classDom = document.querySelectorAll(".utensilsList > .itemList");
-  tagsListenerAndDisplay(classDom, "utensilsColorTag");
+  tagsListenerAndDisplay(classDom, "utensilsColor");
   tagsInput();
 }
 

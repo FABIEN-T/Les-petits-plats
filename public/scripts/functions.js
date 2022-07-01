@@ -103,10 +103,16 @@ export function messageNoRecipe() {
   // SI il n'y aucune recette d'affichée donc de trouvée
   if (document.querySelectorAll("article").length === 0) {
     // ALORS afficher message d'avertissement : "Aucune recette..."
+    // const messageContent = document.createElement("h2");
+    // messageContent.appendChild(document.querySelector(".messageNoRecipe"));
+    // messageContent.textContent = message;
     document.querySelector(".messageNoRecipe").innerHTML = `<h2>${message}</h2>`;
   } else {
     // SINON effacer message d'avertissement
+    // console.log("messageNoRecipe > h2", document.querySelector(".messageNoRecipe > h2"));
     document.querySelector(".messageNoRecipe").innerHTML = `<h2></h2>`;
+    // console.log("messageNoRecipe > h2", messageNoRecipe > h2);
+    // document.querySelector(".messageNoRecipe > h2").remove();
   }
 }
 

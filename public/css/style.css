@@ -407,6 +407,8 @@ main {
   color: #D04F4F;
   text-align: center;
   line-height: 1.4em;
+  margin: 0;
+  padding: 0;
 }
 
 article {
@@ -540,6 +542,7 @@ article {
 }
 
 .dropdownContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px;
@@ -585,10 +588,13 @@ article {
 }
 
 .listContainer {
+  position: absolute;
+  top: 69px;
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
   overflow-x: scroll;
+  overflow-y: hidden;
   width: 400px;
   height: 200px;
   padding: 15px;
@@ -600,24 +606,24 @@ article {
 }
 
 .itemList {
+  display: block;
   cursor: pointer;
-  min-width: fit-content;
-  padding: 0 20px 0 0;
-  margin: 0;
+  max-width: fit-content;
+  margin: 0 20px 0 0;
 }
 
 .ingredientsColor,
-.ingredientsColorTag {
+.ingredientsList {
   background-color: #3282F7;
 }
 
 .appliancesColor,
-.appliancesColorTag {
+.appliancesList {
   background-color: #68D9A4;
 }
 
 .utensilsColor,
-.utensilsColorTag {
+.utensilsList {
   background-color: #ED6454;
 }
 
