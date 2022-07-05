@@ -41,18 +41,52 @@
   flex-wrap: wrap;
 }
 
+// .dropdownContainer {
+//   // position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   margin: 0px 20px 20px 0px; 
+//   // width: 170px;
+//   // height: 69px;
+//   // max-width: fit-content;
+//   // max-height: fit-content;
+//   // background-color: darkgreen;
+// }
 .dropdownContainer {
-  // position: relative;
+// .ingredientsContainer, .appliancesContainer, .utensilsContainer {
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px; 
-  // width: 170px;
-  // height: 69px;
-  // max-width: fit-content;
-  // max-height: max-content;
-  // background-color: darkgreen;
+  // border: lime solid 3px;  
+  width: 170px;
+  height: 69px;
+}
+.dropdownContainerOpen {
+// .ingredientsContainerOpen, .appliancesContainerOpen, .utensilsContainerOpen {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px 20px 0px; 
+  width: 586px;
+  min-height: 50px;
+  max-height: 300px;
 }
 
+// .inputChevron {
+//   box-sizing: border-box;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+//   width: 170px;
+//   height: 69px;
+//   border-radius: 5px;
+//   padding: 0px 18px 0px 15px;  
+//   // background-color: darkgreen;
+//   // color: red solid 2px;
+// }
+
+
+// .ingredientsDropdown, .appliancesDropdown, .utensilsDropdown {
 .inputChevron {
   box-sizing: border-box;
   display: flex;
@@ -62,6 +96,21 @@
   width: 170px;
   height: 69px;
   border-radius: 5px;
+  padding: 0px 18px 0px 15px;  
+  // background-color: darkgreen;
+  // color: red solid 2px;
+}
+
+.inputChevronOpen {
+// .ingredientsDropdownOpen, .appliancesDropdownOpen, .utensilsDropdownOpen {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 586px;
+  height: 69px;
+  border-radius: 5px 5px 0px 0px;
   padding: 0px 18px 0px 15px;  
   // background-color: darkgreen;
   // color: red solid 2px;
@@ -77,6 +126,12 @@
   color: white;
   cursor: pointer;
 }
+
+// .arrowIngredients, .arrowAppliances, .arrowUtensils {
+//   padding: 0px;  
+//   color: white;
+//   cursor: pointer;
+// }
 
 .tagsDropdownInput {
   display: flex;
@@ -95,16 +150,38 @@
 }
 
 .listContainer {
-  // position: absolute;
-  // top: 69px;
+// .ingredientsList, .appliancesList, .utensilsList {
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
+  transform: translateY(-3200px);
+  overflow-x: auto;
+  overflow-y: hidden;  
+  width: 556px;
+  // width: 400px;
+  max-height: 328px;
+  // height: 200px;
+  // margin: 0px 50px 0px 0px;
+  padding: 0px 15px 15px;
+  margin-top: -10px;
+  border-radius: 0px 0px 5px 5px;
+  font-size: 1.125em;
+  line-height: 1.35em;
+  font-weight: 400;
+  color: white;
+}
+
+.listContainerOpen {
+// .ingredientsListOpen, .appliancesListOpen, .utensilsListOpen {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  transform: translateY(0px);
   overflow-x: auto;
   overflow-y: hidden;
-  // width: 556px;
+  width: 556px;
   // width: 400px;
-  // max-height: 328px;
+  // height: 328px;
   // height: 200px;
   // margin: 0px 50px 0px 0px;
   padding: 0px 15px 15px;
@@ -124,6 +201,7 @@
   // padding: 0 20px 0 0;
   margin: 0 20px 0 0;
   // border: black 1px solid;
+  // border: solid 1px white;
 }
 
 .ingredientsColor

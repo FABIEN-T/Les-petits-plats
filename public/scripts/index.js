@@ -6,7 +6,7 @@ import { conversionJsonToArraySimpleSearch, conversionJsonToArrayAdvancedSearch 
 // import { conversionJsonToArrayAdvancedSearch } from "./functions.js";
 import { initArraysLists } from "./tags.js";
 import { displayRecipesSelected } from "./searchBar.js";
-import { dropdown} from "./dropdown.js"
+import { dropdown} from "./dropdownCopy.js"
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 // variables();
@@ -18,6 +18,7 @@ async function init() {
     .then((response) => response.json())
     .then((response) => {
       myData = response.recipes;
+      // console.log("myData", myData);
       myData.forEach((data) => {
         recipeCardsFactorie(data); // Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
       });

@@ -545,6 +545,17 @@ article {
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px;
+  width: 170px;
+  height: 69px;
+}
+
+.dropdownContainerOpen {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px 20px 0px;
+  width: 586px;
+  min-height: 50px;
+  max-height: 300px;
 }
 
 .inputChevron {
@@ -556,6 +567,18 @@ article {
   width: 170px;
   height: 69px;
   border-radius: 5px;
+  padding: 0px 18px 0px 15px;
+}
+
+.inputChevronOpen {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 586px;
+  height: 69px;
+  border-radius: 5px 5px 0px 0px;
   padding: 0px 18px 0px 15px;
 }
 
@@ -590,8 +613,28 @@ article {
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
+  transform: translateY(-3200px);
   overflow-x: auto;
   overflow-y: hidden;
+  width: 556px;
+  max-height: 328px;
+  padding: 0px 15px 15px;
+  margin-top: -10px;
+  border-radius: 0px 0px 5px 5px;
+  font-size: 1.125em;
+  line-height: 1.35em;
+  font-weight: 400;
+  color: white;
+}
+
+.listContainerOpen {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  transform: translateY(0px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 556px;
   padding: 0px 15px 15px;
   margin-top: -10px;
   border-radius: 0px 0px 5px 5px;

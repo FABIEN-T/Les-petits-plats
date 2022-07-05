@@ -1,8 +1,20 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js"; // Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
-import { messageNoRecipe, removeCards, refreshCards, searchCommonId } from "./functions.js";
+import {
+  messageNoRecipe,
+  removeCards,
+  refreshCards,
+  searchCommonId,
+} from "./functions.js";
 // import { refreshCards } from "./functions.js"; // Affichage des recettes trouvées par la recherche
 // import { searchCommonId } from "./functions.js"; // Recherche des recettes communes à la recherche simple et à la recherche avancée
-import { initArraysLists, tagsInput, updateLists, closeTagsListener, threeTypeTagsListener, searchTagInListsAndCrossArrayId } from "./tags.js";
+import {
+  initArraysLists,
+  tagsInput,
+  updateLists,
+  closeTagsListener,
+  threeTypeTagsListener,
+  searchTagInListsAndCrossArrayId,
+} from "./tags.js";
 // import { tagsInput } from "./tags.js";
 // import { updateLists } from "./tags.js";
 // import { closeTagsListener } from "./tags.js";
@@ -33,8 +45,8 @@ export function displayRecipesSelected() {
         document.querySelector(".messageNoRecipe").innerHTML = `<h2></h2>`;
         // puis afficher toutes les recettes
         myData.forEach((recipe) => {
-          recipeCardsFactorie(recipe);          
-        });        
+          recipeCardsFactorie(recipe);
+        });
       } else {
         // SINON
         arrayIdSimpleSearch = []; // initialisation du tableau des recettes sélectionnées et filtrées (recherche simple)
@@ -56,17 +68,36 @@ export function simpleSearch(valueInput) {
   allRecipesSimpleSearch.forEach((recipe) => {
     recipe.forEach((element) => {
       if (element.includes(valueInput.toLowerCase())) {
-        // error = false;
-        console.log("valueInput", valueInput);
         // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
         arraySelected.push(recipe[0]);
-        // et enlever les doublons
-        arrayIdSimpleSearch = arraySelected.filter((item, index) => {
-          return arraySelected.indexOf(item) === index;
-        });
       }
-    });
+    });    
   });
+  // Enlever les doublons
+  arrayIdSimpleSearch = arraySelected.filter((item, index) => {
+    return arraySelected.indexOf(item) === index;
+  });
+  // arrayIdSimpleSearch = arraySelected
+  // arrayIdSimpleSearch = [...new Set(arraySelected)];
+
+  // for (let i = 0; i < allRecipesSimpleSearch.length; i++) {
+  //   let recipe = allRecipesSimpleSearch[i];
+  //   // console.log("recipe", recipe);
+  //   for (let j = 0; j < recipe.length; j++) {
+  //     let element = recipe[j];
+  //     // console.log("element", element);
+  //     if (element.includes(valueInput.toLowerCase())) {
+  //       arraySelected.push(recipe[0]);
+  //       if (arraySelected.length > 0) {
+  //           if (
+  //             arraySelected[arraySelected.length - 1] ===
+  //             arraySelected[arraySelected.length - 2]
+  //           ) { arraySelected.pop();}
+  //       }
+  //     }
+  //   }    
+  // }
+  // arrayIdSimpleSearch = arraySelected;
   // console.log("SimpleSearch", arrayIdSimpleSearch);
 
   // SI la saisie n'a pas de correspondance (faute de frappe ou terme non contenu dans la base de données)
@@ -78,21 +109,20 @@ export function simpleSearch(valueInput) {
     // closeTagsListener(); // écoute le clic sur fermeture de tags
     // console.log
     // let bidule = arrayIdSelectedFusion;
-    arrayIdSelectedFusion = []; // vide le tableau des recettes communes à la recherche simple et à la recherche avancée   
-    updateLists(); // mise à jour des listes de la recherche avancée  
+    arrayIdSelectedFusion = []; // vide le tableau des recettes communes à la recherche simple et à la recherche avancée
+    updateLists(); // mise à jour des listes de la recherche avancée
     // arrayIdSelectedFusion = bidule;
     console.log("ERROR arrayIdSelectedFusion", arrayIdSelectedFusion);
   } else {
-
     // searchTagInListsAndCrossArrayId();
     // SINON (si correspondance), Recherche des recettes communes à la recherche simple et à la recherche avancée
-    // arrayIdAdvancedSearch = 
+    // arrayIdAdvancedSearch =
     arrayIdSelectedFusion = searchCommonId(
       arrayIdSimpleSearch, // tableau des id filtrés (recherche simple)
       arrayIdAdvancedSearch // tableau des id filtrés (recherche avancée)
     );
     console.log(
-      "SimpleSearch",
+      "arrayIdSelectedFusion",
       arrayIdSimpleSearch,
       arrayIdAdvancedSearch,
       arrayIdSelectedFusion
@@ -101,3 +131,55 @@ export function simpleSearch(valueInput) {
     refreshCards(); // mise à jour de l'affichage des recettes
   }
 }
+
+// allRecipesSimpleSearch.forEach((recipe) => {
+//   recipe.forEach((element) => {
+//     if (element.includes(valueInput.toLowerCase())) {
+//       arraySelected.push(recipe[0]);
+//       arrayIdSimpleSearch = arraySelected.filter((item, index) => {
+//         return arraySelected.indexOf(item) === index;
+//       });
+//     }
+//   });
+// });
+
+// for (i = 0; i < allRecipesSimpleSearch.length; i++) {
+//   let row = allRecipesSimpleSearch[i];
+//   for (j = 0; j < row.length; j++) {
+//     if (row.includes(valueInput)) {
+//       arraySelected.push(row[0]);
+//       if (arraySelected.length > 0) {
+//           if (
+//             arraySelected[arraySelected.length - 1] ===
+//             arraySelected[arraySelected.length - 2]
+//           ) { arraySelected.pop();}
+//       }
+//     }
+//   }
+// }
+
+// allRecipesSimpleSearch.forEach((recipe) => {
+//   recipe.forEach((element) => {
+//     if (element.includes(valueInput.toLowerCase())) {
+//       arraySelected.push(recipe[0]);
+//       arrayIdSimpleSearch = arraySelected.filter((item, index) => {
+//         return arraySelected.indexOf(item) === index;
+//       });
+//     }
+//   });
+// });
+
+// for (i = 0; i < allRecipesSimpleSearch.length; i++) {
+//   let element = allRecipesSimpleSearch[i];
+//   for (j = 0; j < element.length; j++) {
+//     if (element.includes(valueInput)) {
+//       arraySelected.push(row[0]);
+//       if (arraySelected.length > 0) {
+//           if (
+//             arraySelected[arraySelected.length - 1] ===
+//             arraySelected[arraySelected.length - 2]
+//           ) { arraySelected.pop();}
+//       }
+//     }
+//   }
+// }

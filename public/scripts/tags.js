@@ -318,7 +318,7 @@ export function tagsInput() {
             ingredientsListDom
           );
           classDom = document.querySelectorAll(".ingredientsList > .itemList");
-          tagsListenerAndDisplay(classDom, "ingredientsColorTag");
+          tagsListenerAndDisplay(classDom, "ingredientsColor");
           break;
 
         case "appliancesInput":
@@ -329,7 +329,7 @@ export function tagsInput() {
           );
           // // console.log("ingredientsItem", ingredientsItem);
           classDom = document.querySelectorAll(".appliancesList > .itemList");
-          tagsListenerAndDisplay(classDom, "appliancesColorTag");
+          tagsListenerAndDisplay(classDom, "appliancesColor");
           break;
 
         case "utensilsInput":
@@ -339,7 +339,7 @@ export function tagsInput() {
             utensilsListDom
           );
           classDom = document.querySelectorAll(".utensilsList > .itemList");
-          tagsListenerAndDisplay(classDom, "utensilsColorTag");
+          tagsListenerAndDisplay(classDom, "utensilsColor");
           break;
         default:
       }
