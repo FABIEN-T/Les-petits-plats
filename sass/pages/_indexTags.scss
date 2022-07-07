@@ -7,7 +7,6 @@
 }
 
 .tag {
-  // background-color: rgb(2, 16, 72);
   display: flex;
   justify-content: space-between;
   font-size: 0.875em;
@@ -15,12 +14,11 @@
   color: white;
   width: fit-content;
   height: 37px;
-  margin-right: 20px;
+  margin-right: 10px;
   margin-bottom: 15px;
   align-items: center;
   padding: 0px 15px;
   border-radius: 5px;
-  // border: black 1px solid;
 }
 
 .tag p {
@@ -41,17 +39,6 @@
   flex-wrap: wrap;
 }
 
-// .dropdownContainer {
-//   // position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   margin: 0px 20px 20px 0px; 
-//   // width: 170px;
-//   // height: 69px;
-//   // max-width: fit-content;
-//   // max-height: fit-content;
-//   // background-color: darkgreen;
-// }
 .dropdownContainer {
 // .ingredientsContainer, .appliancesContainer, .utensilsContainer {
   display: flex;
@@ -62,31 +49,14 @@
   height: 69px;
 }
 .dropdownContainerOpen {
-// .ingredientsContainerOpen, .appliancesContainerOpen, .utensilsContainerOpen {
   display: flex;
   flex-direction: column;
   margin: 0px 20px 20px 0px; 
-  width: 586px;
+  width: $widthDropdownOpen;
   min-height: 50px;
   max-height: 300px;
 }
 
-// .inputChevron {
-//   box-sizing: border-box;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   align-items: center;
-//   width: 170px;
-//   height: 69px;
-//   border-radius: 5px;
-//   padding: 0px 18px 0px 15px;  
-//   // background-color: darkgreen;
-//   // color: red solid 2px;
-// }
-
-
-// .ingredientsDropdown, .appliancesDropdown, .utensilsDropdown {
 .inputChevron {
   box-sizing: border-box;
   display: flex;
@@ -97,23 +67,18 @@
   height: 69px;
   border-radius: 5px;
   padding: 0px 18px 0px 15px;  
-  // background-color: darkgreen;
-  // color: red solid 2px;
 }
 
 .inputChevronOpen {
-// .ingredientsDropdownOpen, .appliancesDropdownOpen, .utensilsDropdownOpen {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 586px;
+  width: $widthDropdownOpen;
   height: 69px;
   border-radius: 5px 5px 0px 0px;
   padding: 0px 18px 0px 15px;  
-  // background-color: darkgreen;
-  // color: red solid 2px;
 }
 
 #formIngredients, #formAppliances, #formUtensils {
@@ -127,13 +92,7 @@
   cursor: pointer;
 }
 
-// .arrowIngredients, .arrowAppliances, .arrowUtensils {
-//   padding: 0px;  
-//   color: white;
-//   cursor: pointer;
-// }
-
-.tagsDropdownInput {
+.dropdownInput {
   display: flex;
   max-width: 120px;
   font-size: 1.125em;
@@ -144,24 +103,20 @@
   color: white;
 }
 
-.tagsDropdownInput::placeholder {
+.dropdownInput::placeholder {
   color: white;
   opacity: 1;
 }
 
 .listContainer {
-// .ingredientsList, .appliancesList, .utensilsList {
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
   transform: translateY(-3200px);
   overflow-x: auto;
   overflow-y: hidden;  
-  width: 556px;
-  // width: 400px;
+  // width: 556px;
   max-height: 328px;
-  // height: 200px;
-  // margin: 0px 50px 0px 0px;
   padding: 0px 15px 15px;
   margin-top: -10px;
   border-radius: 0px 0px 5px 5px;
@@ -172,18 +127,13 @@
 }
 
 .listContainerOpen {
-// .ingredientsListOpen, .appliancesListOpen, .utensilsListOpen {
   display: inline-flex;
   flex-direction: column;
   flex-wrap: wrap;
   transform: translateY(0px);
   overflow-x: auto;
   overflow-y: hidden;
-  width: 556px;
-  // width: 400px;
-  // height: 328px;
-  // height: 200px;
-  // margin: 0px 50px 0px 0px;
+  // width: calc(500px - 30px);
   padding: 0px 15px 15px;
   margin-top: -10px;
   border-radius: 0px 0px 5px 5px;
@@ -195,13 +145,9 @@
 
 .itemList {
   cursor: pointer;
-  min-width: 170px;
-  // white-space: nowrap;
+  // min-width: 170px;
   max-width:fit-content;
-  // padding: 0 20px 0 0;
-  margin: 0 20px 0 0;
-  // border: black 1px solid;
-  // border: solid 1px white;
+  margin: 2px 30px 0 2px;
 }
 
 .ingredientsColor

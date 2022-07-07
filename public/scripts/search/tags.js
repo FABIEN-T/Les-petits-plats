@@ -1,29 +1,38 @@
-import { recipeCardsFactorie } from "./recipeCardsFactorie.js"; // Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
-import { stringUpperCaseFirst, stringNoAccent, removeCards, refreshCards, searchCommonId } from "./functions.js"; // Enlève l'accent sur la première lettre du mot et mise en capitale
-// import { stringNoAccent } from "./functions.js"; // Enlève l'accent
-// import { removeCards } from "./functions.js"; // Efface toutes les recetettes
-// import { refreshCards } from "./functions.js"; // Affichage des recettes trouvées par la recherche
-// import { searchCommonId } from "./functions.js"; // Recherche des recettes communes à la recherche simple et à la recherche avancée
+// Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
+import { recipeCardsFactorie } from "../utils/recipeCardsFactorie.js";
+// Enlève l'accent sur la première lettre du mot et mise en capitale
+// Efface toutes les recettes
+// Affichage des recettes trouvées par la recherche
+// Recherche des recettes communes à la recherche simple et à la recherche avancée
+import {
+  stringUpperCaseFirst,
+  stringNoAccent,
+  removeCards,
+  refreshCards,
+  searchCommonId,
+} from "../utils/functions.js";
 
+let arrayRecipesByEachTag = []; // tableau contenant la liste de recettes (id) pour chaque Tag
 let ingredientsListFilter = []; // tableau contenant la liste filtrée des ingrédients
 let appliancesListFilter = []; // tableau contenant la liste filtrée des appareils
 let utensilsListFilter = []; // tableau contenant la liste filtrée des ustensiles
-let classDom = ""; // type de liste (ingredients, appliances, utensils)
-let indexTagClosed = 0; // variable récupérant l'indice du tag fermé
+let classDom = ""; // type de classe CSS pour les listes (ingredientsList, appliancesList, utensilsList)
+let arrayTagsSelected = []; // tableau contenant les noms des tags sélectionnés
+let indexTagClosed = 0; // variable récupérant l'indice du tag fermé dans le tableau arrayTagsSelected
 let tempTab = []; // tableau tampon
 
-// const ingredientsListDom = document.querySelector(".ingredientsList");
-// const appliancesListDom = document.querySelector(".appliancesList");
-// const utensilsListDom = document.querySelector(".utensilsList");
+const ingredientsListDom = document.querySelector(".ingredientsList");
+const appliancesListDom = document.querySelector(".appliancesList");
+const utensilsListDom = document.querySelector(".utensilsList");
 
-const inputsTags = document.querySelectorAll(".tagsDropdownInput");
+const inputsTags = document.querySelectorAll(".dropdownInput");
 
 // Initialisations des listes de recherche avancée
 export function initArraysLists() {
   let ingredientsList = [];
   let appliancesList = [];
   let utensilsList = [];
-
+  // console.log(data);
   myData.forEach((element) => {
     // pour chaque "ingrédients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
     element.ingredients.forEach((el) => {
@@ -36,21 +45,21 @@ export function initArraysLists() {
 
     // pour chaque "utensils", ajouter danns le tableau les valeurs de propriétés "appliance"
     element.ustensils.forEach((el) => {
-      utensilsList.push(stringUpperCaseFirst(el)); // Mettre en majuscule la première lettre du premier mot et enlever les accents
+      utensilsList.push(stringUpperCaseFirst(el)); // Mettre en majuscule et enlever l'accent sur la première lettre
     });
   });
 
-  filterAndDisplayLists(ingredientsList, appliancesList, utensilsList); // mets à jour, filtre et affiche les listes
+  filterAndDisplayLists(ingredientsList, appliancesList, utensilsList); // Filtrer doublons, trier par ordre alphabétique et afficher les listes
   // console.log(ingredientsList, appliancesList, utensilsList);
 }
 
-// Recherche avancée : mise à jour de la liste de tags en fonction de la saisie (recherche simple)
+// Mise à jour des liste de tags en fonction de la sélection commune à la recherche simple et avancée
 export function updateLists() {
   let ingredientsList = [];
   let appliancesList = [];
   let utensilsList = [];
 
-  // Création des listes filtrées à partir du tableau des recttes sélectionnées
+  // Création des listes filtrées à partir du tableau des recettes sélectionnées
   arrayIdSelectedFusion.forEach((i) => {
     // console.log(parseInt(i, 10));
     myData[parseInt(i, 10) - 1].ingredients.forEach((el) => {
@@ -63,43 +72,48 @@ export function updateLists() {
       utensilsList.push(stringUpperCaseFirst(el));
     });
   });
-  filterAndDisplayLists(ingredientsList, appliancesList, utensilsList);
-  threeTypeTagsListener();
+  filterAndDisplayLists(ingredientsList, appliancesList, utensilsList); // Filtrer doublons, trier par ordre alphabétique et afficher les listes
+  threeTypeTagsListener(); // Ecouter clic sur un tag en fonction du type et affichage
 }
 
-// Filtrage (enlève les doublons, trie par oredre alphatbétique) et Appel des fonctions d'affichage des listes
+// Filtrer les listes (enlève les doublons, trie par ordre alphatbétique, enlève un tag sélectionné)
+// Appeler les fonctions d'affichage des listes mises à jour
 function filterAndDisplayLists(ingredientsList, appliancesList, utensilsList) {
   ingredientsListFilter = [...new Set(ingredientsList)].sort();
   appliancesListFilter = [...new Set(appliancesList)].sort();
   utensilsListFilter = [...new Set(utensilsList)].sort();
-  //Suppression du tag sélectionné de la liste
-  arrayTagsSelected.forEach(tagSelected => {
+  //Supprimer le tag sélectionné de la liste
+  arrayTagsSelected.forEach((tagSelected) => {
     if (ingredientsListFilter.includes(tagSelected)) {
-      ingredientsListFilter = ingredientsListFilter.filter(x => x !== tagSelected);
+      ingredientsListFilter = ingredientsListFilter.filter(
+        (x) => x !== tagSelected
+      );
     }
     if (appliancesListFilter.includes(tagSelected)) {
-      appliancesListFilter = appliancesListFilter.filter(x => x !== tagSelected);
+      appliancesListFilter = appliancesListFilter.filter(
+        (x) => x !== tagSelected
+      );
     }
     if (utensilsListFilter.includes(tagSelected)) {
-      utensilsListFilter = utensilsListFilter.filter(x => x !== tagSelected);
+      utensilsListFilter = utensilsListFilter.filter((x) => x !== tagSelected);
     }
-  }) 
+  });
   displayLists(ingredientsListFilter, ingredientsListDom); // ingredientsListDom = document.querySelector(".ingredientsList");
   displayLists(appliancesListFilter, appliancesListDom);
   displayLists(utensilsListFilter, utensilsListDom);
 }
 
-// Affichage de la liste mise à jour
+// Afficher la liste mise à jour
 function displayLists(arrayList, classDom) {
   Array.from(classDom.children).forEach((item) => {
-    item.remove(); // réinitialisation : efface tous les items
+    item.remove(); // Réinitialisation : efface tous les items (tags) de la liste
   });
   arrayList.forEach((item) => {
-    classDom.innerHTML += `<p class="itemList">${item}</p>`; // ajoute dans le dom et affice chaque item de la liste passée en paramètre
+    classDom.innerHTML += `<p class="itemList">${item}</p>`; // Ajoutr dans le dom et afficher chaque item de la liste passée en paramètre
   });
 }
 
-// Ecoute du clic sur un tag en fonction du type et affichage
+// Ecouter clic sur un tag en fonction du type et afficher
 export function threeTypeTagsListener() {
   classDom = document.querySelectorAll(".ingredientsList > .itemList");
   tagsListenerAndDisplay(classDom, "ingredientsColor");
@@ -110,7 +124,8 @@ export function threeTypeTagsListener() {
   tagsInput();
 }
 
-// Ecoute du clic sur les items des listes et Affichage des tags
+// Ecoute clic sur les items des listes (tags),
+// Affiche les tags, Effacer la saisie dans les inputs de recherche avancée
 function tagsListenerAndDisplay(classDom, classColor) {
   classDom.forEach((item) => {
     item.addEventListener("mousedown", (e) => {
@@ -123,9 +138,9 @@ function tagsListenerAndDisplay(classDom, classColor) {
             <em class="far fa-times-circle"></em>
           </div>`;
         closeTagsListener(); // écoute du clic sur la croix des tags
-        document.getElementById("formIngredients").reset();
+        document.getElementById("formIngredients").reset(); // efface la saisie dans la recherche avancée
         document.getElementById("formAppliances").reset();
-        document.getElementById("formUtensils").reset(); // efface la saisie dans la recherche avancée
+        document.getElementById("formUtensils").reset();
         arrayTagsSelected.push(e.target.innerHTML); // ajoute le nouveau tag dans le tableau des tags sélectionnés
         updateLists(); // mise à jour des listes de la recherche avancée
         searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
@@ -134,58 +149,58 @@ function tagsListenerAndDisplay(classDom, classColor) {
   });
 }
 
-// Efface le tag de la page html et du Dom lors clic sur la croix
+// Efface le tag de la page html et du Dom lors du clic sur la croix
+// Actualise les recettes 
 export function closeTagsListener() {
   document.querySelectorAll(".fa-times-circle").forEach((item) => {
     item.addEventListener("mousedown", (e) => {
-      // donne l'index du tag effacé dans la série des tags affichés
+      // Récupérer l'index du tag effacé dans la série des tags affichés
       indexTagClosed = arrayTagsSelected.indexOf(
         e.target.closest(".tag").children[0].innerText
       );
-      // console.log("indexTagClosed", indexTagClosed);
-      e.target.closest(".tag").remove(); // Efface le tag cliqué
-      let closedTag = e.target.closest(".tag").children[0].innerText; // mémorise l'intitulé du tag fermé
-      // console.log("closedTag", closedTag);
-      arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag); // efface le tag du tableau des tags sélectionnés
-      
-      function updateAdvancedSearch() {
-        let tamponTab = [];
-      // let arraySelected2Spread = [];
-      // console.log("AVANT arrayRecipesByEachTag", arrayRecipesByEachTag);
-      arrayRecipesByEachTag.forEach(tab => tamponTab.push(...tab));
-      // console.log("APRES arrayRecipesByEachTag", arrayRecipesByEachTag);
-      // console.log("tamponTab", tamponTab);
+      e.target.closest(".tag").remove(); // Effacer le tag cliqué
+      let closedTag = e.target.closest(".tag").children[0].innerText; // Récupèrer l'intitulé du tag fermé
+      arrayTagsSelected = arrayTagsSelected.filter((x) => x !== closedTag); // Effacer le tag du tableau des tags sélectionnés
 
-      arrayRecipesByEachTag.forEach((array, index) => {
-        if (arrayRecipesByEachTag.length > index + 1) {
-          tamponTab = tamponTab.filter((item, index, array) => {
-            return array.indexOf(item) !== index;
-          });
-        }
-      });
-      // console.log("tamponTab", tamponTab);
-      arrayIdAdvancedSearch = tamponTab;
-      arrayIdSelectedFusion = searchCommonId(
+      // Filtre les id communs à chaque tag et actualise les recettes sélectionnées
+      function updateAdvancedSearch() {
+        let arrayConcat = []; 
+        // console.log("AVANT arrayRecipesByEachTag", arrayRecipesByEachTag);
+        arrayRecipesByEachTag.forEach((tab) => arrayConcat.push(...tab)); // Concatèner les id des tags ouverts
+        // console.log("APRES arrayRecipesByEachTag", arrayRecipesByEachTag);
+        // console.log("arrayConcat", arrayConcat);        
+        arrayRecipesByEachTag.forEach((array, index) => { // Filtrer les id communs à chaque tag
+          if (arrayRecipesByEachTag.length > index + 1) {
+            arrayConcat = arrayConcat.filter((item, index, array) => {
+              return array.indexOf(item) !== index;
+            });
+          }
+        });
+        // console.log("arrayConcat", arrayConcat);
+        arrayIdAdvancedSearch = arrayConcat;
+        // Actualiser les recettes communes à la recherche simple et à la recherche avancée
+        arrayIdSelectedFusion = searchCommonId(
           arrayIdSimpleSearch,
           arrayIdAdvancedSearch
-        );
+        );        
       }
+      arrayRecipesByEachTag.splice(indexTagClosed, 1); // Enlever le tableau contenant la liste de recettes (id) du tag fermé
+      // updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualise les recettes sélectionnées
       // SI faute de frappe ou terme inconnu dans la recherche simple,
       if (error === true) {
-        // console.log("remove");
-        removeCards(); // effacer toutes les recettes
-        arrayRecipesByEachTag.splice(indexTagClosed, 1);
+        removeCards(); // ALORS effacer toutes les recettes
+        // arrayRecipesByEachTag.splice(indexTagClosed, 1); 
         // console.log("ERROR close arrayRecipesByEachTag", arrayRecipesByEachTag);
-        updateAdvancedSearch()
+        updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualiser les recettes sélectionnées
         // arrayIdAdvancedSearch = []; // réinitialiser la recheche avancée
         // document.querySelectorAll(".tag").map(tag => tag.remove());
         // document.querySelectorAll(".tag").forEach((tag) => tag.remove());
         // SINON enlever les recettes (id) du tag fermé de la mémoire "arrayRecipesByEachTag"
       } else {
         // console.log("avant SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag);
-        arrayRecipesByEachTag.splice(indexTagClosed, 1);
-        // console.log("après SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag); 
-        updateAdvancedSearch();      
+        // arrayRecipesByEachTag.splice(indexTagClosed, 1);
+        // console.log("après SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag);
+        updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualise les recettes sélectionnées
         // searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
         // SI il n'y a aucun tag et que la recherche simple ne donne rien
         if (
@@ -193,17 +208,16 @@ export function closeTagsListener() {
           arrayIdSimpleSearch.length == 0
         ) {
           myData.forEach((recipe) => {
-            recipeCardsFactorie(recipe); // Réinitialisation : Affichage de toutes les recettes            
+            recipeCardsFactorie(recipe); // Réafficher toutes les recettes
           });
-          initArraysLists(); // Initialisations des listes de recherche avancée
-          threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
-          // SINON chercher les recettes en commen des tags restants dans la mémoire "arrayRecipesByEachTag"
-          // EN COURS DE CONSTRUCTION
+          initArraysLists(); // Initialiser les listes de recherche avancée
+          threeTypeTagsListener(); // Ecouter clic sur un tag et afficher le tag
+          // SINON chercher les recettes en commun des tags restants dans la mémoire "arrayRecipesByEachTag"
+          // EN COURS DE REPARATION
         } else {
-          updateAdvancedSearch();          
-          
+          updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualise les recettes sélectionnées
           // console.log("arrayIdSelectedFusion", arrayIdSelectedFusion);
-          refreshCards();          
+          refreshCards(); // Afficher es recettes trouvées par la recherche
           updateLists(); // mise à jour des listes de la recherche avancée
           threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
         }
@@ -213,15 +227,14 @@ export function closeTagsListener() {
 }
 
 // Recherche les tags dans les listes de la recherche avancée,
-// croise le tableau des recettes sélectionnées dans de la recherche avancée
+// croise le tableau des recettes sélectionnées (id) dans la recherche avancée
 // avec celui de la recherche simple
 // et ne garde que les recettes en commun
-// searchTaginListAndCrossArrayId
 export function searchTagInListsAndCrossArrayId() {
-  let arraySelected = [];
-  let arraySuperSelected = [];
+  let arraySelected = []; // tableau des recettes (id) du tag sélectionné
+  let arraySuperSelected = []; // tableau contenant les tableaux des recettes (id) de chaque tag sélectionné
 
-  // Si il n'y a pas de tags, réinitialiser l'affichage de toutes les recettes et listes
+  // SI il n'y a pas de tags, afficher  les recettes et listes de la recherche simple
   if (document.querySelectorAll(".tag").length == 0) {
     arrayIdAdvancedSearch = [];
     tempTab = [];
@@ -243,23 +256,26 @@ export function searchTagInListsAndCrossArrayId() {
       refreshCards(); // SINON afficher les recettes correspondant à la recherche simple
     }
   } else {
-    // SINON chercher les recettes incluant le tag
+    // SINON chercher les recettes incluant les tags sélectionnés
     // console.log("arrayTagsSelected", arrayTagsSelected);
     [...new Set(arrayTagsSelected)].forEach((tag) => {
       arraySelected = [];
       allRecipesAdvancedSearch.forEach((recipe) => {
         // Rechercher le tag saisie dans chaque recette
         recipe.forEach((element) => {
-          // SI l'expression saisie est contenue dans la recette
+          // SI le tag sélectionné est dans la recette
           // console.log("Test", tag, element, stringUpperCaseFirst(element).includes(tag));
-          if (element.includes(tag.toLowerCase()) || stringUpperCaseFirst(element).includes(tag)) {
+          if (
+            element.includes(tag.toLowerCase()) ||
+            stringUpperCaseFirst(element).includes(tag)
+          ) {
             // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
             arraySelected.push(recipe[0]);
           }
         });
         // console.log("arraySelected", arraySelected);
       });
-      arraySuperSelected.push([...new Set(arraySelected)]); // Ajouter tableau des recettes sélectionnées (id) du tag
+      arraySuperSelected.push([...new Set(arraySelected)]); // Ajouter tableau des recettes x (id) du tag sélectionné 
       // console.log("ELSE arraySelected", arraySelected);
       // console.log("ELSE arraySuperSelected", arraySuperSelected);
       // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -267,57 +283,62 @@ export function searchTagInListsAndCrossArrayId() {
     // console.log("searchTag arrayRecipesByEachTag", arrayRecipesByEachTag);
     // SI il y a 1 tag
     if (document.querySelectorAll(".tag").length == 1) {
-      arrayIdAdvancedSearch = arraySelected; // la recherche avancée correspond à la première recherche de tag
-      // Recherche des recettes communes à la recherche simple et à la recherche avancée
-      arrayIdSelectedFusion = searchCommonId(arrayIdSimpleSearch, 
-        [...new Set(arrayIdAdvancedSearch)]);
-      arrayRecipesByEachTag = arraySuperSelected;
-      // arrayRecipesByEachTag.push(arraySelected); // mémorise pour chaque tag, la liste de recettes (id)
+      arrayIdAdvancedSearch = arraySelected; // La recherche avancée correspond à la première recherche de tag
+      // Sélectionner les recettes communes à la recherche simple et à la recherche avancée
+      arrayIdSelectedFusion = searchCommonId(arrayIdSimpleSearch, [
+        ...new Set(arrayIdAdvancedSearch),
+      ]);
+      arrayRecipesByEachTag = arraySuperSelected; // Affecter tableau contenant la liste de recettes (id) pour chaque Tag
       // console.log("searchTag arrayRecipesByEachTag", arrayRecipesByEachTag);
-      updateLists(); // mise à jour des listes de la recherche avancée
-      refreshCards(); // afficher les recettes communes à la recherche simple et à la recherche avancée
+      updateLists(); // Mettre à jour des listes de la recherche avancée
+      refreshCards(); // Afficher les recettes communes à la recherche simple et à la recherche avancée
     }
     // SI il y a plus d'un tag
     if (document.querySelectorAll(".tag").length > 1) {
       // console.log("arraySuperSelected.length >>>1", arraySuperSelected);
       // console.log("arrayIdAdvancedSearch", arrayIdAdvancedSearch);
-      // console.log("arraySuperSelected", arraySuperSelected);      
+      // console.log("arraySuperSelected", arraySuperSelected);
       // console.log("arrayIdAdvancedSearch", arrayIdAdvancedSearch);
-      // Recherche des id communs entre la précédente recherche avancée et la nouvelle
+      // Rechercher des id communs entre la précédente recherche avancée et la nouvelle
       tempTab = arrayIdAdvancedSearch.filter((x) =>
         arraySuperSelected[arraySuperSelected.length - 1].includes(x)
       );
       // console.log("tempTab", tempTab);
-      arrayIdAdvancedSearch = tempTab; // affecte le résultat de la recherche des id communs entre la précédente recherche avancée et la nouvelle
+      arrayIdAdvancedSearch = tempTab; // Mémoriser le résultat de la recherche des id communs entre la précédente recherche avancée et la nouvelle
       // console.log("searchTag PUSH !!!!");
-      arrayRecipesByEachTag = arraySuperSelected;
+      arrayRecipesByEachTag = arraySuperSelected; // Mémoriser tableau contenant la liste de recettes (id) pour chaque Tag
       // arrayRecipesByEachTag.push(arrayIdAdvancedSearch); // Mémorisation de la liste des recettes ppour chaque tag
       // console.log(">1 | arrayRecipesByEachTag", arrayRecipesByEachTag);
-      // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      // Actualiser les recettes communes à la recherche simple et à la recherche avancée
       arrayIdSelectedFusion = searchCommonId(
         arrayIdSimpleSearch,
         arrayIdAdvancedSearch
       );
       // console.log(">1 | arrayIdSimpleSearch", arrayIdSimpleSearch);
-      // console.log(">1 | arrayIdAdvancedSearch", arrayIdAdvancedSearch);      
-      updateLists(); // mise à jour des listes de la recherche avancée
-      refreshCards(); // afficher les recettes communes à la recherche simple et à la recherche avancée
+      // console.log(">1 | arrayIdAdvancedSearch", arrayIdAdvancedSearch);
+      updateLists(); // Mettre à jour des listes de la recherche avancée
+      refreshCards(); // Afficher les recettes communes à la recherche simple et à la recherche avancée
     }
   }
 }
 
-// Détection du type de recherche avancée, recherche du mot
+// Détecter la saisie dans un champ de recherche avancée et recherches de l'expression dans la liste associée
 export function tagsInput() {
   inputsTags.forEach((inputVar) => {
     inputVar.addEventListener("input", (e) => {
       switch (e.target.id) {
         case "ingredientsInput":
           // console.log("a", e.target.value);
+          // Afficher la liste mise à jour
           displayLists(
-            searchWordInList(e.target.value, ingredientsListFilter),
+            // Recherche de l'expression saisie dans la liste
+            // Retourne la liste des items (tags) à afficher dans la liste
+            searchWordInList(e.target.value, ingredientsListFilter),            
             ingredientsListDom
           );
           classDom = document.querySelectorAll(".ingredientsList > .itemList");
+          // Ecouter clic sur les items des listes (tags),
+          // Afficher les tags, Effacer la saisie dans les inputs de recherche avancée
           tagsListenerAndDisplay(classDom, "ingredientsColor");
           break;
 
@@ -347,11 +368,12 @@ export function tagsInput() {
   });
 }
 
-// Recherche de l'expression saisie (dans la barre de recherche avancée) dans la liste
+// Recherche de l'expression saisie (barre de recherche avancée) dans la liste
+// Retourne la liste des items (tags) à afficher dans la liste
 function searchWordInList(valueInput, tagsList) {
-  let arraySelectedTags = []; // initialisation du tableau des recettes sélectionnées
+  let arraySelectedTags = []; // Initialiser le tableau des recettes sélectionnées
   // console.log(valueInput);
-  tagsList.forEach((tag) => {
+  tagsList.forEach((tag) => { // Rechercher l'expression dans la liste actuelle
     if (
       tag.includes(valueInput) ||
       tag.includes(
@@ -366,58 +388,3 @@ function searchWordInList(valueInput, tagsList) {
   // console.log("tagsList", tagsList);
   return tagsList;
 }
-
-
-
-
-
-// searchTagInListsAndCrossArrayId();
-          // let provi = arraySelected2Spread.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi", provi);
-          // let provi2 = provi.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi2", provi2);
-          // let provi3 = provi2.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi3", provi3);
-          // let provi4 = provi3.filter((item, index, array) => {
-          //   return array.indexOf(item) !== index;
-          // });
-          // console.log("provi5", provi4);
-
-          // for (let i=0; i=arrayRecipesByEachTag.length-2; i++) {
-          //   tamponTab = arrayRecipesByEachTag.filter((item, index, array) => {
-          //     return array.indexOf(item) !== index;
-          //   });
-          // }
-
-          // let result = [...new Set([...provi4])];
-          // console.log("result", result);
-
-          // arrayRecipesByEachTag
-          // tamponTab = arrayRecipesByEachTag[0].filter((x) =>
-          // arrayRecipesByEachTag[1].includes(x));
-
-          // for (let i=0; i=arrayRecipesByEachTag.length-1; i++) {
-          //   // console.log("tamponTab", tamponTab);
-          //   tamponTab = arrayRecipesByEachTag[i].filter((x) =>
-          // arrayRecipesByEachTag[i+1].includes(x));
-          // }
-
-          // tamponTab = arrayRecipesByEachTag.filter((x) =>
-          // arrayRecipesByEachTag.includes(x));
-          // tamponTab = arrayIdAdvancedSearch.filter((x) =>
-          //   arrayRecipesByEachTag[arrayRecipesByEachTag.length - 1].includes(x)
-          // );
-
-          // console.log("arrayRecipesByEachTag", arrayRecipesByEachTag);
-          // console.log("tamponTab", tamponTab);
-          // arrayIdSelectedFusion = searchCommonId(
-          //   arrayIdSimpleSearch,
-          //   arrayIdAdvancedSearch
-          // );
-          // refreshCards();

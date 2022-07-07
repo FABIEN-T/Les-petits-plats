@@ -1,21 +1,10 @@
-// Déclaration de Variable
-// const dropdownContainer =  document.querySelector(".dropdownContainer");
-// const inputChevron = document.querySelector(".inputChevron "); 
-
+// Déclaration des constantes
 const ingredientsContainer = document.querySelector(".ingredientsContainer");
 const ingredientsHeaderDropdown = document.querySelector(
   ".ingredientsDropdown"
 );
 const ingredientsList = document.querySelector(".ingredientsList");
 const ingredientsArrow = document.querySelector(".arrowIngredients");
-
-const ingredientsObjet = {
-  ingredientsContainer,
-        ingredientsHeaderDropdown,
-        ingredientsList,
-        ingredientsArrow
-}
-// console.log(ingredientsObjet);
 
 const appliancesContainer = document.querySelector(".appliancesContainer");
 const appliancesHeaderDropdown = document.querySelector(".appliancesDropdown");
@@ -29,7 +18,7 @@ const utensilsArrow = document.querySelector(".arrowUtensils");
 
 // Déclaration de la fonction d'ouverture du menu
 function openDropdown(container, header, list, arrowClass) {
-  list.classList.replace("listContainer", "listContainerOpen"); 
+  list.classList.replace("listContainer", "listContainerOpen");
   header.classList.replace("inputChevron", "inputChevronOpen");
   container.classList.replace("dropdownContainer", "dropdownContainerOpen");
   arrowClass.classList.replace("fa-chevron-down", "fa-chevron-up");
@@ -37,25 +26,26 @@ function openDropdown(container, header, list, arrowClass) {
 
 // Déclaration de la fonction de fermeture du menu
 function closeDropdown(container, header, list, arrowClass) {
-  list.classList.replace("listContainerOpen", "listContainer"); 
+  list.classList.replace("listContainerOpen", "listContainer");
   header.classList.replace("inputChevronOpen", "inputChevron");
   container.classList.replace("dropdownContainerOpen", "dropdownContainer");
   arrowClass.classList.replace("fa-chevron-up", "fa-chevron-down");
 }
 
-
 export function dropdown() {
-  ingredientsHeaderDropdown.addEventListener("mousedown", (e) => {
-    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)   
+  // Gestion dropdown INGREDIENTS
+  ingredientsHeaderDropdown.addEventListener("mousedown", () => {
+    // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
+    // ALORS ouvrir Dropdown (liste)
     if (ingredientsArrow.outerHTML.includes("down")) {
-      openDropdown(        
+      openDropdown(
         ingredientsContainer,
         ingredientsHeaderDropdown,
         ingredientsList,
         ingredientsArrow
       );
     } else {
-      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      // SINON chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
       closeDropdown(
         ingredientsContainer,
         ingredientsHeaderDropdown,
@@ -76,8 +66,10 @@ export function dropdown() {
     }
   });
 
+  // Gestion dropdown APPAREILS
   appliancesHeaderDropdown.addEventListener("mousedown", () => {
-    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)
+    // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
+    // ALORS ouvrir Dropdown (liste)
     if (appliancesArrow.outerHTML.includes("down")) {
       openDropdown(
         appliancesContainer,
@@ -86,7 +78,7 @@ export function dropdown() {
         appliancesArrow
       );
     } else {
-      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      // SINON chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
       closeDropdown(
         appliancesContainer,
         appliancesHeaderDropdown,
@@ -107,8 +99,10 @@ export function dropdown() {
     }
   });
 
+  // Gestion dropdown USTENSILS
   utensilsHeaderDropdown.addEventListener("mousedown", () => {
-    // SI clic dans input et class chevron : "fa-chevron-down" ALORS ouvrir Dropdown (liste)
+    // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
+    // ALORS ouvrir Dropdown (liste)
     if (utensilsArrow.outerHTML.includes("down")) {
       openDropdown(
         utensilsContainer,
@@ -117,7 +111,7 @@ export function dropdown() {
         utensilsArrow
       );
     } else {
-      // SINON class chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
+      // SINON chevron : "fa-chevron-up", fermer Dropdown (liste) qui est actuellement ouvert
       closeDropdown(
         utensilsContainer,
         utensilsHeaderDropdown,
@@ -138,12 +132,14 @@ export function dropdown() {
     }
   });
 
-  // Clic extérieur à la liste 
+  // GESTION du Clic extérieur à la liste
   document.addEventListener("click", (e) => {
+    // SI la liste INGREDIENTS est ouverte
+    // ET le clic n'est pas dans le champ de recherche INGREDIENTS
+    // ALORS fermeture de la liste
     if (
       !ingredientsHeaderDropdown.contains(e.target) &&
       ingredientsList.classList.contains("listContainerOpen")
-      // ingredientsList.style.transform == "translateY(0px)"
     ) {
       closeDropdown(
         ingredientsContainer,
@@ -152,6 +148,9 @@ export function dropdown() {
         ingredientsArrow
       );
     }
+    // SI la liste APPAREILS est ouverte
+    // ET le clic n'est pas dans le champ de recherche INGREDIENTS
+    // ALORS fermeture de la liste
     if (
       !appliancesHeaderDropdown.contains(e.target) &&
       appliancesList.classList.contains("listContainerOpen")
@@ -163,6 +162,9 @@ export function dropdown() {
         appliancesArrow
       );
     }
+    // SI la liste USTENSILS est ouverte
+    // ET le clic n'est pas dans le champ de recherche INGREDIENTS
+    // ALORS fermeture de la liste
     if (
       !utensilsHeaderDropdown.contains(e.target) &&
       utensilsList.classList.contains("listContainerOpen")
@@ -176,66 +178,3 @@ export function dropdown() {
     }
   });
 }
-
-// // Déclaration de la fonction d'ouverture du menu
-// function openDropdown(container, header, list, arrowClass) {
-//   list.classList.replace("listContainer", "listContainerOpen"); 
-//   header.classList.replace("inputChevron", "inputChevronOpen");
-//   container.classList.replace("dropdownContainer", "dropdownContainerOpen");
-//   arrowClass.classList.replace("fa-chevron-down", "fa-chevron-up");
-// }
-
-// // Déclaration de la fonction de fermeture du menu
-// function closeDropdown(container, header, list, arrowClass) {
-//   list.classList.replace("listContainerOpen", "listContainer"); 
-//   header.classList.replace("inputChevronOpen", "inputChevron");
-//   container.classList.replace("dropdownContainerOpen", "dropdownContainer");
-//   arrowClass.classList.replace("fa-chevron-up", "fa-chevron-down");
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ingredientsContainer.style.width = "170px";
-// appliancesContainer.style.width = "170px";
-// utensilsContainer.style.width = "170px";
-// ingredientsContainer.style.height = "69px";
-// appliancesContainer.style.height = "69px";
-// utensilsContainer.style.height = "69px";
-
-// console.log("ingredientsObject", ingredientsObject);
-// const {header, list, arrowClass, arrowClassText} = ingredientsObject;
-// console.log("ok", ingredientsObject.header);
-
-// const ingredientsObject = {
-//   ingredientsHeaderDropdown,
-//   ingredientsList,
-//   ingredientsArrow,
-//   ingredientsArrowClass,
-// };
-// essai(ingredientsObject);
-// function essai(objet) {
-//   console.log("essai", objet);
-//   const {header, list, arrowClass, arrowClassText} = objet;
-//   console.log("essai2", objet.header);
-// }
-
-// //SOURIS : FERMETURE du menu de tri QUAND un type de tri est sélectionné
-// ingredientsList.addEventListener("mousedown", (e) => {
-//   if (e.target.classList == "itemList") {
-//     closeDropdown(ingredientsObject );
-//   }
-// });

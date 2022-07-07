@@ -1,6 +1,7 @@
 header {
   display: flex;
   flex-direction: column;
+  width: 90vw;
   margin: 42px auto 17px;
 }
 
@@ -19,7 +20,7 @@ h1 {
 }
 
 main {
-  max-width: 90vw;
+  width: 90vw;
   margin: 0px auto;
 }
 
@@ -57,7 +58,7 @@ main {
   justify-content: space-evenly;
   flex-wrap: wrap;
   // margin-top: 25px;
-  overflow: hidden;
+  // overflow: hidden;
   margin: 0vw -0.9vw;
 }
 

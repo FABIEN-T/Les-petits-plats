@@ -10,14 +10,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
-    <!-- <script type=module src="./scripts/index.js" defer></script>   -->
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="./assets/icons/favicon_LogoPetitsPlats.png"
-    />        
+    />
   </head>
+
   <body>
     <header>
       <img
@@ -28,7 +28,9 @@
       />
       <h1>Les petits plats</h1>
     </header>
+
     <main>
+      <!-- Barre de recherche principale -->
       <div class="searchBar">
         <input
           type="text"
@@ -51,69 +53,90 @@
           </svg>
         </div>
       </div>
+
+      <!-- Recherche avancée avec tags-->
       <div id="tagsSelect">
+        <!-- Conteneur des tags sélectionnés -->
         <div class="tagsContainer"></div>
 
+        <!-- Trois champs de recherche avancée -->
         <div class="threeDropdownContainer">
-          
-          
-            <div class="dropdownContainer ingredientsContainer"> 
-              <form name="rechercheAvancee" action="index.html" method="get" id="formIngredients">           
-                <div class="inputChevron ingredientsColor ingredientsDropdown">
-                  <input
-                    type="text"
-                    id="ingredientsInput"
-                    class="tagsDropdownInput"
-                    placeholder="Ingrédients"
-                  />
-                  <em class="fas fa-chevron-down arrowIngredients"></em>
-                </div>   
-              </form>        
-              <div class="ingredientsList listContainer ingredientsColor"></div>
-            </div>
-
-            <div class="dropdownContainer appliancesContainer">
-              <form name="rechercheAvancee" action="index.html" method="get" id="formAppliances">
-                <div class="inputChevron appliancesColor appliancesDropdown">
-                  <input
-                    type="text"
-                    id="appliancesInput"
-                    class="tagsDropdownInput"
-                    placeholder="Appareils"
-                  />              
-                  <em class="fas fa-chevron-down arrowAppliances"></em>
-                </div>
-              </form>            
-              <div class="appliancesList listContainer appliancesColor"></div>
-            </div>
-
-            <div class="dropdownContainer utensilsContainer">
-              <form name="rechercheAvancee" action="index.html" method="get" id="formUtensils">
-                <div class="inputChevron utensilsColor utensilsDropdown">
-                  
-                  <input
-                    type="text"
-                    id="utensilsInput"
-                    class="tagsDropdownInput"
-                    placeholder="Ustensiles"
-                  />
-                  <em class="fas fa-chevron-down arrowUtensils"></em>
-                
-                </div>   
-              </form>         
-              <div class="utensilsList listContainer utensilsColor"></div>
-            </div>        
+          <!-- Champs de recherche avancée INGREDIENTS -->
+          <div class="dropdownContainer ingredientsContainer">
+            <form
+              name="rechercheAvancee"
+              action="index.html"
+              method="get"
+              id="formIngredients"
+            >
+              <div class="inputChevron ingredientsColor ingredientsDropdown">
+                <input
+                  type="text"
+                  id="ingredientsInput"
+                  class="dropdownInput"
+                  placeholder="Ingrédients"
+                />
+                <em class="fas fa-chevron-down arrowIngredients"></em>
+              </div>
+            </form>
+            <!-- Coneteneur de la liste INGREDIENTS -->
+            <div class="ingredientsList listContainer ingredientsColor"></div>
           </div>
-      </div>
 
-      <div class="messageNoRecipe">
-        <!-- <h2>message</h2> -->
+          <!-- Champs de recherche avancée APPAREILS -->
+          <div class="dropdownContainer appliancesContainer">
+            <form
+              name="rechercheAvancee"
+              action="index.html"
+              method="get"
+              id="formAppliances"
+            >
+              <div class="inputChevron appliancesColor appliancesDropdown">
+                <input
+                  type="text"
+                  id="appliancesInput"
+                  class="dropdownInput"
+                  placeholder="Appareils"
+                />
+                <em class="fas fa-chevron-down arrowAppliances"></em>
+              </div>
+            </form>
+            <!-- Conteneur de la liste INGREDIENTS -->
+            <div class="appliancesList listContainer appliancesColor"></div>
+          </div>
+
+          <!-- Champs de recherche avancée APPAREILS -->
+          <div class="dropdownContainer utensilsContainer">
+            <form
+              name="rechercheAvancee"
+              action="index.html"
+              method="get"
+              id="formUtensils"
+            >
+              <div class="inputChevron utensilsColor utensilsDropdown">
+                <input
+                  type="text"
+                  id="utensilsInput"
+                  class="dropdownInput"
+                  placeholder="Ustensiles"
+                />
+                <em class="fas fa-chevron-down arrowUtensils"></em>
+              </div>
+            </form>
+            <!-- Conteneur de la liste USTENSILS -->
+            <div class="utensilsList listContainer utensilsColor"></div>
+          </div>
+        </div>
       </div>
+      <!-- Message d'avertissement: Aucune recette ne correspond à votre critère… -->
+      <div class="messageNoRecipe"></div>
+
+      <!-- Affichage des cards recettes -->
       <section id="recipeList" aria-label="liste des recettes"></section>
     </main>
 
-    <script src="./scripts/variables.js"></script>
+    <!-- SCRIPTS -->
+    <script src="./scripts/utils/variables.js"></script>
     <script type="module" src="./scripts/index.js"></script>
-    
   </body>
 </html>
