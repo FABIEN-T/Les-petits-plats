@@ -23,7 +23,7 @@ export function conversionJsonToArraySimpleSearch(data) {
     allRecipesSimpleSearch.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
   });
-  // console.log("allRecipesSimpleSearch", allRecipesSimpleSearch);
+  console.log("allRecipesSimpleSearch", allRecipesSimpleSearch);
 }
 
 // Conversion du json en tableau en gardant pour chaque recette : ingredient - appareils - ustensiles

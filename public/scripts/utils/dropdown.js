@@ -34,7 +34,8 @@ function closeDropdown(container, header, list, arrowClass) {
 
 export function dropdown() {
   // Gestion dropdown INGREDIENTS
-  ingredientsHeaderDropdown.addEventListener("mousedown", () => {
+  ingredientsHeaderDropdown.addEventListener("mousedown", (e) => {
+    e.stopPropagation();
     // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
     // ALORS ouvrir Dropdown (liste)
     if (ingredientsArrow.outerHTML.includes("down")) {
@@ -67,9 +68,10 @@ export function dropdown() {
   });
 
   // Gestion dropdown APPAREILS
-  appliancesHeaderDropdown.addEventListener("mousedown", () => {
+  appliancesHeaderDropdown.addEventListener("mousedown", (e) => {
     // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
     // ALORS ouvrir Dropdown (liste)
+    e.stopPropagation();
     if (appliancesArrow.outerHTML.includes("down")) {
       openDropdown(
         appliancesContainer,
@@ -100,9 +102,10 @@ export function dropdown() {
   });
 
   // Gestion dropdown USTENSILS
-  utensilsHeaderDropdown.addEventListener("mousedown", () => {
+  utensilsHeaderDropdown.addEventListener("mousedown", (e) => {
     // SI clic dans input et chevron : "fa-chevron-down" (la liste n'est pas ouverte)
     // ALORS ouvrir Dropdown (liste)
+    e.stopPropagation();
     if (utensilsArrow.outerHTML.includes("down")) {
       openDropdown(
         utensilsContainer,

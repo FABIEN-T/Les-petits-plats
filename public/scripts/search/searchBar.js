@@ -3,7 +3,7 @@ import {
   messageNoRecipe, // Affichage ou effacement du message d'avertissement : "Aucune recette..."
   removeCards, // Effacement de toutes les recettes
   refreshCards, // Affichage des recettes trouvées par la recherche des recettes communes à la recherche simple et à la recherche avancée
-  searchCommonId // Recherche des recettes communes à la recherche simple et à la recherche avancée
+  searchCommonId, // Recherche des recettes communes à la recherche simple et à la recherche avancée
 } from "../utils/functions.js";
 
 import {
@@ -20,8 +20,8 @@ let arraySelected = []; // Tableau des id des recettes sélectionnées (recherch
 
 // AFFICHAGE DES RECETTES SELECTIONEES
 export function displayRecipesSelected() {
-  tagsInput(); // Ecoute des événnements de saisie dans la recherche avancée
-  threeTypeTagsListener(); // Ecoute du clic sur les items des 3 listes et affichage des tags concernés
+  tagsInput(); // Ecouter les événnements de saisie dans la recherche avancée
+  threeTypeTagsListener(); // Ecouter clic sur les items des 3 listes et affichage des tags concernés
 
   // Gestion de la saisie dans la barre de recherche simple
   const inputSearch = document.querySelector(".searchBarInput");
@@ -46,7 +46,7 @@ export function displayRecipesSelected() {
       } else {
         // SINON SI il y a moins de 3 caractères et au moins  un tag sélectionné
         arrayIdSimpleSearch = []; // initialiser le tableau des des id filtrés (recherche simple)
-        // Les ecettes à afficher sont celles de la recherche avancée
+        // Les recettes à afficher sont celles de la recherche avancée
         arrayIdSelectedFusion = arrayIdAdvancedSearch;
         updateLists(); // mise à jour des listes de la recherche avancée
         refreshCards(); // mise à jour de l'affichage des recettes
@@ -62,13 +62,17 @@ export function simpleSearch(valueInput) {
   arrayIdSimpleSearch = []; // initialisation du tableau des recettes sélectionnées ET filtrées (recherche simple)
   error = false; // variable, si true : indique à la fonction "closeTagsListener()"que la saisie ne donne aucune recette
   // Recherche l'expression saisie dans  "name - ingredient - description" de chaque recette
+
+   // Enlever les doublons
+  // arrayIdSimpleSearch = arraySelected;
+
   // allRecipesSimpleSearch.forEach((recipe) => {
   //   recipe.forEach((element) => {
   //     if (element.includes(valueInput.toLowerCase())) {
   //       // ALORS mettre l'id de la recette dans le tableau des recettes sélectionnées
   //       arraySelected.push(recipe[0]);
   //     }
-  //   });    
+  //   });
   // });
   // // Enlever les doublons
   // arrayIdSimpleSearch = arraySelected.filter((item, index) => {
@@ -77,25 +81,37 @@ export function simpleSearch(valueInput) {
   // arrayIdSimpleSearch = arraySelected
   // arrayIdSimpleSearch = [...new Set(arraySelected)];
 
+  // for (let i = 0; i < allRecipesSimpleSearch.length; i++) {
+  //   let recipe = allRecipesSimpleSearch[i]; // pour chaque recette
+  //   for (let j = 0; j < recipe.length; j++) { // chaque élément "name - ingredient - description"
+  //     let element = recipe[j];
+  //     if (element.includes(valueInput.toLowerCase())) { // SI la saisie est incluse
+  //       // ALORS mettre l'ID de la recette dans le tableau des recettes sélectionnées
+  //       arraySelected.push(recipe[0]);
+  //       // Enlever des doublons
+  //       if (arraySelected.length > 0) {
+  //           if (
+  //             arraySelected[arraySelected.length - 1] ===
+  //             arraySelected[arraySelected.length - 2]
+  //           ) { arraySelected.pop();}
+  //       }
+  //     }
+  //   }
+  // }
+  // arrayIdSimpleSearch = arraySelected;
+  // console.log("SimpleSearch", arrayIdSimpleSearch);
+
   for (let i = 0; i < allRecipesSimpleSearch.length; i++) {
     let recipe = allRecipesSimpleSearch[i]; // pour chaque recette
     for (let j = 0; j < recipe.length; j++) { // chaque élément "name - ingredient - description"
       let element = recipe[j];
       if (element.includes(valueInput.toLowerCase())) { // SI la saisie est incluse
         // ALORS mettre l'ID de la recette dans le tableau des recettes sélectionnées
-        arraySelected.push(recipe[0]); 
-        // Enlever des doublons
-        if (arraySelected.length > 0) { 
-            if (
-              arraySelected[arraySelected.length - 1] ===
-              arraySelected[arraySelected.length - 2]
-            ) { arraySelected.pop();}
-        }
+        arraySelected.push(recipe[0]);
       }
-    }    
+    }
   }
-  arrayIdSimpleSearch = arraySelected;
-  // console.log("SimpleSearch", arrayIdSimpleSearch);
+  arrayIdSimpleSearch = [...new Set(arraySelected)];
 
   // SI la saisie n'a pas de correspondance (faute de frappe ou terme non contenu dans la base de données)
   if (arrayIdSimpleSearch.length == 0) {
@@ -122,7 +138,6 @@ export function simpleSearch(valueInput) {
     refreshCards(); // mise à jour de l'affichage des recettes
   }
 }
-
 
 // allRecipesSimpleSearch.forEach((recipe) => {
 //   recipe.forEach((element) => {
