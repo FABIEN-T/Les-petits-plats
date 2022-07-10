@@ -6,7 +6,7 @@ import {
   searchCommonId, // Recherche des recettes communes à la recherche simple et à la recherche avancée
 } from "../utils/functions.js";
 
-import { simpleSearch } from "./searchBar.js";
+import { simpleSearch } from "./mainSearch.js";
 
 import {
   initArraysLists, // Initialisations des listes de recherche avancée
@@ -23,7 +23,7 @@ export function displayRecipesSelected() {
   threeTypeTagsListener(); // Ecouter clic sur les items des 3 listes et affichage des tags concernés
 
   // Gestion de la saisie dans la barre de recherche simple
-  const inputSearch = document.querySelector(".searchBarInput");
+  const inputSearch = document.querySelector(".mainSearchInput");
   inputSearch.addEventListener("input", (e) => {
     // SI il y au moins 3 caractères dans la barre de recherche
     if (e.target.value.length >= 3) {

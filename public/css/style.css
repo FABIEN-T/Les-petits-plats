@@ -370,7 +370,7 @@ main {
   margin: 0px auto;
 }
 
-.searchBar {
+.mainSearch {
   display: flex;
   justify-content: center;
   height: 69px;
@@ -379,7 +379,7 @@ main {
   position: relative;
 }
 
-.searchBarInput {
+.mainSearchInput {
   width: 100%;
   height: 100%;
   padding-left: 24px;
