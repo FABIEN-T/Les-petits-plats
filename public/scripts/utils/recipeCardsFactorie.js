@@ -1,6 +1,6 @@
-export function recipeCardsFactorie(data) {
+export function recipeCardsFactorie(recipe) {
   // Récupération des datas (response.recipes) et décomposition
-  const { name, ingredients, time, description } = data;
+  const { name, ingredients, time, description } = recipe;
   getRecipeCardDOM();
 
   // Factorie cards

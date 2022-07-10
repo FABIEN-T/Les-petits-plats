@@ -20,7 +20,6 @@ export function searchCommonId(array1, array2) {
       return array.indexOf(item) !== index;
     });
   }
-  // return [...new Set(arrayFinal)];
   return arrayFinal;
 }
 
