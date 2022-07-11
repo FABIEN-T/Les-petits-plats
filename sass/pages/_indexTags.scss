@@ -40,7 +40,6 @@
   }
   
   .dropdownContainer {
-  // .ingredientsContainer, .appliancesContainer, .utensilsContainer {
     display: flex;
     flex-direction: column;
     margin: 0px 20px 20px 0px; 
@@ -48,6 +47,7 @@
     width: 170px;
     height: 69px;
   }
+
   .dropdownContainerOpen {
     display: flex;
     flex-direction: column;
@@ -114,8 +114,7 @@
     flex-wrap: wrap;
     transform: translateY(-3200px);
     overflow-x: auto;
-    overflow-y: hidden;  
-    // width: 556px;
+    overflow-y: hidden; 
     max-height: 328px;
     padding: 0px 15px 15px;
     margin-top: -10px;
@@ -133,7 +132,6 @@
     transform: translateY(0px);
     overflow-x: auto;
     overflow-y: hidden;
-    // width: calc(500px - 30px);
     padding: 0px 15px 15px;
     margin-top: -10px;
     border-radius: 0px 0px 5px 5px;
@@ -145,7 +143,6 @@
   
   .itemList {
     cursor: pointer;
-    // width: 150px;
     max-width:fit-content;
     margin: 2px 30px 0 2px;
   }

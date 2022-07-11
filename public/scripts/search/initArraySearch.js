@@ -1,6 +1,5 @@
 import { stringNoAccent } from "../utils/functions.js"; // Enlève l'accent sur la première lettre du mot et mise en capitale
 
-
 // Conversion du json en tableau en gardant pour chaque recette : id - name - ingredient - description
 // Utilisé pour la recherche principale
 export function conversionJsonToArrayMainSearch(data) {
@@ -23,7 +22,6 @@ export function conversionJsonToArrayMainSearch(data) {
     allRecipesMainSearch.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
   });
-  // console.log("allRecipesMainSearch", allRecipesMainSearch);
 }
 
 // Conversion du json en tableau en gardant pour chaque recette : ingredient - appareils - ustensiles
@@ -48,6 +46,4 @@ export function conversionJsonToArrayAdvancedSearch(data) {
     allRecipesAdvancedSearch.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
   });
-  // console.log("allRecipesAdvancedSearch", allRecipesAdvancedSearch);
 }
-

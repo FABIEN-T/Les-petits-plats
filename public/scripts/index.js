@@ -1,9 +1,11 @@
 import { recipeCardsFactorie } from "./utils/recipeCardsFactorie.js";
-import { conversionJsonToArrayMainSearch, conversionJsonToArrayAdvancedSearch } from "./search/initArraySearch.js";
+import {
+  conversionJsonToArrayMainSearch,
+  conversionJsonToArrayAdvancedSearch,
+} from "./search/initArraySearch.js";
 import { initArraysLists } from "./search/tags.js";
-// import { initArraysLists } from "./search/tagsList.js";
 import { displayRecipesSelected } from "./search/displayRecipesSelected.js";
-import { dropdown} from "./utils/dropdown.js";
+import { dropdown } from "./utils/dropdown.js";
 
 // LANCEMENT DU PROGRAMME D'INITIALISATION
 init();
@@ -27,7 +29,7 @@ async function init() {
       conversionJsonToArrayAdvancedSearch(recipesData);
       // Initialisation des listes de la recherche avancée
       initArraysLists();
-      // Affichage des recettes en fonction d'une expression saisie dans la barre principale de recherche 
+      // Affichage des recettes en fonction d'une expression saisie dans la barre principale de recherche
       // Et/Ou en fonction des tags sélectionnés
       displayRecipesSelected();
       // Gestion graphique des champs de la recherche avancée et des listes
