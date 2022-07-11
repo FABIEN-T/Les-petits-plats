@@ -1,0 +1,168 @@
+// TAGS
+.tagsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .tag {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875em;
+    font-weight: 700;
+    color: white;
+    width: fit-content;
+    height: 37px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding: 0px 15px;
+    border-radius: 5px;
+  }
+  
+  .tag p {
+    margin: 0;
+    white-space: nowrap;
+  }
+  
+  .fa-times-circle {
+    color: white;
+    font-size: 20px;
+    margin-left: 15px;
+  }
+  
+  // INPUTS
+  .threeDropdownContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .dropdownContainer {
+  // .ingredientsContainer, .appliancesContainer, .utensilsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px 20px 0px; 
+    // border: lime solid 3px;  
+    width: 170px;
+    height: 69px;
+  }
+  .dropdownContainerOpen {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px 20px 0px; 
+    width: $widthDropdownOpen;
+    min-height: 50px;
+    max-height: 300px;
+  }
+  
+  .inputChevron {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 170px;
+    height: 69px;
+    border-radius: 5px;
+    padding: 0px 18px 0px 15px;  
+  }
+  
+  .inputChevronOpen {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: $widthDropdownOpen;
+    height: 69px;
+    border-radius: 5px 5px 0px 0px;
+    padding: 0px 18px 0px 15px;  
+  }
+  
+  #formIngredients, #formAppliances, #formUtensils {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .fas {
+    padding: 0px;  
+    color: white;
+    cursor: pointer;
+  }
+  
+  .dropdownInput {
+    display: flex;
+    max-width: 120px;
+    font-size: 1.125em;
+    font-weight: 700; 
+    border: transparent;
+    background-color: transparent;
+    outline: none;  
+    color: white;
+  }
+  
+  .dropdownInput::placeholder {
+    color: white;
+    opacity: 1;
+  }
+  
+  .listContainer {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    transform: translateY(-3200px);
+    overflow-x: auto;
+    overflow-y: hidden;  
+    // width: 556px;
+    max-height: 328px;
+    padding: 0px 15px 15px;
+    margin-top: -10px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 1.125em;
+    line-height: 1.35em;
+    font-weight: 400;
+    color: white;
+  }
+  
+  .listContainerOpen {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    transform: translateY(0px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    // width: calc(500px - 30px);
+    padding: 0px 15px 15px;
+    margin-top: -10px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 1.125em;
+    line-height: 1.35em;
+    font-weight: 400;
+    color: white;
+  }
+  
+  .itemList {
+    cursor: pointer;
+    // width: 150px;
+    max-width:fit-content;
+    margin: 2px 30px 0 2px;
+  }
+  
+  .ingredientsColor
+  {
+    background-color: $ingredients;
+  }
+  
+  .appliancesColor {
+    background-color: $appliances;
+  }
+  
+  .utensilsColor {
+    background-color: $utensils;
+  }
+  
+  
+  
+  

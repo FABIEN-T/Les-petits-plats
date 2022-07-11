@@ -1,10 +1,10 @@
 // Couleur principale
-// $primary: #D04F4F;
-$primary: green;
+$primary: #D04F4F;
+// $primary: green;
 
 // Couleurs des tags
 $ingredients: #3282F7;
-$devices: #68D9A4;
+$appliances: #68D9A4;
 $utensils: #ED6454;
 
 // Gris
@@ -12,3 +12,8 @@ $belowPicture: #C7BEBE;
 $belowText: #E7E7E7;
 $greyBar: #E7E7E7;
 
+// Largeur header/main
+$widthPage: 90vw;
+
+// Largeur dropdown ouvert
+$widthDropdownOpen: 555px;
