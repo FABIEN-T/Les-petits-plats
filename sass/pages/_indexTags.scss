@@ -40,18 +40,18 @@
 }
 
 .dropdownContainer {
-// .ingredientsContainer, .appliancesContainer, .utensilsContainer {
   display: flex;
   flex-direction: column;
-  margin: 0px 20px 20px 0px; 
-  // border: lime solid 3px;  
+  margin: 0px 20px 20px 0px;
+  // border: lime solid 3px;
   width: 170px;
   height: 69px;
 }
+
 .dropdownContainerOpen {
   display: flex;
   flex-direction: column;
-  margin: 0px 20px 20px 0px; 
+  margin: 0px 20px 20px 0px;
   width: $widthDropdownOpen;
   min-height: 50px;
   max-height: 300px;
@@ -66,7 +66,7 @@
   width: 170px;
   height: 69px;
   border-radius: 5px;
-  padding: 0px 18px 0px 15px;  
+  padding: 0px 18px 0px 15px;
 }
 
 .inputChevronOpen {
@@ -78,16 +78,18 @@
   width: $widthDropdownOpen;
   height: 69px;
   border-radius: 5px 5px 0px 0px;
-  padding: 0px 18px 0px 15px;  
+  padding: 0px 18px 0px 15px;
 }
 
-#formIngredients, #formAppliances, #formUtensils {
+#formIngredients,
+#formAppliances,
+#formUtensils {
   margin: 0;
   padding: 0;
 }
 
 .fas {
-  padding: 0px;  
+  padding: 0px;
   color: white;
   cursor: pointer;
 }
@@ -96,10 +98,10 @@
   display: flex;
   max-width: 120px;
   font-size: 1.125em;
-  font-weight: 700; 
+  font-weight: 700;
   border: transparent;
   background-color: transparent;
-  outline: none;  
+  outline: none;
   color: white;
 }
 
@@ -114,8 +116,7 @@
   flex-wrap: wrap;
   transform: translateY(-3200px);
   overflow-x: auto;
-  overflow-y: hidden;  
-  // width: 556px;
+  overflow-y: hidden;
   max-height: 328px;
   padding: 0px 15px 15px;
   margin-top: -10px;
@@ -133,7 +134,6 @@
   transform: translateY(0px);
   overflow-x: auto;
   overflow-y: hidden;
-  // width: calc(500px - 30px);
   padding: 0px 15px 15px;
   margin-top: -10px;
   border-radius: 0px 0px 5px 5px;
@@ -145,13 +145,11 @@
 
 .itemList {
   cursor: pointer;
-  // width: 150px;
-  max-width:fit-content;
+  max-width: fit-content;
   margin: 2px 30px 0 2px;
 }
 
-.ingredientsColor
-{
+.ingredientsColor {
   background-color: $ingredients;
 }
 
@@ -162,6 +160,3 @@
 .utensilsColor {
   background-color: $utensils;
 }
-
-
-

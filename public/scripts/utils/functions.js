@@ -47,12 +47,12 @@ export function messageNoRecipe() {
     "Aucune recette ne correspond à votre critère… </br> vous pouvez chercher « tarte aux pommes », « poisson », etc...";
   // SI il n'y aucune recette d'affichée donc de trouvée
   if (document.querySelectorAll("article").length === 0) {
-    // ALORS afficher message d'avertissement 
+    // ALORS afficher message d'avertissement
     document.querySelector(
       ".messageNoRecipe"
     ).innerHTML = `<h2>${message}</h2>`;
   } else {
-    // SINON effacer message d'avertissement    
+    // SINON effacer message d'avertissement
     document.querySelector(".messageNoRecipe").innerHTML = `<h2></h2>`;
   }
 }

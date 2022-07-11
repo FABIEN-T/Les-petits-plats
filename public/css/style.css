@@ -582,7 +582,9 @@ article {
   padding: 0px 18px 0px 15px;
 }
 
-#formIngredients, #formAppliances, #formUtensils {
+#formIngredients,
+#formAppliances,
+#formUtensils {
   margin: 0;
   padding: 0;
 }
