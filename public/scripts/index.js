@@ -1,5 +1,5 @@
 import { recipeCardsFactorie } from "./utils/recipeCardsFactorie.js";
-import { conversionJsonToArraySimpleSearch, conversionJsonToArrayAdvancedSearch } from "./search/initArraySearch.js";
+import { conversionJsonToArrayMainSearch, conversionJsonToArrayAdvancedSearch } from "./search/initArraySearch.js";
 import { initArraysLists } from "./search/tags.js";
 // import { initArraysLists } from "./search/tagsList.js";
 import { displayRecipesSelected } from "./search/displayRecipesSelected.js";
@@ -13,18 +13,18 @@ async function init() {
   await fetch("./data/recipes.json")
     .then((response) => response.json())
     .then((response) => {
-      myData = response.recipes; // récupération du json dans un tableau
-      myData.forEach((recipe) => {
+      recipesData = response.recipes; // récupération du json dans un tableau
+      recipesData.forEach((recipe) => {
         recipeCardsFactorie(recipe); // Affichage de toutes les recettes au chargement de la page et lors des réinitialisations
       });
       // Conversion du json en tableau en gardant pour chaque recette :
       // id - name - ingredient - description
-      // Utilisé pour la recherche simple
-      conversionJsonToArraySimpleSearch(myData);
+      // Utilisé pour la recherche principale
+      conversionJsonToArrayMainSearch(recipesData);
       // Conversion du json en tableau en gardant pour chaque recette :
       // ingredient - appareils - ustensiles
       // Utilisé pour la recherche avancée
-      conversionJsonToArrayAdvancedSearch(myData);
+      conversionJsonToArrayAdvancedSearch(recipesData);
       // Initialisation des listes de la recherche avancée
       initArraysLists();
       // Affichage des recettes en fonction d'une expression saisie dans la barre principale de recherche 

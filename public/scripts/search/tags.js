@@ -3,7 +3,7 @@ import { recipeCardsFactorie } from "../utils/recipeCardsFactorie.js";
 // Enlève l'accent sur la première lettre du mot et mise en capitale
 // Efface toutes les recettes
 // Affichage des recettes trouvées par la recherche
-// Recherche des recettes communes à la recherche simple et à la recherche avancée
+// Recherche des recettes communes à la recherche principale et à la recherche avancée
 import {
   stringUpperCaseFirst,
   stringNoAccent,
@@ -33,7 +33,7 @@ export function initArraysLists() {
   let appliancesList = [];
   let utensilsList = [];
   // console.log(data);
-  myData.forEach((element) => {
+  recipesData.forEach((element) => {
     // pour chaque "ingrédients", ajouter danns le tableau uniquement les valeurs de propriétés "ingredient"
     element.ingredients.forEach((el) => {
       // console.log(element.id);
@@ -53,7 +53,7 @@ export function initArraysLists() {
   // console.log(ingredientsList, appliancesList, utensilsList);
 }
 
-// Mise à jour des liste de tags en fonction de la sélection commune à la recherche simple et avancée
+// Mise à jour des liste de tags en fonction de la sélection commune à la recherche principale et avancée
 export function updateLists() {
   let ingredientsList = [];
   let appliancesList = [];
@@ -62,13 +62,13 @@ export function updateLists() {
   // Création des listes filtrées à partir du tableau des recettes sélectionnées
   arrayIdSelectedFusion.forEach((i) => {
     // console.log(parseInt(i, 10));
-    myData[parseInt(i, 10) - 1].ingredients.forEach((el) => {
+    recipesData[parseInt(i, 10) - 1].ingredients.forEach((el) => {
       ingredientsList.push(stringUpperCaseFirst(el.ingredient));
     });
     appliancesList.push(
-      stringUpperCaseFirst(myData[parseInt(i, 10) - 1].appliance)
+      stringUpperCaseFirst(recipesData[parseInt(i, 10) - 1].appliance)
     );
-    myData[parseInt(i, 10) - 1].ustensils.forEach((el) => {
+    recipesData[parseInt(i, 10) - 1].ustensils.forEach((el) => {
       utensilsList.push(stringUpperCaseFirst(el));
     });
   });
@@ -143,7 +143,7 @@ function tagsListenerAndDisplay(classDom, classColor) {
         document.getElementById("formUtensils").reset();
         arrayTagsSelected.push(e.target.innerHTML); // ajoute le nouveau tag dans le tableau des tags sélectionnés
         updateLists(); // mise à jour des listes de la recherche avancée
-        searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
+        searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche principale et avancée
       }
     });
   });
@@ -178,15 +178,15 @@ export function closeTagsListener() {
         });
         // console.log("arrayConcat", arrayConcat);
         arrayIdAdvancedSearch = arrayConcat;
-        // Actualiser les recettes communes à la recherche simple et à la recherche avancée
+        // Actualiser les recettes communes à la recherche principale et à la recherche avancée
         arrayIdSelectedFusion = searchCommonId(
-          arrayIdSimpleSearch,
+          arrayIdMainSearch,
           arrayIdAdvancedSearch
         );        
       }
       arrayRecipesByEachTag.splice(indexTagClosed, 1); // Enlever le tableau contenant la liste de recettes (id) du tag fermé
       // updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualise les recettes sélectionnées
-      // SI faute de frappe ou terme inconnu dans la recherche simple,
+      // SI faute de frappe ou terme inconnu dans la recherche principale,
       if (error === true) {
         removeCards(); // ALORS effacer toutes les recettes
         // arrayRecipesByEachTag.splice(indexTagClosed, 1); 
@@ -201,13 +201,13 @@ export function closeTagsListener() {
         // arrayRecipesByEachTag.splice(indexTagClosed, 1);
         // console.log("après SPLICE arrayRecipesByEachTag", arrayRecipesByEachTag);
         updateAdvancedSearch(); // Filtrer les id communs à chaque tag et actualise les recettes sélectionnées
-        // searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche simple et avancée
-        // SI il n'y a aucun tag et que la recherche simple ne donne rien
+        // searchTagInListsAndCrossArrayId(); // Recherche le tag dans les listes de la recherche avancée, et croise les résultats de la recherche principale et avancée
+        // SI il n'y a aucun tag et que la recherche principale ne donne rien
         if (
           document.querySelectorAll(".tag").length == 0 &&
-          arrayIdSimpleSearch.length == 0
+          arrayIdMainSearch.length == 0
         ) {
-          myData.forEach((recipe) => {
+          recipesData.forEach((recipe) => {
             recipeCardsFactorie(recipe); // Réafficher toutes les recettes
           });
           initArraysLists(); // Initialiser les listes de recherche avancée
@@ -228,32 +228,32 @@ export function closeTagsListener() {
 
 // Recherche les tags dans les listes de la recherche avancée,
 // croise le tableau des recettes sélectionnées (id) dans la recherche avancée
-// avec celui de la recherche simple
+// avec celui de la recherche principale
 // et ne garde que les recettes en commun
 export function searchTagInListsAndCrossArrayId() {
   let arraySelected = []; // tableau des recettes (id) du tag sélectionné
   let arraySuperSelected = []; // tableau contenant les tableaux des recettes (id) de chaque tag sélectionné
 
-  // SI il n'y a pas de tags, afficher  les recettes et listes de la recherche simple
+  // SI il n'y a pas de tags, afficher  les recettes et listes de la recherche principale
   if (document.querySelectorAll(".tag").length == 0) {
     arrayIdAdvancedSearch = [];
     tempTab = [];
-    // arrayIdSimpleSearch = [];
+    // arrayIdMainSearch = [];
     removeCards(); // Efface toutes les recettes
-    myData.forEach((recipe) => {
+    recipesData.forEach((recipe) => {
       recipeCardsFactorie(recipe); // Réinitialisation : Affichage de toutes les recettes
     });
     initArraysLists(); // Initialisations des listes de recherche avancée
     threeTypeTagsListener(); // Ecoute du clic sur un tag et affichage
-    // Recherche des recettes communes à la recherche simple et à la recherche avancée
-    arrayIdSelectedFusion = arrayIdSimpleSearch;
-    // SI il n'y a pas de recettes trouvées avec la echerche simple
-    if (arrayIdSimpleSearch.length == 0) {
-      myData.forEach((recipe) => {
+    // Recherche des recettes communes à la recherche principale et à la recherche avancée
+    arrayIdSelectedFusion = arrayIdMainSearch;
+    // SI il n'y a pas de recettes trouvées avec la echerche principale
+    if (arrayIdMainSearch.length == 0) {
+      recipesData.forEach((recipe) => {
         recipeCardsFactorie(recipe); // ALORS Réinitialisation : Affichage de toutes les recettes
       });
     } else {
-      refreshCards(); // SINON afficher les recettes correspondant à la recherche simple
+      refreshCards(); // SINON afficher les recettes correspondant à la recherche principale
     }
   } else {
     // SINON chercher les recettes incluant les tags sélectionnés
@@ -284,14 +284,14 @@ export function searchTagInListsAndCrossArrayId() {
     // SI il y a 1 tag
     if (document.querySelectorAll(".tag").length == 1) {
       arrayIdAdvancedSearch = arraySelected; // La recherche avancée correspond à la première recherche de tag
-      // Sélectionner les recettes communes à la recherche simple et à la recherche avancée
-      arrayIdSelectedFusion = searchCommonId(arrayIdSimpleSearch, [
+      // Sélectionner les recettes communes à la recherche principale et à la recherche avancée
+      arrayIdSelectedFusion = searchCommonId(arrayIdMainSearch, [
         ...new Set(arrayIdAdvancedSearch),
       ]);
       arrayRecipesByEachTag = arraySuperSelected; // Affecter tableau contenant la liste de recettes (id) pour chaque Tag
       // console.log("searchTag arrayRecipesByEachTag", arrayRecipesByEachTag);
       updateLists(); // Mettre à jour des listes de la recherche avancée
-      refreshCards(); // Afficher les recettes communes à la recherche simple et à la recherche avancée
+      refreshCards(); // Afficher les recettes communes à la recherche principale et à la recherche avancée
     }
     // SI il y a plus d'un tag
     if (document.querySelectorAll(".tag").length > 1) {
@@ -309,15 +309,15 @@ export function searchTagInListsAndCrossArrayId() {
       arrayRecipesByEachTag = arraySuperSelected; // Mémoriser tableau contenant la liste de recettes (id) pour chaque Tag
       // arrayRecipesByEachTag.push(arrayIdAdvancedSearch); // Mémorisation de la liste des recettes ppour chaque tag
       // console.log(">1 | arrayRecipesByEachTag", arrayRecipesByEachTag);
-      // Actualiser les recettes communes à la recherche simple et à la recherche avancée
+      // Actualiser les recettes communes à la recherche principale et à la recherche avancée
       arrayIdSelectedFusion = searchCommonId(
-        arrayIdSimpleSearch,
+        arrayIdMainSearch,
         arrayIdAdvancedSearch
       );
-      // console.log(">1 | arrayIdSimpleSearch", arrayIdSimpleSearch);
+      // console.log(">1 | arrayIdMainSearch", arrayIdMainSearch);
       // console.log(">1 | arrayIdAdvancedSearch", arrayIdAdvancedSearch);
       updateLists(); // Mettre à jour des listes de la recherche avancée
-      refreshCards(); // Afficher les recettes communes à la recherche simple et à la recherche avancée
+      refreshCards(); // Afficher les recettes communes à la recherche principale et à la recherche avancée
     }
   }
 }

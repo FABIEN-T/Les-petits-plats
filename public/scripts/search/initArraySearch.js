@@ -2,8 +2,8 @@ import { stringNoAccent } from "../utils/functions.js"; // Enlève l'accent sur 
 
 
 // Conversion du json en tableau en gardant pour chaque recette : id - name - ingredient - description
-// Utilisé pour la recherche simple
-export function conversionJsonToArraySimpleSearch(data) {
+// Utilisé pour la recherche principale
+export function conversionJsonToArrayMainSearch(data) {
   let recipeArray = [];
   data.forEach((element) => {
     recipeArray.push(
@@ -20,10 +20,10 @@ export function conversionJsonToArraySimpleSearch(data) {
           el.ingredient.substring(1)
       );
     });
-    allRecipesSimpleSearch.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
+    allRecipesMainSearch.push(recipeArray); // le resultat est envoyé dans le tableau de toutes les recettes
     recipeArray = []; // on vide le tableau pour la prochaine recette
   });
-  // console.log("allRecipesSimpleSearch", allRecipesSimpleSearch);
+  // console.log("allRecipesMainSearch", allRecipesMainSearch);
 }
 
 // Conversion du json en tableau en gardant pour chaque recette : ingredient - appareils - ustensiles

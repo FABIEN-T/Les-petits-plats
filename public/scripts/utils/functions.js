@@ -1,6 +1,6 @@
 import { recipeCardsFactorie } from "./recipeCardsFactorie.js";
 
-// Recherche des recettes communes à la recherche simple et à la recherche avancée
+// Recherche des recettes communes à la recherche principale et à la recherche avancée
 export function searchCommonId(array1, array2) {
   let arrayFinal = [];
   let arrayConcat = [];
@@ -73,7 +73,7 @@ export function refreshCards() {
   // Nouvel affichage des recettes sélectionnées
   arrayIdSelectedFusion.forEach((stg) => {
     index = parseInt(stg, 10); // conversion de l'id string en id number
-    recipeCardsFactorie(myData[index - 1]); // Décalage de -1, l'id 1 correspondant à l'index 0
+    recipeCardsFactorie(recipesData[index - 1]); // Décalage de -1, l'id 1 correspondant à l'index 0
   });
   messageNoRecipe();
 }
